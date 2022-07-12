@@ -5,7 +5,7 @@ import Main from "./Main";
 function App() {
   return (
     <React.Fragment>
-      <div><Main/></div>
+      <div><Main /></div>
     </React.Fragment>
   );
 }

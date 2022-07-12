@@ -1,8 +1,9 @@
 import React from "react";
-export default function Create (){
+
+export default function EachListing (props){
     return(
         <React.Fragment>
-            Listings
+            <div>Each Listing{props.data}</div>
         </React.Fragment>
     )
 }
