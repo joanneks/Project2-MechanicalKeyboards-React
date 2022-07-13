@@ -32,6 +32,7 @@ export default class Main extends React.Component {
         } else if (this.state.active === "listings") {
             return <Listings 
                 data={this.state.data}
+                activeState={()=>this.setState({active:"home-page"})}
                 renderEachListing={this.renderEachListing}
             />
         } else if (this.state.active === "home-page") {

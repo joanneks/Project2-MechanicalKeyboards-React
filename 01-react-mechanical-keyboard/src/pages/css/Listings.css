@@ -7,3 +7,15 @@
     height: 7vh
 }
 
+.Listings-card-img {
+    height:200px;
+    object-fit:cover;
+}
+
+.Listings-card-text {
+    margin-top:15px;
+    margin-bottom:15px;
+    min-height:50px;
+    max-height:50px;
+    overflow-y: auto;
+}
