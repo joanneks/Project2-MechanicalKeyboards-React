@@ -1,0 +1,42 @@
+.EachListing {
+    background-color: #efefef;
+    height: auto;
+    min-height:100vh;
+}
+
+.EachListing-break1 {
+    height:110px;
+}
+
+.EachListing-content{
+    height:auto;
+    display:flex;
+    justify-content: center;
+}
+
+.EachListing-header {
+    margin-bottom:20px;
+}
+
+.EachListing-title {
+    margin-bottom:0px;
+}
+
+.EachListing-post-by {
+    font-size: small;
+    font-style: italic;
+}
+
+.EachListing-keyboard {
+    text-align:center;
+}
+
+.EachListing-keyboard-img {
+    width:80vw;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.EachListing-properties{
+    font-size:medium;
+}

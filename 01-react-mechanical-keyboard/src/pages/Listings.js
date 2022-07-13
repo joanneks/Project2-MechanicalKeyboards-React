@@ -17,9 +17,9 @@ export default function Listings(props) {
     return (
         <React.Fragment>
             <div className="Listings">
-                <Navbar bg="light" expand="lg">
+                <Navbar bg="light" expand="lg" fixed="top">
                     <Container fluid>
-                        <Navbar.Brand href="#"><img src={logo1} className="Listings-logo" alt="logo" onClick={props.activeState}/></Navbar.Brand>
+                        <Navbar.Brand href="#"><img src={logo1} style={{height:'7vh'}} alt="logo" onClick={props.activeStateHomePage} /></Navbar.Brand>
                         <Navbar.Toggle aria-controls="navbarScroll" />
                         <Navbar.Collapse id="navbarScroll">
                             <Nav
@@ -44,13 +44,14 @@ export default function Listings(props) {
                         </Navbar.Collapse>
                     </Container>
                 </Navbar>
-                    <Row xs={1} md={2} lg={3} className="g-4">
+                <div className="Listings-break1"></div>
+                <Row xs={1} md={2} lg={3} className="g-4">
                     {props.data.map(each => (
-                     <Col key={each._id}>
+                        <Col key={each._id}>
                             <div className="col d-flex justify-content-center">
                                 <div>
-                                    <Card style={{ width: '18rem'}} >
-                                        <Card.Img variant="top" src={each.keyboard.keyboardImage} className="Listings-card-img"/>
+                                    <Card style={{ width: '18rem' }} >
+                                        <Card.Img variant="top" src={each.keyboard.keyboardImage} className="Listings-card-img" />
                                         <Card.Body>
                                             <Card.Title>{each.keyboard.keyboardBrand} {each.keyboard.keyboardModel}</Card.Title>
                                             <Card.Text className="Listings-card-text">
@@ -58,17 +59,17 @@ export default function Listings(props) {
                                                 <Badge pill bg="warning" text="dark">{each.hotSwappable === "true" ? "hot-swappable" : "soldered"}</Badge>{' '}
                                                 <Badge pill bg="info">{each.keycap.keycapModel}</Badge>{' '}
                                             </Card.Text>
-                                            <Button variant="primary" size="sm" onClick={()=>{props.renderEachListing(each)}}>More Details</Button>
+                                            <Button variant="primary" size="sm" onClick={()=>props.activeStateEachListing(each)}>More Details</Button>
                                         </Card.Body>
                                     </Card>
                                 </div>
                             </div>
-                    
-                        </Col>
-                      ))}
-                    </Row>
 
-                </div>
+                        </Col>
+                    ))}
+                </Row>
+
+            </div>
         </React.Fragment>
     )
 }

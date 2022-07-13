@@ -7,20 +7,21 @@ import EachListing from './pages/EachListing';
 
 
 export default class Main extends React.Component {
-    url = "https://8000-joanneks-project2mechan-wyo4981gl1z.ws-us53.gitpod.io/";
+    url = "https://8000-joanneks-project2mechan-wyo4981gl1z.ws-us54.gitpod.io/";
 
     state = {
         active: 'home-page',
-        data:[]
+        data: [],
+        tempList:{}
     }
-    async componentDidMount(){
-        let response = await axios.get(this.url+"listings");
+    async componentDidMount() {
+        let response = await axios.get(this.url + "listings");
         this.setState({
-            data:response.data.data
+            data: response.data.data
         })
         console.log(response.data.data)
     }
-    
+
     changePage(page) {
         this.setState({
             active: page
@@ -30,10 +31,20 @@ export default class Main extends React.Component {
         if (this.state.active === "create") {
             return <Create />
         } else if (this.state.active === "listings") {
-            return <Listings 
+            return <Listings
                 data={this.state.data}
-                activeState={()=>this.setState({active:"home-page"})}
-                renderEachListing={this.renderEachListing}
+                activeStateHomePage={() => this.setState({ active: "home-page" })}
+                activeStateEachListing={(each) =>{ this.setState({ 
+                    active: "each-listing",
+                    tempList: each
+                });
+                console.log(each);
+                }}
+            />
+        } else if (this.state.active === "each-listing") {
+            return <EachListing
+                activeStateHomePage={() => this.setState({ active: "home-page" })}
+                tempList={this.state.tempList}
             />
         } else if (this.state.active === "home-page") {
             return <HomePage
@@ -41,10 +52,14 @@ export default class Main extends React.Component {
                 changePageListings={() => this.changePage("listings")}
             />
         }
-    }
-    renderEachListing=(each)=>{
-        return <EachListing data={each}/>
-    }
+    };
+    saveListing(each) {
+        this.setState({ 
+            active: "each-listing",
+            tempList: each
+        });
+        console.log(each);
+    };
 
     render() {
         return (

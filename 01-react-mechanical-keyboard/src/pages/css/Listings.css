@@ -1,10 +1,7 @@
 .Listings {
     background-color: #efefef;
     height: auto;
-}
-
-.Listings-logo {
-    height: 7vh
+    min-height:100vh;
 }
 
 .Listings-card-img {
@@ -18,4 +15,8 @@
     min-height:50px;
     max-height:50px;
     overflow-y: auto;
+}
+
+.Listings-break1 {
+    height:110px;
 }
