@@ -40,3 +40,22 @@
 .EachListing-properties{
     font-size:medium;
 }
+
+.EachListing-reviews{
+    margin-top:40px;
+}
+
+.EachListing-comment{
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.EachListing-add-comment{
+    border-radius:50px;    
+    padding-left: 10px;
+    width: 60vw;
+}
+
+.EachListing-comment-submit{
+    border-radius:50px;
+}

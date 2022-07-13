@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "bson": "^4.6.5",
+    "mongodb": "^4.7.0"
+  }
+}

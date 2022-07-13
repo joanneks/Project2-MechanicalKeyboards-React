@@ -61,7 +61,7 @@ export default function EachListing(props) {
                                     <Row>
                                         <Col style={{ width: "80vw" }}>
                                             <Tabs
-                                                defaultActiveKey="profile"
+                                                defaultActiveKey="tempList-keyboard"
                                                 id="props.tempList._id"
                                                 className="mb-3"
                                                 fill
@@ -146,6 +146,20 @@ export default function EachListing(props) {
                                             </Tabs>
                                         </Col>
                                     </Row>
+                                </div>
+                                <div className="EachListing-reviews">
+                                    <div className="EachListing-comment">Comments</div>
+                                    <div></div>
+                                    <input type="text" placeholder="Add a comment"
+                                        className="EachListing-add-comment"
+                                        name="newComment"
+                                        value={props.newComment}
+                                        onChange={props.updateFormField}
+                                    />
+                                    <Button variant="outline-success" size="sm" 
+                                        className="EachListing-comment-submit"
+                                        onClick={props.addNewComment}
+                                    >Submit</Button>
                                 </div>
                             </Col>
                             <Col></Col>
