@@ -31,7 +31,10 @@ export default class Main extends React.Component {
     }
     renderPage() {
         if (this.state.active === "create") {
-            return <Create />
+            return <Create 
+                data={this.state.data}
+                activeStateHomePage={() => this.setState({ active: "home-page" })}
+            />
         } else if (this.state.active === "listings") {
             return <Listings
                 data={this.state.data}
@@ -66,7 +69,7 @@ export default class Main extends React.Component {
     }
     addNewComment = async (newComment,tempList,data) => {
         try {
-            let response = await axios.post(this.url+"listings/review/create/"+"tempList._id",{
+            let response = await axios.post(this.url+"listings/review/create/"+tempList._id,{
                 username:"tommyChoo344",
                 comments:newComment
             })
