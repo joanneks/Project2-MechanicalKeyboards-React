@@ -51,8 +51,6 @@
 }
 
 .EachListing-comments-existing{ 
-    max-height:150px;
-    overflow-y:auto;
 }
 .EachListing-comments-existing-div{ 
     margin-top:10px;
