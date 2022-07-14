@@ -42,7 +42,7 @@
 }
 
 .EachListing-reviews{
-    margin-top:40px;
+    margin-top:30px;
 }
 
 .EachListing-comment{
@@ -50,9 +50,15 @@
     font-weight: 600;
 }
 
-.EachListing-comments-existing-div{  
+.EachListing-comments-existing{ 
+    max-height:150px;
+    overflow-y:auto;
+}
+.EachListing-comments-existing-div{ 
+    margin-top:10px;
+    margin-bottom:10px; 
     padding-left: 10px;
-    width: 80vw;
+    width: 75vw;
 }
 
 .EachListing-comments-existing-username{  
@@ -62,6 +68,10 @@
 
 .EachListing-comments-existing-comment{  
     padding-left: 10px;
+}
+
+.EachListing-comment-input{
+    margin-top:10px;
 }
 
 .EachListing-add-comment{
@@ -78,4 +88,5 @@
 .EachListing-comment-submit{
     border-radius:50px;
     margin-top:20px;
+    margin-bottom:20px;
 }
