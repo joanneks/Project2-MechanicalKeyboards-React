@@ -15,6 +15,7 @@ export default class Main extends React.Component {
         data: [],
         tempList: {},
         newComment: "",
+        errorMessage:[]
     }
     async componentDidMount() {
         let response = await axios.get(this.url + "listings");
@@ -53,7 +54,10 @@ export default class Main extends React.Component {
                 tempList={this.state.tempList}
                 newComment={this.state.newComment}
                 updateFormField={this.updateFormField}
+                errorMessage={this.state.errorMessage}
                 addNewComment={async()=>this.addNewComment(this.state.newComment,this.state.tempList,this.state.data)}
+                returnPage={this.returnPage}
+                
             />
         } else if (this.state.active === "home-page") {
             return <HomePage
@@ -66,7 +70,22 @@ export default class Main extends React.Component {
         this.setState({
             [event.target.name]: event.target.value
         })
+        this.textValidation(event.target.value)
     }
+
+    textValidation(comment) {
+        if (comment.length >= 3) {
+            this.setState({
+                newComment :comment,
+                errorMessage : ""
+            })
+        } else {
+            this.setState({
+                errorMessage :"Comment must be at least 3 characters long"
+            })
+        };
+    };
+
     addNewComment = async (newComment,tempList,data) => {
         try {
             let response = await axios.post(this.url+"listings/review/create/"+tempList._id,{
@@ -91,11 +110,17 @@ export default class Main extends React.Component {
 
             this.setState({
                 'data': [...data.slice(0,index), tempListRevised, ...data.slice(index+1)],
-                'active': 'listings'
             })
         } catch(e) {
-            alert("Error adding new recipe. Please contact administrator");
+            alert("Error adding comment. Please contact administrator");
         }
+    }
+
+    returnPage = ()=>{
+        this.setState({
+            'active': 'listings'
+        })
+
     }
 
     render() {

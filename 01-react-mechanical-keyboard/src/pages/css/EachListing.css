@@ -50,12 +50,32 @@
     font-weight: 600;
 }
 
+.EachListing-comments-existing-div{  
+    padding-left: 10px;
+    width: 80vw;
+}
+
+.EachListing-comments-existing-username{  
+    width: 80vw;
+    font-weight:600;
+}
+
+.EachListing-comments-existing-comment{  
+    padding-left: 10px;
+}
+
 .EachListing-add-comment{
     border-radius:50px;    
     padding-left: 10px;
-    width: 60vw;
+    width: 80vw;
 }
 
+.EachListing-comment-errorMessage{  
+    padding-left: 10px;
+    width: 80vw;
+    color: red;
+}
 .EachListing-comment-submit{
     border-radius:50px;
+    margin-top:20px;
 }

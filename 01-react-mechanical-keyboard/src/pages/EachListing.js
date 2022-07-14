@@ -52,6 +52,11 @@ export default function EachListing(props) {
                         <Row>
                             <Col></Col>
                             <Col>
+                                <Button variant="outline-success" size="sm" 
+                                    className="EachListing-return"
+                                    onClick={props.returnPage}
+                                    style={{"marginBottom":"20px"}}
+                                >Return</Button>
                                 <div className="EachListing-header">
                                     <h2 className="EachListing-title">{props.tempList.keyboard.keyboardBrand} {props.tempList.keyboard.keyboardModel} </h2>
                                     <p className="EachListing-post-by">posted by: {props.tempList.user.username}</p>
@@ -149,17 +154,28 @@ export default function EachListing(props) {
                                 </div>
                                 <div className="EachListing-reviews">
                                     <div className="EachListing-comment">Comments</div>
-                                    <div></div>
-                                    <input type="text" placeholder="Add a comment"
-                                        className="EachListing-add-comment"
-                                        name="newComment"
-                                        value={props.newComment}
-                                        onChange={props.updateFormField}
-                                    />
+                                    <div className="EachListing-comments-existing">
+                                        {props.tempList.reviews.map(eachComment=>(
+                                            <div className="EachListing-comments-existing-div">
+                                                <span className="EachListing-comments-existing-username">{eachComment.username}</span>
+                                                <span className="EachListing-comments-existing-comment">{eachComment.comments}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <div className="EachListing-comment-input">
+                                        <input type="text" placeholder="Add a comment"
+                                            className="EachListing-add-comment"
+                                            name="newComment"
+                                            value={props.newComment}
+                                            onChange={props.updateFormField}
+                                        />
+                                        <div className="EachListing-comment-errorMessage">{props.errorMessage}</div>
+                                    </div>
                                     <Button variant="outline-success" size="sm" 
                                         className="EachListing-comment-submit"
                                         onClick={props.addNewComment}
                                     >Submit</Button>
+
                                 </div>
                             </Col>
                             <Col></Col>
