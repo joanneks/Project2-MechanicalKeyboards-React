@@ -2,6 +2,7 @@ import React from "react";
 import logo1 from './logo.png';
 import editReview from './css/editReview.png'
 import deleteReview from './css/deleteReview.png'
+import saveReview from './css/saveReview.png'
 import './css/EachListing.css';
 
 import Button from 'react-bootstrap/Button';
@@ -25,7 +26,7 @@ export default function EachListing(props) {
                     <Container fluid>
                         <Navbar.Brand href="#">
                             <img src={logo1} style={{ height: '7vh' }} alt="logo" onClick={props.activeStateHomePage} />
-                            </Navbar.Brand>
+                        </Navbar.Brand>
                         <Navbar.Toggle aria-controls="navbarScroll" />
                         <Navbar.Collapse id="navbarScroll">
                             <Nav
@@ -56,17 +57,17 @@ export default function EachListing(props) {
                         <Row>
                             <Col></Col>
                             <Col>
-                                <Button variant="outline-success" size="sm" 
+                                <Button variant="outline-success" size="sm"
                                     className="EachListing-return"
                                     onClick={props.returnPage}
-                                    style={{"marginBottom":"20px"}}
+                                    style={{ "marginBottom": "20px" }}
                                 >Return</Button>
                                 <div className="EachListing-header">
                                     <h2 className="EachListing-title">{props.tempList.keyboard.keyboardBrand} {props.tempList.keyboard.keyboardModel} </h2>
                                     <p className="EachListing-post-by">posted by: {props.tempList.user.username}</p>
                                 </div>
                                 <div className="EachListing-keyboard">
-                                    <img src={props.tempList.keyboard.keyboardImage} className="EachListing-keyboard-img" />
+                                    <img src={props.tempList.keyboard.keyboardImage} alt="keyboard" className="EachListing-keyboard-img" />
                                     <Row>
                                         <Col style={{ width: "80vw" }}>
                                             <Tabs
@@ -159,15 +160,72 @@ export default function EachListing(props) {
                                 <div className="EachListing-reviews">
                                     <div className="EachListing-comment">Comments</div>
                                     <div className="EachListing-comments-existing">
-                                        {props.tempList.reviews.map(eachComment=>(
+                                        {props.tempList.reviews.map(eachComment => (
                                             <div className="EachListing-comments-existing-div" key={eachComment.reviewId}>
-                                                 <span className="EachListing-comments-existing-username">{eachComment.username}</span>
-                                                    <span style={{"float":"right"}}>
-                                                        <img src={editReview} alt="editReviewBtn" style={{height:"21px",width:"21px"}}/>
-                                                        <img src={deleteReview} alt="deleteReviewBtn" style={{height:"19px",width:"19px"}} 
-                                                            onClick={()=>props.deleteComment(eachComment)}/>
-                                                    </span>
+                                                <span className="EachListing-comments-existing-username">{eachComment.username}</span>
+                                                <span style={{ "float": "right" }}>
+                                                    <img src={editReview} alt="editReviewBtn" 
+                                                        style={{ height: "21px", width: "21px" }}
+                                                        onClick={() => props.editComment(eachComment)}
+                                                    />
+                                                    <img src={deleteReview} alt="deleteReviewBtn" 
+                                                        style={{ height: "19px", width: "19px" }}
+                                                        onClick={() => props.deleteComment(eachComment)} 
+                                                    />
+                                                </span>
                                                 <div className="EachListing-comments-existing-comment">{eachComment.comments}</div>
+                                                
+                                                <div style={{display:props.displayEditCommentCheck}}>
+                                                    {eachComment.reviewId === props.commentToEdit.reviewId ? 
+                                                        <div>
+                                                            <div>Email verification required to edit comment</div>
+                                                            <input type="email"
+                                                                name="editCommentEmail"
+                                                                value={props.editCommentEmail}
+                                                                onChange={props.updateFormFieldGeneral}
+                                                            />
+                                                            <Button variant="outline-success" size="sm"
+                                                                onClick={props.editCommentEmailCheck}
+                                                            >Verify</Button>
+                                                            <div style={{display:props.displayEditCommentEmailStatus}}>
+                                                                Email does not match username. Comment not edited
+                                                            </div>
+                                                        </div>                                                                                                               
+                                                    : <div></div>
+                                                    }
+                                                </div>
+
+                                                <div style={{display:props.displayEditComment}}>
+
+
+                                                    {eachComment.reviewId === props.commentToEdit.reviewId ? 
+                                                        <div className="EachListing-comment-edit-div">
+                                                            <label className="EachListing-comment-edit-label" style={{marginLeft:"5px"}}>Edit Comment:</label>
+                                                            <span style={{"float":"right"}}>
+                                                                <img src={saveReview} alt="saveReviewBtn" 
+                                                                    style={{ height: "21px", width: "21px", marginRight : "10px" }}
+                                                                    onClick={props.editCommentVerification}
+                                                                />
+                                                            </span>
+                                                            <div>
+                                                                <textarea 
+                                                                    name="commentToEdit"
+                                                                    placeholder={props.commentToEdit.comments}
+                                                                    value={props.commentToEdit.comments}
+                                                                    onChange={props.updateFormFieldEditComment}
+                                                                    className="EachListing-comment-edit"
+                                                                > </textarea>
+                                                                <div>
+                                                                    {props.commentToEdit.comments.length<3 ?
+                                                                    <div className="EachListing-comment-edit-error">Comments cannot be less than 3 characters</div>
+                                                                    : <div></div>
+                                                                    }
+                                                                </div>
+                                                            </div>  
+                                                        </div>    
+                                                    : <div></div>
+                                                    }
+                                                </div>
                                             </div>
                                         ))}
                                     </div>
@@ -189,7 +247,7 @@ export default function EachListing(props) {
                                                     name="username"
                                                     value={props.username}
                                                     onChange={props.updateFormFieldGeneral}
-                                                    
+
                                                 />
                                             </div>
                                             <div className="EachListing-comment-input-field">
@@ -203,10 +261,9 @@ export default function EachListing(props) {
                                         </div>
                                         <div className="EachListing-comment-errorMessage">{props.errorMessageAddCommentUser}</div>
                                     </div>
-                                    <Button variant="outline-success" size="sm" 
+                                    <Button variant="outline-success" size="sm"
                                         className="EachListing-comment-submit"
                                         onClick={props.addNewComment}
-                                        // onClick={props.addCommentValidation}
                                     >Submit</Button>
 
                                 </div>

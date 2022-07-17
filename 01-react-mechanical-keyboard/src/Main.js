@@ -16,8 +16,13 @@ export default class Main extends React.Component {
         tempList: {},
         tempListId: "",
         commentToDelete: "",
+        commentToEdit: "",
+        displayEditComment:"none",
+        displayEditCommentCheck:"none",
+        displayEditCommentEmailStatus:"none",
         newComment: "",
         username: "",
+        editCommentEmail:"",
         email: "",
         errorMessageAddComment: [],
         errorMessageAddCommentUser: []
@@ -61,8 +66,10 @@ export default class Main extends React.Component {
                 newComment={this.state.newComment}
                 username={this.state.username}
                 email={this.state.email}
+                editCommentEmail={this.state.editCommentEmail}
                 updateFormFieldGeneral={this.updateFormFieldGeneral}
                 updateFormField={this.updateFormField}
+                updateFormFieldEditComment={this.updateFormFieldEditComment}
                 errorMessageAddComment={this.state.errorMessageAddComment}
                 errorMessageAddCommentUser={this.state.errorMessageAddCommentUser}
                 addNewComment={async () => {
@@ -74,37 +81,21 @@ export default class Main extends React.Component {
                         this.state.data,
                     )
                 }}
-                deleteComment={async (eachComment) => {
-                    this.setState({
-                        commentToDelete: eachComment
-                    })
-                    let response = await axios.post(this.url + "listings/review/delete/" + eachComment.reviewId)
-                    let indexToDelete = this.state.tempList.reviews.findIndex(function (each) {
-                        if (each.reviewId === eachComment.reviewId) {
-                            return true;
-                        } else {
-                            return false;
-                        }
-                    })
-                    // let index = this.state.data.findIndex(function(each){
-                    //     if(each._id === this.state.tempListId){
-                    //         return true;
-                    //     } else{
-                    //         return false;
-                    //     }
-                    // })
-                    let tempListRevised = {
-                        ...this.state.tempList,
-                        reviews:
-                            [...this.state.tempList.reviews.slice(0, indexToDelete),
-                            ...this.state.tempList.reviews.slice(indexToDelete + 1)
-                            ]
-                    };
-                    console.log(tempListRevised)
-                    this.setState({
-                        // 'data': [...this.state.data.slice(0, index), tempListRevised, ...this.state.data.slice(index + 1)],
-                        'tempList': tempListRevised
-                    })
+                deleteComment={this.deleteComment}
+                commentToEdit={this.state.commentToEdit}
+                displayEditComment={this.state.displayEditComment}
+                displayEditCommentCheck={this.state.displayEditCommentCheck}
+                displayEditCommentEmailStatus={this.state.displayEditCommentEmailStatus}
+                editComment={this.editComment}
+                editCommentVerification={this.editCommentVerification}
+                editCommentEmailCheck={async()=>{
+                    this.editCommentEmailCheck(
+                        this.state.tempList,
+                        this.state.commentToEdit,
+                        this.state.data,
+                        this.state.editCommentEmail
+
+                    )
                 }}
                 returnPage={this.returnPage}
 
@@ -120,6 +111,11 @@ export default class Main extends React.Component {
     updateFormFieldGeneral = (event) => {
         this.setState({
             [event.target.name]: event.target.value
+        })
+    }
+    updateFormFieldEditComment = (event) => {
+        this.setState({
+            [event.target.name]: {...this.state.commentToEdit,comments:event.target.value}
         })
     }
     updateFormField = (event) => {
@@ -141,6 +137,122 @@ export default class Main extends React.Component {
             })
         };
     };
+    editCommentEmailCheck = async (tempList,commentToEdit, data,editCommentEmail)=>{
+        commentToEdit.email === editCommentEmail ?
+                    this.setState({
+                        displayEditCommentCheck : "none",
+                        displayEditCommentEmailStatus: "none",
+                        editCommentEmail:""
+                    })
+                    :this.setState({
+                        displayEditCommentCheck : "block",
+                        displayEditCommentEmailStatus: "block"
+                    })
+        let comments = commentToEdit.comments
+        let response = await axios.post(this.url+"listings/review/edit/"+commentToEdit.reviewId,{
+            comments
+        })
+        let index = this.state.tempList.reviews.findIndex(function (each) {
+            if (each.reviewId === commentToEdit.reviewId) {
+                return true;
+            } else {
+                return false;
+            }
+        })
+        let tempListRevised = {
+            ...tempList, reviews: [
+                ...tempList.reviews.slice(0,index),
+                commentToEdit,...tempList.reviews.slice(index+1)
+            ]
+        }
+        this.setState({
+            data: [...data.slice(0, index), tempListRevised, ...data.slice(index + 1)],
+            tempList: tempListRevised
+        })
+        
+    }
+
+    // editCommentEmailCheck = async (tempList,commentToEdit, data)=>{
+    //     this.state.commentToEdit.email === this.state.editCommentEmail ?
+    //                 this.setState({
+    //                     displayEditCommentCheck : "none",
+    //                     displayEditCommentEmailStatus: "none"
+    //                 })
+    //                 :this.setState({
+    //                     displayEditCommentCheck : "block",
+    //                     displayEditCommentEmailStatus: "block"
+    //                 })
+    //     let comments = this.state.commentToEdit.comments
+    //     let response = await axios.post(this.url+"listings/review/edit/"+this.state.commentToEdit.reviewId,{
+    //         comments
+    //     })
+    //     let index = this.state.tempList.reviews.findIndex(function (each) {
+    //         if (each.reviewId === commentToEdit.reviewId) {
+    //             return true;
+    //         } else {
+    //             return false;
+    //         }
+    //     })
+    //     let tempListRevised = {
+    //         ...tempList, reviews: [
+    //             ...tempList.reviews.slice(0,index),
+    //             comment.toEdit,...tempList.reviews.slice(index+1)
+    //         ]
+    //     }
+    //     this.setState({
+    //         data: [...data.slice(0, index), tempListRevised, ...data.slice(index + 1)],
+    //         tempList: tempListRevised
+    //     })
+        
+    // }
+
+    editCommentVerification = () =>{
+        this.setState({
+            displayEditCommentCheck:"block",
+            displayEditComment: "none"
+
+        })
+    }
+    editComment = (eachComment) => {
+        this.setState({
+            commentToEdit:eachComment,
+            displayEditComment: "block",
+            displayEditCommentCheck:"none"
+        }); 
+    }
+    deleteComment = async (eachComment) => {
+        // how to pass this.state.data variable inside, need to update data after deleting comment
+        this.setState({
+            commentToDelete: eachComment
+        })
+        let response = await axios.post(this.url + "listings/review/delete/" + eachComment.reviewId)
+        let indexToDelete = this.state.tempList.reviews.findIndex(function (each) {
+            if (each.reviewId === eachComment.reviewId) {
+                return true;
+            } else {
+                return false;
+            }
+        })
+        // let index = this.state.data.findIndex(function(each){
+        //     if(each._id === this.state.tempListId){
+        //         return true;
+        //     } else{
+        //         return false;
+        //     }
+        // })
+        let tempListRevised = {
+            ...this.state.tempList,
+            reviews:
+                [...this.state.tempList.reviews.slice(0, indexToDelete),
+                ...this.state.tempList.reviews.slice(indexToDelete + 1)
+                ]
+        };
+        console.log(tempListRevised)
+        this.setState({
+            // 'data': [...this.state.data.slice(0, index), tempListRevised, ...this.state.data.slice(index + 1)],
+            'tempList': tempListRevised
+        })
+    }
 
     addNewComment = async (username, email, newComment, tempList, data) => {
         // if (username.length >= 3) {
@@ -162,7 +274,6 @@ export default class Main extends React.Component {
                         comments: newComment
                     }]
                 }
-                console.log(tempListRevised)
 
                 let index = this.state.data.findIndex(function (each) {
                     if (each._id === tempListRevised._id) {
