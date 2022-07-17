@@ -1,13 +1,12 @@
 import React from "react";
 import logo1 from './logo.png';
-import editReview from './css/editReview.png'
-import deleteReview from './css/deleteReview.png'
-import saveReview from './css/saveReview.png'
+import editReview from './css/editLogo.png'
+import deleteReview from './css/deleteLogo.png'
+import saveReview from './css/saveLogo.png'
 import './css/EachListing.css';
 
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
-import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 
@@ -27,28 +26,15 @@ export default function EachListing(props) {
                         <Navbar.Brand href="#">
                             <img src={logo1} style={{ height: '7vh' }} alt="logo" onClick={props.activeStateHomePage} />
                         </Navbar.Brand>
-                        <Navbar.Toggle aria-controls="navbarScroll" />
-                        <Navbar.Collapse id="navbarScroll">
+                        <Navbar id="navbarScroll">
                             <Nav
                                 className="me-auto my-2 my-lg-0"
-                                style={{ maxHeight: '100px' }}
                                 navbarScroll
                             >
-                                <Nav.Link href="#action1">Home</Nav.Link>
-                                <Nav.Link href="#" disabled>
-                                    Link
-                                </Nav.Link>
+                                <Nav.Link onClick={props.activeStateCreate}>Create</Nav.Link>
+                                <Nav.Link onClick={props.activeStateListings}>All Listings</Nav.Link>
                             </Nav>
-                            <Form className="d-flex">
-                                <Form.Control
-                                    type="search"
-                                    placeholder="Search"
-                                    className="me-2"
-                                    aria-label="Search"
-                                />
-                                <Button variant="outline-success">Search</Button>
-                            </Form>
-                        </Navbar.Collapse>
+                        </Navbar>
                     </Container>
                 </Navbar>
                 <div className="EachListing-break1"></div>
@@ -164,19 +150,19 @@ export default function EachListing(props) {
                                             <div className="EachListing-comments-existing-div" key={eachComment.reviewId}>
                                                 <span className="EachListing-comments-existing-username">{eachComment.username}</span>
                                                 <span style={{ "float": "right" }}>
-                                                    <img src={editReview} alt="editReviewBtn" 
+                                                    <img src={editReview} alt="editReviewBtn"
                                                         style={{ height: "21px", width: "21px" }}
                                                         onClick={() => props.editComment(eachComment)}
                                                     />
-                                                    <img src={deleteReview} alt="deleteReviewBtn" 
+                                                    <img src={deleteReview} alt="deleteReviewBtn"
                                                         style={{ height: "19px", width: "19px" }}
-                                                        onClick={() => props.deleteComment(eachComment)} 
+                                                        onClick={() => props.deleteComment(eachComment)}
                                                     />
                                                 </span>
                                                 <div className="EachListing-comments-existing-comment">{eachComment.comments}</div>
-                                                
-                                                <div style={{display:props.displayEditCommentCheck}}>
-                                                    {eachComment.reviewId === props.commentToEdit.reviewId ? 
+
+                                                <div style={{ display: props.displayEditCommentCheck }}>
+                                                    {eachComment.reviewId === props.commentToEdit.reviewId ?
                                                         <div>
                                                             <div>Email verification required to edit comment</div>
                                                             <input type="email"
@@ -187,28 +173,28 @@ export default function EachListing(props) {
                                                             <Button variant="outline-success" size="sm"
                                                                 onClick={props.editCommentEmailCheck}
                                                             >Verify</Button>
-                                                            <div style={{display:props.displayEditCommentEmailStatus}}>
+                                                            <div style={{ display: props.displayEditCommentEmailStatus }}>
                                                                 Email does not match username. Comment not edited
                                                             </div>
-                                                        </div>                                                                                                               
-                                                    : <div></div>
+                                                        </div>
+                                                        : <div></div>
                                                     }
                                                 </div>
 
-                                                <div style={{display:props.displayEditComment}}>
+                                                <div style={{ display: props.displayEditComment }}>
 
 
-                                                    {eachComment.reviewId === props.commentToEdit.reviewId ? 
+                                                    {eachComment.reviewId === props.commentToEdit.reviewId ?
                                                         <div className="EachListing-comment-edit-div">
-                                                            <label className="EachListing-comment-edit-label" style={{marginLeft:"5px"}}>Edit Comment:</label>
-                                                            <span style={{"float":"right"}}>
-                                                                <img src={saveReview} alt="saveReviewBtn" 
-                                                                    style={{ height: "21px", width: "21px", marginRight : "10px" }}
+                                                            <label className="EachListing-comment-edit-label" style={{ marginLeft: "5px" }}>Edit Comment:</label>
+                                                            <span style={{ "float": "right" }}>
+                                                                <img src={saveReview} alt="saveReviewBtn"
+                                                                    style={{ height: "21px", width: "21px", marginRight: "10px" }}
                                                                     onClick={props.editCommentVerification}
                                                                 />
                                                             </span>
                                                             <div>
-                                                                <textarea 
+                                                                <textarea
                                                                     name="commentToEdit"
                                                                     placeholder={props.commentToEdit.comments}
                                                                     value={props.commentToEdit.comments}
@@ -216,14 +202,14 @@ export default function EachListing(props) {
                                                                     className="EachListing-comment-edit"
                                                                 > </textarea>
                                                                 <div>
-                                                                    {props.commentToEdit.comments.length<3 ?
-                                                                    <div className="EachListing-comment-edit-error">Comments cannot be less than 3 characters</div>
-                                                                    : <div></div>
+                                                                    {props.commentToEdit.comments.length < 3 ?
+                                                                        <div className="EachListing-comment-edit-error">Comments cannot be less than 3 characters</div>
+                                                                        : <div></div>
                                                                     }
                                                                 </div>
-                                                            </div>  
-                                                        </div>    
-                                                    : <div></div>
+                                                            </div>
+                                                        </div>
+                                                        : <div></div>
                                                     }
                                                 </div>
                                             </div>

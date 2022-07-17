@@ -17,12 +17,14 @@ export default class Main extends React.Component {
         tempListId: "",
         commentToDelete: "",
         commentToEdit: "",
-        displayEditComment:"none",
-        displayEditCommentCheck:"none",
-        displayEditCommentEmailStatus:"none",
+        displaySearch:"none",
+        count:0,
+        displayEditComment: "none",
+        displayEditCommentCheck: "none",
+        displayEditCommentEmailStatus: "none",
         newComment: "",
         username: "",
-        editCommentEmail:"",
+        editCommentEmail: "",
         email: "",
         errorMessageAddComment: [],
         errorMessageAddCommentUser: []
@@ -44,11 +46,14 @@ export default class Main extends React.Component {
         if (this.state.active === "create") {
             return <Create
                 data={this.state.data}
+                activeStateCreate={() => this.setState({ active: "create" })}
+                activeStateListings={() => this.setState({ active: "listings" })}
                 activeStateHomePage={() => this.setState({ active: "home-page" })}
             />
         } else if (this.state.active === "listings") {
             return <Listings
                 data={this.state.data}
+                activeStateCreate={() => this.setState({ active: "create" })}
                 activeStateHomePage={() => this.setState({ active: "home-page" })}
                 activeStateEachListing={(each) => {
                     this.setState({
@@ -58,9 +63,27 @@ export default class Main extends React.Component {
                     });
                     console.log(each);
                 }}
+                searchDisplay={()=>{
+                    let count=this.state.count
+                        this.setState({
+                        count:count+1
+                        })
+                        if(count%2===0){
+                            this.setState({
+                                displaySearch:"block",
+                            })
+                        }else if (count%2===1){
+                            this.setState({
+                                displaySearch:"none",
+                            })
+                        }
+                }}
+                displaySearch={this.state.displaySearch}
             />
         } else if (this.state.active === "each-listing") {
             return <EachListing
+                activeStateCreate={() => this.setState({ active: "create" })}
+                activeStateListings={() => this.setState({ active: "listings" })}
                 activeStateHomePage={() => this.setState({ active: "home-page" })}
                 tempList={this.state.tempList}
                 newComment={this.state.newComment}
@@ -88,7 +111,7 @@ export default class Main extends React.Component {
                 displayEditCommentEmailStatus={this.state.displayEditCommentEmailStatus}
                 editComment={this.editComment}
                 editCommentVerification={this.editCommentVerification}
-                editCommentEmailCheck={async()=>{
+                editCommentEmailCheck={async () => {
                     this.editCommentEmailCheck(
                         this.state.tempList,
                         this.state.commentToEdit,
@@ -115,7 +138,7 @@ export default class Main extends React.Component {
     }
     updateFormFieldEditComment = (event) => {
         this.setState({
-            [event.target.name]: {...this.state.commentToEdit,comments:event.target.value}
+            [event.target.name]: { ...this.state.commentToEdit, comments: event.target.value }
         })
     }
     updateFormField = (event) => {
@@ -137,19 +160,19 @@ export default class Main extends React.Component {
             })
         };
     };
-    editCommentEmailCheck = async (tempList,commentToEdit, data,editCommentEmail)=>{
+    editCommentEmailCheck = async (tempList, commentToEdit, data, editCommentEmail) => {
         commentToEdit.email === editCommentEmail ?
-                    this.setState({
-                        displayEditCommentCheck : "none",
-                        displayEditCommentEmailStatus: "none",
-                        editCommentEmail:""
-                    })
-                    :this.setState({
-                        displayEditCommentCheck : "block",
-                        displayEditCommentEmailStatus: "block"
-                    })
+            this.setState({
+                displayEditCommentCheck: "none",
+                displayEditCommentEmailStatus: "none",
+                editCommentEmail: ""
+            })
+            : this.setState({
+                displayEditCommentCheck: "block",
+                displayEditCommentEmailStatus: "block"
+            })
         let comments = commentToEdit.comments
-        let response = await axios.post(this.url+"listings/review/edit/"+commentToEdit.reviewId,{
+        let response = await axios.post(this.url + "listings/review/edit/" + commentToEdit.reviewId, {
             comments
         })
         let index = this.state.tempList.reviews.findIndex(function (each) {
@@ -161,15 +184,15 @@ export default class Main extends React.Component {
         })
         let tempListRevised = {
             ...tempList, reviews: [
-                ...tempList.reviews.slice(0,index),
-                commentToEdit,...tempList.reviews.slice(index+1)
+                ...tempList.reviews.slice(0, index),
+                commentToEdit, ...tempList.reviews.slice(index + 1)
             ]
         }
         this.setState({
             data: [...data.slice(0, index), tempListRevised, ...data.slice(index + 1)],
             tempList: tempListRevised
         })
-        
+
     }
 
     // editCommentEmailCheck = async (tempList,commentToEdit, data)=>{
@@ -203,22 +226,22 @@ export default class Main extends React.Component {
     //         data: [...data.slice(0, index), tempListRevised, ...data.slice(index + 1)],
     //         tempList: tempListRevised
     //     })
-        
+
     // }
 
-    editCommentVerification = () =>{
+    editCommentVerification = () => {
         this.setState({
-            displayEditCommentCheck:"block",
+            displayEditCommentCheck: "block",
             displayEditComment: "none"
 
         })
     }
     editComment = (eachComment) => {
         this.setState({
-            commentToEdit:eachComment,
+            commentToEdit: eachComment,
             displayEditComment: "block",
-            displayEditCommentCheck:"none"
-        }); 
+            displayEditCommentCheck: "none"
+        });
     }
     deleteComment = async (eachComment) => {
         // how to pass this.state.data variable inside, need to update data after deleting comment
@@ -287,6 +310,7 @@ export default class Main extends React.Component {
                     data: [...data.slice(0, index), tempListRevised, ...data.slice(index + 1)],
                     tempList: tempListRevised,
                     errorMessageAddCommentUser: "",
+                    newComment: ""
                 })
             } catch (e) {
                 alert("Error adding comment. Please contact administrator");
