@@ -1,25 +1,25 @@
 .EachListing {
     background-color: #efefef;
     height: auto;
-    min-height:100vh;
+    min-height: 100vh;
 }
 
 .EachListing-break1 {
-    height:110px;
+    height: 110px;
 }
 
-.EachListing-content{
-    height:auto;
-    display:flex;
+.EachListing-content {
+    height: auto;
+    display: flex;
     justify-content: center;
 }
 
 .EachListing-header {
-    margin-bottom:20px;
+    margin-bottom: 20px;
 }
 
 .EachListing-title {
-    margin-bottom:0px;
+    margin-bottom: 0px;
 }
 
 .EachListing-post-by {
@@ -28,63 +28,103 @@
 }
 
 .EachListing-keyboard {
-    text-align:center;
+    text-align: center;
 }
 
 .EachListing-keyboard-img {
-    width:80vw;
+    width: 80vw;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
 }
 
-.EachListing-properties{
-    font-size:medium;
+.EachListing-properties {
+    font-size: medium;
 }
 
-.EachListing-reviews{
-    margin-top:30px;
+.EachListing-reviews {
+    margin-top: 30px;
 }
 
-.EachListing-comment{
+.EachListing-comment {
     margin-bottom: 15px;
     font-weight: 600;
 }
 
-.EachListing-comments-existing{ 
-}
-.EachListing-comments-existing-div{ 
-    margin-top:10px;
-    margin-bottom:10px; 
+
+.EachListing-comments-existing-div {
+    margin-top: 10px;
+    margin-bottom: 10px;
     padding-left: 10px;
     width: 75vw;
 }
 
-.EachListing-comments-existing-username{  
+.EachListing-comments-existing-username {
     width: 80vw;
-    font-weight:600;
+    font-weight: 600;
 }
 
-.EachListing-comments-existing-comment{  
+.EachListing-comments-existing-comment {
     padding-left: 10px;
 }
 
-.EachListing-comment-input{
-    margin-top:10px;
+.EachListing-comment-input {
+    margin-top: 10px;
 }
 
-.EachListing-add-comment{
-    border-radius:50px;    
+.EachListing-add-comment {
+    border-radius: 50px;
     padding-left: 10px;
     width: 80vw;
 }
 
-.EachListing-comment-errorMessage{  
+.EachListing-comment-errorMessage {
     padding-left: 10px;
+    padding-right: 10px;
     width: 80vw;
     color: red;
 }
-.EachListing-comment-submit{
-    border-radius:50px;
-    margin-top:20px;
-    margin-bottom:20px;
+
+.EachListing-comment-user-details {
+    margin-top: 20px;
+    padding: 10px 10px 15px 10px;
+    width: 80vw;
+    background-color: #CCAF60;
+    border-radius: 20px;
+}
+
+.EachListing-comment-user-details-text {
+    font-weight: 600;
+    padding-left: 10px;
+}
+
+.EachListing-comment-input-field {
+    margin-top: 10px;
+    margin-left: 20px
+}
+
+.EachListing-comment-label {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.EachListing-comment-input-username {
+    margin-top: 10px;
+    border-radius: 20px;
+    margin-left: 10px;
+    padding-left: 10px;
+    width: 60vw;
+}
+
+.EachListing-comment-input-email {
+    margin-top: 10px;
+    border-radius: 20px;
+    margin-left: 10px;
+    padding-left: 10px;
+    width: 60vw;
+}
+
+.EachListing-comment-submit {
+    border-radius: 50px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
