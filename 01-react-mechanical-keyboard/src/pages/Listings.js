@@ -39,69 +39,109 @@ export default function Listings(props) {
                 <div className="Listings-search-div" style={{ display: props.displaySearch }}>
                     <div className="Listings-search-header">
                         <span className="Listings-search-label">
-                        Search Filters
+                            Search Filters
                         </span>
                         <span>
                             <img src={expandSearch} alt="expandSearchBtn"
-                                style={{ height: "21px", width: "21px" ,verticalAlign: "middle"}}
-                                
+                                style={{ height: "21px", width: "21px", verticalAlign: "middle" }}
+
                             />
                         </span>
                     </div>
 
-                    <div style={{marginTop:"10px"}}>
+                    <div style={{ marginTop: "10px" }}>
                         <label className="Listings-filter-label">OS Compatibility: </label>
-                        <select style={{ width:"150px"}} className="Listings-filter-options form-select form-select-sm" aria-label="multiple select example">
-                            <option selected value="Windows">Windows</option>
+                        <select value={props.osCompatibility} style={{ width: "150px" }} onChange={props.updateFormFieldGeneral} name="osCompatibility" className="Listings-filter-options form-select form-select-sm" aria-label="multiple select example">
+                            <option value="Windows" >Windows</option>
                             <option value="Mac">Mac</option>
                             <option value="Linux">Linux</option>
                         </select>
                     </div>
-                    <div style={{display:"inline-block", marginTop:"20px"}}>
+                    <div style={{ display: "inline-block", marginTop: "20px" }}>
                         <label className="Listings-filter-label">Hot-Swappable: </label>
-                        <div style={{ display: "inline-block"}}>
+                        <div style={{ display: "inline-block" }}>
                             <div className="Listings-filter-options form-check">
-                                <input className="form-check-input" type="radio" value="true" name="hotSwappable" />
+                                <input className="form-check-input" type="radio"
+                                    value="true"
+                                    name="hotSwappable"
+                                    onChange={props.updateFormFieldGeneral}
+                                    checked={props.hotSwappable === "true"}
+                                />
                                 <label className="form-check-label">
                                     Yes
                                 </label>
                             </div>
                             <div className="Listings-filter-options form-check">
-                                <input className="form-check-input" type="radio" value="false" name="hotSwappable" />
+                                <input className="form-check-input" type="radio"
+                                    value="false"
+                                    name="hotSwappable"
+                                    onChange={props.updateFormFieldGeneral}
+                                    checked={props.hotSwappable === "false"}
+                                />
                                 <label className="form-check-label">
                                     No
                                 </label>
                             </div>
                         </div>
                     </div>
-                    <div style={{marginTop:"10px"}}>
+                    <div style={{ marginTop: "10px" }}>
                         <label className="Listings-filter-label">Keyboard Size: </label>
-                        <div style={{width:"40vw",display:"inline-block"}}> 
+                        <div style={{ width: "40vw", display: "inline-block" }}>
                             <div className="Listings-multiselect">
                                 <div className="form-check Listings-multiselect-options">
-                                    <input className="form-check-input Listings-filter-options" type="checkbox" value="60" name="keyboardSize" />
+                                    <input className="form-check-input Listings-filter-options"
+                                        type="checkbox" 
+                                        value="60"
+                                        name="keyboardSize"
+                                        onChange={props.keyboardSizeSelected}
+                                        checked={props.keyboardSize.includes("60")}
+                                    />
                                     <label className="form-check-label">60%</label>
                                 </div>
                                 <div className="form-check Listings-multiselect-options">
-                                    <input className="form-check-input Listings-filter-options" type="checkbox" value="65" name="keyboardSize" />
+                                    <input className="form-check-input Listings-filter-options" 
+                                        type="checkbox" 
+                                        value="65" 
+                                        name="keyboardSize"
+                                        onChange={props.keyboardSizeSelected}
+                                        checked={props.keyboardSize.includes("65")}
+                                        />
                                     <label className="form-check-label">65%</label>
                                 </div>
                                 <div className="form-check Listings-multiselect-options">
-                                    <input className="form-check-input Listings-filter-options" type="checkbox" value="75" name="keyboardSize" />
+                                    <input className="form-check-input Listings-filter-options" 
+                                        type="checkbox" 
+                                        value="75" 
+                                        name="keyboardSize"
+                                        onChange={props.keyboardSizeSelected}
+                                        checked={props.keyboardSize.includes("75")}
+                                        />
                                     <label className="form-check-label">75%</label>
                                 </div>
                                 <div className="form-check Listings-multiselect-options">
-                                    <input className="form-check-input Listings-filter-options" type="checkbox" value="80" name="keyboardSize" />
+                                    <input className="form-check-input Listings-filter-options" 
+                                        type="checkbox" 
+                                        value="80" 
+                                        name="keyboardSize"
+                                        onChange={props.keyboardSizeSelected}
+                                        checked={props.keyboardSize.includes("80")}
+                                        />
                                     <label className="form-check-label">80%</label>
                                 </div>
                                 <div className="form-check Listings-multiselect-options">
-                                    <input className="form-check-input Listings-filter-options" type="checkbox" value="100" name="keyboardSize" />
+                                    <input className="form-check-input Listings-filter-options" 
+                                        type="checkbox" 
+                                        value="100" 
+                                        name="keyboardSize"
+                                        onChange={props.keyboardSizeSelected}
+                                        checked={props.keyboardSize.includes("100")}
+                                        />
                                     <label className="form-check-label">100%</label>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div style={{marginTop:"10px"}}>
+                    <div style={{ marginTop: "10px" }}>
                         <label className="Listings-filter-label">Keyboard Brands: </label>
                         <select className="form-select" multiple aria-label="multiple select example">
                             {props.deriveKeyboardBrands}

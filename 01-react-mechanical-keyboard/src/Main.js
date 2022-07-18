@@ -29,7 +29,10 @@ export default class Main extends React.Component {
         errorMessageAddComment: [],
         errorMessageAddCommentUser: [],
         keyboardBrandOptions: [],
-        keyboardBrandLoaded: false
+        keyboardBrandLoaded: false,
+        osCompatibility: "Windows",
+        hotSwappable: "true",
+        keyboardSize: []
     }
     async componentDidMount() {
         let response = await axios.get(this.url + "listings");
@@ -84,6 +87,11 @@ export default class Main extends React.Component {
                     }
                 }}
                 displaySearch={this.state.displaySearch}
+                osCompatibility={this.state.osCompatibility}
+                hotSwappable={this.state.hotSwappable}
+                keyboardSize={this.state.keyboardSize}
+                keyboardSizeSelected={this.keyboardSizeSelected}
+                updateFormFieldGeneral={this.updateFormFieldGeneral}
             />
         } else if (this.state.active === "each-listing") {
             return <EachListing
@@ -150,7 +158,23 @@ export default class Main extends React.Component {
         } else {
             return [];
         }
-
+    }
+    keyboardSizeSelected = (event) => {
+        
+        if(this.state.keyboardSize.includes(event.target.value)){
+            let keyboardSize = this.state.keyboardSize.slice();
+            let indexToRemove = this.state.keyboardSize.indexOf(event.target.value);
+            keyboardSize = [...keyboardSize.slice(0,indexToRemove),...keyboardSize.slice(indexToRemove+1)];
+            this.setState({
+                keyboardSize
+            })
+        }else{
+            let keyboardSize = this.state.keyboardSize.slice();
+            keyboardSize.push(event.target.value);
+            this.setState({
+                keyboardSize
+            })
+        }
     }
     updateFormFieldGeneral = (event) => {
         this.setState({
