@@ -1,5 +1,6 @@
 import React from "react";
 import logo1 from './logo.png';
+import expandSearch from './css/expandLogo.png'
 import editListing from './css/editLogo.png'
 import deleteListing from './css/deleteLogo.png'
 import './css/Listings.css';
@@ -34,67 +35,83 @@ export default function Listings(props) {
                         </Navbar>
                     </Container>
                 </Navbar>
-                <div className="Listings-break1"></div>
-                <div style={{display:props.displaySearch}}>
-                    <div>
-                        <label>OS Compatibility: </label>
-                        <select className="form-select" aria-label="multiple select example">
+                <div className="Listings-break"></div>
+                <div className="Listings-search-div" style={{ display: props.displaySearch }}>
+                    <div className="Listings-search-header">
+                        <span className="Listings-search-label">
+                        Search Filters
+                        </span>
+                        <span>
+                            <img src={expandSearch} alt="expandSearchBtn"
+                                style={{ height: "21px", width: "21px" ,verticalAlign: "middle"}}
+                                
+                            />
+                        </span>
+                    </div>
+
+                    <div style={{marginTop:"10px"}}>
+                        <label className="Listings-filter-label">OS Compatibility: </label>
+                        <select style={{ width:"150px"}} className="Listings-filter-options form-select form-select-sm" aria-label="multiple select example">
                             <option selected value="Windows">Windows</option>
                             <option value="Mac">Mac</option>
                             <option value="Linux">Linux</option>
                         </select>
                     </div>
-                    <div>
-                        <label>Hot-Swappable: </label>
-                        <div style={{display:"flex",flexWrap:"wrap"}}>
-                            <div className="form-check">
-                                <input className="form-check-input" type="radio" value="true" name="hotSwappable"/>
+                    <div style={{display:"inline-block", marginTop:"20px"}}>
+                        <label className="Listings-filter-label">Hot-Swappable: </label>
+                        <div style={{ display: "inline-block"}}>
+                            <div className="Listings-filter-options form-check">
+                                <input className="form-check-input" type="radio" value="true" name="hotSwappable" />
                                 <label className="form-check-label">
                                     Yes
                                 </label>
                             </div>
-                            <div>
-                                <input className="form-check-input" type="radio" value="false" name="hotSwappable"/>
+                            <div className="Listings-filter-options form-check">
+                                <input className="form-check-input" type="radio" value="false" name="hotSwappable" />
                                 <label className="form-check-label">
                                     No
                                 </label>
                             </div>
                         </div>
                     </div>
-                    <div>
-                        <label>Keyboard Size: </label>
-                        <div style={{display:"flex",flexWrap:"wrap"}}>
-                            <div className="form-check">
-                                <input className="form-check-input" type="checkbox" value="60" name="keyboardSize"/>
-                                <label className="form-check-label">60%</label>
-                            </div>
-                            <div className="form-check">
-                                <input className="form-check-input" type="checkbox" value="65" name="keyboardSize"/>
-                                <label className="form-check-label">65%</label>
-                            </div>
-                            <div className="form-check">
-                                <input className="form-check-input" type="checkbox" value="75" name="keyboardSize"/>
-                                <label className="form-check-label">75%</label>
-                            </div>
-                            <div className="form-check">
-                                <input className="form-check-input" type="checkbox" value="80" name="keyboardSize"/>
-                                <label className="form-check-label">80%</label>
-                            </div>
-                            <div className="form-check">
-                                <input className="form-check-input" type="checkbox" value="100" name="keyboardSize"/>
-                                <label className="form-check-label">100%</label>
+                    <div style={{marginTop:"10px"}}>
+                        <label className="Listings-filter-label">Keyboard Size: </label>
+                        <div style={{width:"40vw",display:"inline-block"}}> 
+                            <div className="Listings-multiselect">
+                                <div className="form-check Listings-multiselect-options">
+                                    <input className="form-check-input Listings-filter-options" type="checkbox" value="60" name="keyboardSize" />
+                                    <label className="form-check-label">60%</label>
+                                </div>
+                                <div className="form-check Listings-multiselect-options">
+                                    <input className="form-check-input Listings-filter-options" type="checkbox" value="65" name="keyboardSize" />
+                                    <label className="form-check-label">65%</label>
+                                </div>
+                                <div className="form-check Listings-multiselect-options">
+                                    <input className="form-check-input Listings-filter-options" type="checkbox" value="75" name="keyboardSize" />
+                                    <label className="form-check-label">75%</label>
+                                </div>
+                                <div className="form-check Listings-multiselect-options">
+                                    <input className="form-check-input Listings-filter-options" type="checkbox" value="80" name="keyboardSize" />
+                                    <label className="form-check-label">80%</label>
+                                </div>
+                                <div className="form-check Listings-multiselect-options">
+                                    <input className="form-check-input Listings-filter-options" type="checkbox" value="100" name="keyboardSize" />
+                                    <label className="form-check-label">100%</label>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div>
-                        <label>Brands: </label>
+                    <div style={{marginTop:"10px"}}>
+                        <label className="Listings-filter-label">Keyboard Brands: </label>
                         <select className="form-select" multiple aria-label="multiple select example">
-                            <option selected value="Windows">Windows</option>
-                            <option value="Mac">Mac</option>
-                            <option value="Linux">Linux</option>
+                            {props.deriveKeyboardBrands}
+                            {props.keyboardBrandOptions.map(eachKeyboardBrand => (
+                                <option key={eachKeyboardBrand} value={eachKeyboardBrand}>{eachKeyboardBrand}</option>
+                            ))}
                         </select>
                     </div>
                 </div>
+                <div className="Listings-break1"></div>
                 <Row xs={1} md={2} lg={3} className="g-4">
                     {props.data.map(each => (
                         <Col key={each._id}>
@@ -118,7 +135,7 @@ export default function Listings(props) {
                                                     style={{ height: "30px", width: "30px" }}
                                                 />
                                             </span>
-                                            </Card.Body>
+                                        </Card.Body>
                                     </Card>
                                 </div>
                             </div>

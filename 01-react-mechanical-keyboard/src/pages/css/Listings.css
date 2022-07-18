@@ -17,6 +17,60 @@
     overflow-y: auto;
 }
 
-.Listings-break1 {
+.Listings-break {
     height:110px;
+    position: sticky;
+}
+
+.Listings-search-div {
+    width:80vw;
+    display:flex;
+    justify-content: center;
+    position: absolute;
+    z-index: 100;
+    background-color: aliceblue;
+    margin-left: auto;
+    margin-right: auto;
+    width: 80vw;
+    left: 0;
+    right: 0;
+    padding: 25px;
+    border-radius: 20px;
+}
+
+.Listings-search-header{
+    margin-bottom:10px;
+}
+
+.Listings-search-label{
+font-size:large;
+margin-right:10px;
+font-weight:700;
+}
+
+.Listings-filter-label{
+    display:inline-block;
+    margin-right:10px;
+    width:130px;
+}
+
+.Listings-filter-options{
+    display:inline-block;
+    margin-left:10px;
+}
+
+.Listings-multiselect-options{
+    margin-left:10px;
+}
+
+.Listings-multiselect{
+    display:flex;
+    flex-wrap:wrap;
+    margin-top:10px;
+    width:40vw;
+}
+
+.Listings-break1 {
+    height:25px;
+    position: sticky;
 }

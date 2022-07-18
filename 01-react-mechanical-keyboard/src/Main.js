@@ -17,8 +17,8 @@ export default class Main extends React.Component {
         tempListId: "",
         commentToDelete: "",
         commentToEdit: "",
-        displaySearch:"none",
-        count:0,
+        displaySearch: "none",
+        count: 0,
         displayEditComment: "none",
         displayEditCommentCheck: "none",
         displayEditCommentEmailStatus: "none",
@@ -27,7 +27,9 @@ export default class Main extends React.Component {
         editCommentEmail: "",
         email: "",
         errorMessageAddComment: [],
-        errorMessageAddCommentUser: []
+        errorMessageAddCommentUser: [],
+        keyboardBrandOptions: [],
+        keyboardBrandLoaded: false
     }
     async componentDidMount() {
         let response = await axios.get(this.url + "listings");
@@ -63,20 +65,23 @@ export default class Main extends React.Component {
                     });
                     console.log(each);
                 }}
-                searchDisplay={()=>{
-                    let count=this.state.count
+                keyboardBrandLoaded={this.state.keyboardBrandLoaded}
+                keyboardBrandOptions={this.state.keyboardBrandOptions}
+                deriveKeyboardBrands={this.deriveKeyboardBrands()}
+                searchDisplay={() => {
+                    let count = this.state.count
+                    this.setState({
+                        count: count + 1
+                    })
+                    if (count % 2 === 0) {
                         this.setState({
-                        count:count+1
+                            displaySearch: "block",
                         })
-                        if(count%2===0){
-                            this.setState({
-                                displaySearch:"block",
-                            })
-                        }else if (count%2===1){
-                            this.setState({
-                                displaySearch:"none",
-                            })
-                        }
+                    } else if (count % 2 === 1) {
+                        this.setState({
+                            displaySearch: "none",
+                        })
+                    }
                 }}
                 displaySearch={this.state.displaySearch}
             />
@@ -130,7 +135,23 @@ export default class Main extends React.Component {
             />
         }
     };
+    deriveKeyboardBrands = () => {
+        if (!this.state.keyboardBrandLoaded) {
+            let keyboardBrands = [];
+            this.state.data.map(each =>
+                keyboardBrands.push(each.keyboard.keyboardBrand)
+            );
+            let keyboardBrandOptions = [...new Set(keyboardBrands)];
+            this.setState({
+                keyboardBrandOptions,
+                keyboardBrandLoaded: true
+            })
+            return keyboardBrandOptions;
+        } else {
+            return [];
+        }
 
+    }
     updateFormFieldGeneral = (event) => {
         this.setState({
             [event.target.name]: event.target.value
