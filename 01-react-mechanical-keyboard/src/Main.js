@@ -155,17 +155,17 @@ export default class Main extends React.Component {
             hotSwappable: this.state.hotSwappable
           });
         
-        let thisKeyboardSize = this.state.keyboardSize
+        // let thisKeyboardSize = this.state.keyboardSize
           // Object.entries(params).forEach(([k, v]) => {
           //     if (Array.isArray(v)) {
           //       v.forEach(vv => query.append(k, vv))
           //     } else query.append(k, v)
           //   })
-          Object.entries(query).forEach(([keyboardSize,eachKeyboardSize])=>{
-              if(Array.isArray(thisKeyboardSize)){
-                  eachKeyboardSize.forEach(value => query.append(keyboardSize, value)
-              )}else query.append(keyboardSize,value)
-          })
+        //   Object.entries(query).forEach(([keyboardSize,eachKeyboardSize])=>{
+        //       if(Array.isArray(thisKeyboardSize)){
+        //           eachKeyboardSize.forEach((value) => query.append(keyboardSize, value)
+        //       )}else query.append(keyboardSize,value)
+        //   })
 
         console.log(this.state.keyboardSize);
         let searchLinkQuery = this.url+"listings?"+query.toString()
@@ -279,7 +279,7 @@ export default class Main extends React.Component {
                 displayEditCommentEmailStatus: "block"
             })
         let comments = commentToEdit.comments
-        let response = await axios.post(this.url + "listings/review/edit/" + commentToEdit.reviewId, {
+        await axios.post(this.url + "listings/review/edit/" + commentToEdit.reviewId, {
             comments
         })
         let index = this.state.tempList.reviews.findIndex(function (each) {
@@ -354,7 +354,7 @@ export default class Main extends React.Component {
         this.setState({
             commentToDelete: eachComment
         })
-        let response = await axios.post(this.url + "listings/review/delete/" + eachComment.reviewId)
+        await axios.post(this.url + "listings/review/delete/" + eachComment.reviewId)
         let indexToDelete = this.state.tempList.reviews.findIndex(function (each) {
             if (each.reviewId === eachComment.reviewId) {
                 return true;
