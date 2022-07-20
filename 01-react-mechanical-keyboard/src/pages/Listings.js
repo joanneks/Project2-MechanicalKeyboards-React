@@ -21,7 +21,7 @@ export default function Listings(props) {
             <div className="Listings">
                 <Navbar bg="light" expand="lg" fixed="top">
                     <Container fluid>
-                        <Navbar.Brand href="#">
+                        <Navbar.Brand href="">
                             <img src={logo1} style={{ height: '7vh' }} alt="logo" onClick={props.activeStateHomePage} />
                         </Navbar.Brand>
                         <Navbar id="navbarScroll">
@@ -51,14 +51,20 @@ export default function Listings(props) {
 
                     <div style={{ marginTop: "10px" }}>
                         <label className="Listings-filter-label">OS Compatibility: </label>
-                        <select value={props.osCompatibility} style={{ width: "150px" }} onChange={props.updateFormFieldGeneral} name="osCompatibility" className="Listings-filter-options form-select form-select-sm" aria-label="multiple select example">
+                        <select style={{ width: "110px" }}
+                            value={props.osCompatibility}
+                            onChange={props.updateFormFieldGeneral}
+                            name="osCompatibility"
+                            className="Listings-filter-options form-select form-select-sm"
+                            aria-label="multiple select example"
+                        >
                             <option value="Windows" >Windows</option>
                             <option value="Mac">Mac</option>
                             <option value="Linux">Linux</option>
                         </select>
                     </div>
                     <div style={{ display: "inline-block", marginTop: "20px" }}>
-                        <label className="Listings-filter-label">Hot-Swappable: </label>
+                        <label className="Listings-filter-label">Hot-Swappable:</label>
                         <div style={{ display: "inline-block" }}>
                             <div className="Listings-filter-options form-check">
                                 <input className="form-check-input" type="radio"
@@ -85,12 +91,12 @@ export default function Listings(props) {
                         </div>
                     </div>
                     <div style={{ marginTop: "10px" }}>
-                        <label className="Listings-filter-label">Keyboard Size: </label>
+                        <label className="Listings-filter-label">Keyboard</label>
                         <div style={{ width: "40vw", display: "inline-block" }}>
                             <div className="Listings-multiselect">
                                 <div className="form-check Listings-multiselect-options">
                                     <input className="form-check-input Listings-filter-options"
-                                        type="checkbox" 
+                                        type="checkbox"
                                         value="60"
                                         name="keyboardSize"
                                         onChange={props.keyboardSizeSelected}
@@ -99,57 +105,73 @@ export default function Listings(props) {
                                     <label className="form-check-label">60%</label>
                                 </div>
                                 <div className="form-check Listings-multiselect-options">
-                                    <input className="form-check-input Listings-filter-options" 
-                                        type="checkbox" 
-                                        value="65" 
+                                    <input className="form-check-input Listings-filter-options"
+                                        type="checkbox"
+                                        value="65"
                                         name="keyboardSize"
                                         onChange={props.keyboardSizeSelected}
                                         checked={props.keyboardSize.includes("65")}
-                                        />
+                                    />
                                     <label className="form-check-label">65%</label>
                                 </div>
                                 <div className="form-check Listings-multiselect-options">
-                                    <input className="form-check-input Listings-filter-options" 
-                                        type="checkbox" 
-                                        value="75" 
+                                    <input className="form-check-input Listings-filter-options"
+                                        type="checkbox"
+                                        value="75"
                                         name="keyboardSize"
                                         onChange={props.keyboardSizeSelected}
                                         checked={props.keyboardSize.includes("75")}
-                                        />
+                                    />
                                     <label className="form-check-label">75%</label>
                                 </div>
                                 <div className="form-check Listings-multiselect-options">
-                                    <input className="form-check-input Listings-filter-options" 
-                                        type="checkbox" 
-                                        value="80" 
+                                    <input className="form-check-input Listings-filter-options"
+                                        type="checkbox"
+                                        value="80"
                                         name="keyboardSize"
                                         onChange={props.keyboardSizeSelected}
                                         checked={props.keyboardSize.includes("80")}
-                                        />
+                                    />
                                     <label className="form-check-label">80%</label>
                                 </div>
                                 <div className="form-check Listings-multiselect-options">
-                                    <input className="form-check-input Listings-filter-options" 
-                                        type="checkbox" 
-                                        value="100" 
+                                    <input className="form-check-input Listings-filter-options"
+                                        type="checkbox"
+                                        value="100"
                                         name="keyboardSize"
                                         onChange={props.keyboardSizeSelected}
                                         checked={props.keyboardSize.includes("100")}
-                                        />
+                                    />
                                     <label className="form-check-label">100%</label>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div style={{ marginTop: "10px" }}>
-                        <label className="Listings-filter-label">Keyboard Brands: </label>
-                        <select className="form-select" multiple aria-label="multiple select example">
+                    {/* <div style={{ marginTop: "10px" }}>
+                        <label className="Listings-filter-label-keyboard">Keyboard Brands: </label>
+                        <div name="keyboardBrand" className="Listings-multiselect-options-brands"
+                        // value={props.keyboardBrand}
+                        // onChange={props.keyboardBrandSelected}
+                        >
                             {props.deriveKeyboardBrands}
                             {props.keyboardBrandOptions.map(eachKeyboardBrand => (
-                                <option key={eachKeyboardBrand} value={eachKeyboardBrand}>{eachKeyboardBrand}</option>
+                                <React.Fragment>
+                                    <div className="form-check" style={{marginLeft:"10px"}}>
+                                        <input className="form-check-input"
+                                            type="checkbox"
+                                            value={eachKeyboardBrand}
+                                            name="keyboardBrand"
+                                            onChange={props.keyboardBrandSelected}
+                                            checked={props.keyboardBrand.includes("{eachKeyboardBrand}")}
+                                        />
+                                        <label className="form-check-label">{eachKeyboardBrand}</label>
+                                    </div>
+                                </React.Fragment>
                             ))}
-                        </select>
-                    </div>
+                        </div>
+
+                    </div> */}
+                    <button className="btn btn-primary" style= {{marginTop:"20px"}} onClick={props.deriveSearch}>Submit</button>
                 </div>
                 <div className="Listings-break1"></div>
                 <Row xs={1} md={2} lg={3} className="g-4">

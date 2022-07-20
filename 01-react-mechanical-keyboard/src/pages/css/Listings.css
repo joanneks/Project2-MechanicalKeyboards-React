@@ -1,34 +1,34 @@
 .Listings {
     background-color: #efefef;
     height: auto;
-    min-height:100vh;
+    min-height: 100vh;
 }
 
 .Listings-card-img {
-    height:200px;
-    object-fit:cover;
+    height: 200px;
+    object-fit: cover;
 }
 
 .Listings-card-text {
-    margin-top:15px;
-    margin-bottom:15px;
-    min-height:50px;
-    max-height:50px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    min-height: 50px;
+    max-height: 50px;
     overflow-y: auto;
 }
 
 .Listings-break {
-    height:110px;
+    height: 110px;
     position: sticky;
 }
 
 .Listings-search-div {
-    width:80vw;
-    display:flex;
+    width: 80vw;
+    display: flex;
     justify-content: center;
     position: absolute;
     z-index: 100;
-    background-color: aliceblue;
+    background-color: #e8cd84;
     margin-left: auto;
     margin-right: auto;
     width: 80vw;
@@ -38,39 +38,55 @@
     border-radius: 20px;
 }
 
-.Listings-search-header{
+.Listings-search-header {
+    margin-bottom: 10px;
+}
+
+.Listings-search-label {
+    font-size: large;
+    margin-right: 10px;
+    font-weight: 700;
+}
+
+.Listings-filter-label {
+    display: inline-block;
+    margin-right: 10px;
+    width: 130px;
+}
+
+.Listings-filter-label-keyboard {
+    display: inline-block;
+    margin-right: 10px;
     margin-bottom:10px;
+    width: 130px;
 }
 
-.Listings-search-label{
-font-size:large;
-margin-right:10px;
-font-weight:700;
+.Listings-filter-options {
+    display: inline-block;
+    /* margin-left: 0px; */
 }
 
-.Listings-filter-label{
-    display:inline-block;
-    margin-right:10px;
-    width:130px;
+.Listings-multiselect-options {
+    margin-left: 10px;
 }
 
-.Listings-filter-options{
-    display:inline-block;
-    margin-left:10px;
+.Listings-multiselect {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    width: 45vw;
 }
 
-.Listings-multiselect-options{
-    margin-left:10px;
-}
-
-.Listings-multiselect{
-    display:flex;
-    flex-wrap:wrap;
-    margin-top:10px;
-    width:40vw;
+.Listings-multiselect-options-brands{
+    height: 100px;
+    overflow-y: auto;
+    background-color: white;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 10px;
 }
 
 .Listings-break1 {
-    height:25px;
+    height: 25px;
     position: sticky;
 }

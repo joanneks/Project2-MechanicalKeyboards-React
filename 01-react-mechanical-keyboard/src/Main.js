@@ -16,7 +16,9 @@ export default class Main extends React.Component {
         tempList: {},
         tempListId: "",
         commentToDelete: "",
-        commentToEdit: "",
+        commentToEdit: {
+            comments: ""
+        },
         displaySearch: "none",
         count: 0,
         displayEditComment: "none",
@@ -32,7 +34,8 @@ export default class Main extends React.Component {
         keyboardBrandLoaded: false,
         osCompatibility: "Windows",
         hotSwappable: "true",
-        keyboardSize: []
+        keyboardSize: [],
+        keyboardBrand: []
     }
     async componentDidMount() {
         let response = await axios.get(this.url + "listings");
@@ -68,9 +71,9 @@ export default class Main extends React.Component {
                     });
                     console.log(each);
                 }}
-                keyboardBrandLoaded={this.state.keyboardBrandLoaded}
-                keyboardBrandOptions={this.state.keyboardBrandOptions}
-                deriveKeyboardBrands={this.deriveKeyboardBrands()}
+                // keyboardBrandLoaded={this.state.keyboardBrandLoaded}
+                // keyboardBrandOptions={this.state.keyboardBrandOptions}
+                // deriveKeyboardBrands={this.deriveKeyboardBrands()}
                 searchDisplay={() => {
                     let count = this.state.count
                     this.setState({
@@ -91,7 +94,10 @@ export default class Main extends React.Component {
                 hotSwappable={this.state.hotSwappable}
                 keyboardSize={this.state.keyboardSize}
                 keyboardSizeSelected={this.keyboardSizeSelected}
+                // keyboardBrandSelected={this.keyboardBrandSelected}
+                // keyboardBrand={this.state.keyboardBrand}
                 updateFormFieldGeneral={this.updateFormFieldGeneral}
+                deriveSearch={this.deriveSearch}
             />
         } else if (this.state.active === "each-listing") {
             return <EachListing
@@ -143,32 +149,88 @@ export default class Main extends React.Component {
             />
         }
     };
-    deriveKeyboardBrands = () => {
-        if (!this.state.keyboardBrandLoaded) {
-            let keyboardBrands = [];
-            this.state.data.map(each =>
-                keyboardBrands.push(each.keyboard.keyboardBrand)
-            );
-            let keyboardBrandOptions = [...new Set(keyboardBrands)];
+    deriveSearch = async ()=>{
+        let query = new URLSearchParams({
+            osCompatibility: this.state.osCompatibility,
+            hotSwappable: this.state.hotSwappable
+          });
+        
+        let thisKeyboardSize = this.state.keyboardSize
+          // Object.entries(params).forEach(([k, v]) => {
+          //     if (Array.isArray(v)) {
+          //       v.forEach(vv => query.append(k, vv))
+          //     } else query.append(k, v)
+          //   })
+          Object.entries(query).forEach(([keyboardSize,eachKeyboardSize])=>{
+              if(Array.isArray(thisKeyboardSize)){
+                  eachKeyboardSize.forEach(value => query.append(keyboardSize, value)
+              )}else query.append(keyboardSize,value)
+          })
+
+        console.log(this.state.keyboardSize);
+        let searchLinkQuery = this.url+"listings?"+query.toString()
+        console.log(this.url+"listings?"+query.toString());
+
+        let searchResults = await axios.get(searchLinkQuery)
+        console.log(searchResults)
+        this.setState({
+            data: searchResults.data.data
+        })
+    }
+    // deriveKeyboardBrands = () => {
+        // let keyboardBrands = [];
+        // if (!this.state.keyboardBrandLoaded) {
+        //     let keyboardBrands = [];
+        //     this.state.data.map(each =>
+        //         keyboardBrands.push(each.keyboard.keyboardBrand)
+        //     );
+        //     let keyboardBrandOptions = [...new Set(keyboardBrands)];
+        //     this.setState({
+        //         keyboardBrandOptions,
+        //         keyboardBrandLoaded: true
+        //     })
+        //     return keyboardBrandOptions;
+        // } else {
+        //     return [];
+        // }
+        // let keyboardBrands = [];
+        // this.state.data.map(each =>
+        //     keyboardBrands.push(each.keyboard.keyboardBrand)
+        // );
+        // let keyboardBrandOptions = [...new Set(keyboardBrands)];
+        
+        // return !this.state.keyboardBrandLoaded ?
+        //     keyboardBrands = this.setState({
+        //         keyboardBrandOptions,
+        //         keyboardBrandLoaded: true
+        //     })
+        //     : keyboardBrands = []
+    // }
+    keyboardBrandSelected = (event) => {
+        if (this.state.keyboardBrand.includes(event.target.value)) {
+            let indexToRemove = this.state.keyboardBrand.indexOf(event.target.value);
+            let keyboardBrand = [...this.state.keyboardBrand.slice(0, indexToRemove), ...this.state.keyboardBrand.slice(indexToRemove + 1)]
             this.setState({
-                keyboardBrandOptions,
-                keyboardBrandLoaded: true
+                keyboardBrand
             })
-            return keyboardBrandOptions;
         } else {
-            return [];
+            let keyboardBrand = this.state.keyboardBrand;
+            keyboardBrand.push(event.target.value);
+            this.setState({
+                keyboardBrand
+            })
         }
     }
+   
     keyboardSizeSelected = (event) => {
-        
-        if(this.state.keyboardSize.includes(event.target.value)){
+        if (this.state.keyboardSize.includes(event.target.value)) {
             let keyboardSize = this.state.keyboardSize.slice();
             let indexToRemove = this.state.keyboardSize.indexOf(event.target.value);
-            keyboardSize = [...keyboardSize.slice(0,indexToRemove),...keyboardSize.slice(indexToRemove+1)];
+            keyboardSize = [...keyboardSize.slice(0, indexToRemove), ...keyboardSize.slice(indexToRemove + 1)];
             this.setState({
                 keyboardSize
             })
-        }else{
+        } else {
             let keyboardSize = this.state.keyboardSize.slice();
             keyboardSize.push(event.target.value);
             this.setState({
@@ -289,7 +351,6 @@ export default class Main extends React.Component {
         });
     }
     deleteComment = async (eachComment) => {
-        // how to pass this.state.data variable inside, need to update data after deleting comment
         this.setState({
             commentToDelete: eachComment
         })
@@ -301,13 +362,14 @@ export default class Main extends React.Component {
                 return false;
             }
         })
-        // let index = this.state.data.findIndex(function(each){
-        //     if(each._id === this.state.tempListId){
-        //         return true;
-        //     } else{
-        //         return false;
-        //     }
-        // })
+        let tempListId = this.state.tempListId
+        let index = this.state.data.findIndex(function (each) {
+            if (each._id === tempListId) {
+                return true;
+            } else {
+                return false;
+            }
+        })
         let tempListRevised = {
             ...this.state.tempList,
             reviews:
@@ -315,7 +377,14 @@ export default class Main extends React.Component {
                 ...this.state.tempList.reviews.slice(indexToDelete + 1)
                 ]
         };
-        console.log(tempListRevised)
+        console.log("updated data==>", tempListRevised)
+        console.log(this.state.data)
+        let newData = [
+            ...this.state.data.slice(0, index),
+            tempListRevised,
+            ...this.state.data.slice(index + 1)
+        ]
+        console.log(newData)
         this.setState({
             // 'data': [...this.state.data.slice(0, index), tempListRevised, ...this.state.data.slice(index + 1)],
             'tempList': tempListRevised

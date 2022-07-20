@@ -14,7 +14,7 @@ export default function Create(props) {
             <div className="Create">
                 <Navbar bg="light" expand="lg" fixed="top">
                     <Container fluid>
-                        <Navbar.Brand href="#">
+                        <Navbar.Brand href="">
                             <img src={logo1} style={{ height: '7vh' }} alt="logo" onClick={props.activeStateHomePage} />
                         </Navbar.Brand>
                         <Navbar id="navbarScroll">
