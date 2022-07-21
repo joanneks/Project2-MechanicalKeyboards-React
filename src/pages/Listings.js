@@ -95,7 +95,8 @@ export default function Listings(props) {
                         <label className="Listings-filter-label">Keyboard Size:</label>
                         <div style={{ width: "40vw", display: "inline-block" }}>
                             <div className="Listings-multiselect">
-                                <div className="form-check Listings-multiselect-options">
+                                <div className="form-check Listings-multi
+                                -options">
                                     <input className="form-check-input Listings-filter-options"
                                         type="checkbox"
                                         value="60"

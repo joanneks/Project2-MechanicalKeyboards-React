@@ -42,6 +42,17 @@ export default class Main extends React.Component {
         keyboardBrandError: "",
         searchError: "",
         textSearch:"",
+        osCompatibilityInput: [],
+        hotSwappableInput: "true",
+        keyboardBrandInput:"",
+        keyboardBrandInputNew:"",
+        keyboardModelInput:"",
+        keyboardSizeInput:"",
+        keycapManufacturerOptions:[],
+        keycapManufacturerInput:"",
+        keycapManufacturerInputNew:"",
+        usernameInput:"",
+        emailInput:""
     }
     async componentDidMount() {
         let response = await axios.get(this.url + "listings");
@@ -55,6 +66,8 @@ export default class Main extends React.Component {
     }
 
     changePage(page) {
+        this.deriveKeyboardBrands()
+        this.deriveKeycapManufacturer()
         this.setState({
             active: page
         })
@@ -66,6 +79,20 @@ export default class Main extends React.Component {
                 activeStateCreate={() => this.setState({ active: "create" })}
                 activeStateListings={() => this.setState({ active: "listings" })}
                 activeStateHomePage={() => this.setState({ active: "home-page" })}
+                osCompatibilityInput={this.state.osCompatibilityInput}
+                hotSwappableInput={this.state.hotSwappableInput}
+                keyboardBrandOptions={this.state.keyboardBrandOptions}
+                keyboardBrandInput={this.state.keyboardBrandInput}
+                keyboardBrandInputNew={this.state.keyboardBrandInputNew}
+                keyboardModelInput={this.state.keyboardModelInput}
+                keyboardSizeInput={this.state.keyboardSizeInput}
+                keyboardBrandSelected={this.keyboardBrandSelected}
+                keycapManufacturerOptions={this.state.keycapManufacturerOptions}
+                keycapManufacturerInput={this.state.keycapManufacturerInput}
+                keycapManufacturerInputNew={this.state.keycapManufacturerInputNew}
+                usernameInput={this.state.usernameInput}
+                emailInput={this.state.emailInput}
+                updateFormFieldGeneral={this.updateFormFieldGeneral}
             />
         } else if (this.state.active === "listings") {
             return <Listings
@@ -160,11 +187,38 @@ export default class Main extends React.Component {
             />
         } else if (this.state.active === "home-page") {
             return <HomePage
-                changePageCreate={() => this.changePage("create")}
+                changePageCreate={()=> this.changePage("create")}
                 changePageListings={() => this.changePage("listings")}
             />
         }
     };
+    deriveKeyboardBrands = async () => {
+        let keyboardBrands = [];
+        await this.state.database.map(each =>
+            keyboardBrands.push(each.keyboard.keyboardBrand)
+        );
+        let keyboardBrandOptions = [...new Set(keyboardBrands)];
+        // console.log("key result===> ", keyboardBrandOptions)
+
+        this.setState({
+            keyboardBrandOptions
+        })
+        return
+    }
+    deriveKeycapManufacturer = async () => {
+        let keycapManufacturers = [];
+        await this.state.database.map(each =>
+            keycapManufacturers.push(each.keycap.keycapManufacturer)
+        );
+        let keycapManufacturerOptions = [...new Set(keycapManufacturers)];
+        console.log("key result===> ", this.state.database)
+
+        this.setState({
+            keycapManufacturerOptions
+        })
+        return
+    }
+
     closeSearch = () => {
         let count= this.state.count + 1
         this.setState({
@@ -244,20 +298,6 @@ export default class Main extends React.Component {
             })
         }
     }
-    deriveKeyboardBrands = async () => {
-        let keyboardBrands = [];
-        await this.state.database.map(each =>
-            keyboardBrands.push(each.keyboard.keyboardBrand)
-        );
-        let keyboardBrandOptions = [...new Set(keyboardBrands)];
-        console.log("key result===> ", keyboardBrandOptions)
-
-        this.setState({
-            keyboardBrandOptions
-        })
-        return
-    }
-
     keyboardBrandSelected = (event) => {
         if (this.state.keyboardBrand.includes(event.target.value)) {
             let indexToRemove = this.state.keyboardBrand.indexOf(event.target.value);

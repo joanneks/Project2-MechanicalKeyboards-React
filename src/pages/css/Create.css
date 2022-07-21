@@ -7,3 +7,20 @@
 .Create-break1 {
     height:110px;
 }
+
+.Create-container {
+    width: 80vw;
+}
+
+.Create-container-div {
+    margin-top:10px;
+    margin-bottom:10px;
+}
+
+.Create-container-div-osCompatibility{
+    margin-left:20px;
+}
+
+.Create-container-div-osCompatibility-input{
+    margin-right:10px;
+}
