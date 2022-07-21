@@ -41,28 +41,28 @@ export default class Main extends React.Component {
         keyboardBrand: [],
         keyboardBrandError: "",
         searchError: "",
-        textSearch:"",
+        textSearch: "",
         osCompatibilityInput: [],
         hotSwappableInput: "true",
-        switchesInput:"",
-        keyboardBrandInput:"",
-        keyboardBrandInputNew:"",
-        keyboardModelInput:"",
-        keyboardSizeInput:"",
-        keyboardProductLinkInput:"",
-        keyboardImageInput:"",
-        keycapModelInput:"",
-        keycapProfileOptions:[],
-        keycapProfileInput:"",
-        keycapProfileInputNew:"",
-        keycapMaterialOptions:[],
-        keycapMaterialInput:"",
-        keycapMaterialInputNew:"",
-        keycapManufacturerOptions:[],
-        keycapManufacturerInput:"",
-        keycapManufacturerInputNew:"",
-        usernameInput:"",
-        emailInput:""
+        switchesInput: "",
+        keyboardBrandInput: "Glorious",
+        keyboardBrandInputNew: "",
+        keyboardModelInput: "",
+        keyboardSizeInput: "",
+        keyboardProductLinkInput: "",
+        keyboardImageInput: "",
+        keycapModelInput: "",
+        keycapProfileOptions: [],
+        keycapProfileInput: "",
+        keycapProfileInputNew: "",
+        keycapMaterialOptions: [],
+        keycapMaterialInput: "",
+        keycapMaterialInputNew: "",
+        keycapManufacturerOptions: [],
+        keycapManufacturerInput: "",
+        keycapManufacturerInputNew: "",
+        usernameInput: "",
+        emailInput: ""
     }
     async componentDidMount() {
         let response = await axios.get(this.url + "listings");
@@ -75,11 +75,19 @@ export default class Main extends React.Component {
         // console.log(response.data.data1)
     }
 
-    changePage(page) {
-        this.deriveKeyboardBrands()
-        this.deriveKeycapProfile()
-        this.deriveKeycapMaterial()
-        this.deriveKeycapManufacturer()
+    changePage = async (page) => {
+            await Promise.all([
+                this.deriveKeyboardBrands(),
+                this.deriveKeycapProfile(),
+                this.deriveKeycapMaterial(),
+                this.deriveKeycapManufacturer()
+            ])
+        
+            // this.deriveKeyboardBrands()
+            // this.deriveKeycapProfile()
+            // this.deriveKeycapMaterial()
+            // this.deriveKeycapManufacturer()
+           
         this.setState({
             active: page
         })
@@ -88,10 +96,11 @@ export default class Main extends React.Component {
         if (this.state.active === "create") {
             return <Create
                 data={this.state.data}
-                activeStateCreate={()=> this.changePage("create")}
-                activeStateListings={() => this.changePage("listings")}
+                activeStateCreate={async() => this.changePage("create")}
+                activeStateListings={async() => this.changePage("listings")}
                 activeStateHomePage={() => this.setState({ active: "home-page" })}
                 osCompatibilityInput={this.state.osCompatibilityInput}
+                osCompatibilityInputSelected={this.osCompatibilityInputSelected}
                 hotSwappableInput={this.state.hotSwappableInput}
                 switchesInput={this.state.switchesInput}
                 keyboardBrandOptions={this.state.keyboardBrandOptions}
@@ -102,7 +111,7 @@ export default class Main extends React.Component {
                 keyboardImageInput={this.state.keyboardImageInput}
                 keycapModelInput={this.state.keycapModelInput}
                 keyboardSizeInput={this.state.keyboardSizeInput}
-                keyboardBrandSelected={this.keyboardBrandSelected}
+                // keyboardBrandSelected={this.keyboardBrandSelected}
                 keycapProfileOptions={this.state.keycapProfileOptions}
                 keycapProfileInput={this.state.keycapProfileInput}
                 keycapProfileInputNew={this.state.keycapProfileInputNew}
@@ -115,6 +124,7 @@ export default class Main extends React.Component {
                 usernameInput={this.state.usernameInput}
                 emailInput={this.state.emailInput}
                 updateFormFieldGeneral={this.updateFormFieldGeneral}
+                addNewListing={this.addNewListing}
             />
         } else if (this.state.active === "listings") {
             return <Listings
@@ -166,8 +176,8 @@ export default class Main extends React.Component {
             />
         } else if (this.state.active === "each-listing") {
             return <EachListing
-                activeStateCreate={()=> this.changePage("create")}
-                activeStateListings={() => this.changePage("listings")}
+                activeStateCreate={async() => this.changePage("create")}
+                activeStateListings={async() => this.changePage("listings")}
                 activeStateHomePage={() => this.setState({ active: "home-page" })}
                 tempList={this.state.tempList}
                 newComment={this.state.newComment}
@@ -209,11 +219,73 @@ export default class Main extends React.Component {
             />
         } else if (this.state.active === "home-page") {
             return <HomePage
-                changePageCreate={()=> this.changePage("create")}
-                changePageListings={() => this.changePage("listings")}
+                changePageCreate={async() => this.changePage("create")}
+                changePageListings={async() => this.changePage("listings")}
             />
         }
     };
+    addNewListing = async () => {
+        let osCompatibility = this.state.osCompatibilityInput
+        let hotSwappable = this.state.hotSwappableInput
+        let switches = this.state.switchesInput
+        let keyboardBrand = this.state.keyboardBrandInput
+        if(keyboardBrand === "new-input"){
+            keyboardBrand = this.state.keyboardBrandInputNew
+        }else{
+            keyboardBrand = this.state.keyboardBrandInput
+        }
+        let keyboardModel = this.state.keyboardModelInput
+        let keyboardSize = this.state.keyboardSizeInput
+        let keyboardProductLink = this.state.keyboardProductLinkInput
+        let keyboardImage = this.state.keyboardImageInput
+        let keycapModel = this.state.keycapModelInput
+        let keycapMaterial = this.state.keycapMaterialInput
+        if(keycapMaterial === "new-input"){
+            keycapMaterial = this.state.keycapMaterialInputNew
+        }else{
+            keycapMaterial = this.state.keycapMaterialInput
+        }
+        let keycapProfile = this.state.keycapProfileInput
+        if(keycapProfile === "new-input"){
+            keycapProfile = this.state.keycapProfileInputNew
+        }else{
+            keycapProfile = this.state.keycapProfileInput
+        }
+        let keycapManufacturer = this.state.keycapManufacturerInput
+        if(keycapManufacturer === "new-input"){
+            keycapManufacturer = this.state.keycapManufacturerInputNew
+        }else{
+            keycapManufacturer = this.state.keycapManufacturerInput
+        }
+        let username = this.state.usernameInput
+        let email = this.state.emailInput
+        let password = "password1!";
+        let listingToCreate = {
+            osCompatibility,
+            hotSwappable,
+            switches,
+            'keyboard': {
+                keyboardBrand,
+                keyboardModel,
+                keyboardSize,
+                keyboardProductLink,
+                keyboardImage
+            },
+            'keycap': {
+                keycapModel,
+                keycapMaterial,
+                keycapProfile,
+                keycapManufacturer
+            },
+            'user': {
+                username,
+                email,
+                password
+            },
+        }
+        console.log(listingToCreate)
+        await axios.post(this.url + "listings/create", listingToCreate)
+    }
     deriveKeyboardBrands = async () => {
         let keyboardBrands = [];
         await this.state.database.map(each =>
@@ -264,9 +336,26 @@ export default class Main extends React.Component {
         })
         return
     }
+    osCompatibilityInputSelected = (event) => {
+
+        if (this.state.osCompatibilityInput.includes(event.target.value)) {
+            let indexToRemove = this.state.osCompatibilityInput.indexOf(event.target.value);
+            let osCompatibilityInput = [...this.state.osCompatibilityInput.slice(0, indexToRemove),
+            ...this.state.osCompatibilityInput.slice(indexToRemove + 1)];
+            this.setState({
+                osCompatibilityInput
+            })
+        } else {
+            let osCompatibilityInput = this.state.osCompatibilityInput;
+            osCompatibilityInput.push(event.target.value);
+            this.setState({
+                osCompatibilityInput
+            })
+        }
+    }
 
     closeSearch = () => {
-        let count= this.state.count + 1
+        let count = this.state.count + 1
         this.setState({
             count,
             displaySearch: "none"
@@ -283,71 +372,72 @@ export default class Main extends React.Component {
         let keyboardBrand = this.state.keyboardBrand;
         let keyboardBrandQuery = "&keyboardBrand=";
         this.setState({
-            searchError:"",
-            keyboardSizeError:"",
-            keyboardBrandError:"",
-            dataCountMessage:"",
+            searchError: "",
+            keyboardSizeError: "",
+            keyboardBrandError: "",
+            dataCountMessage: "",
         })
-        if(keyboardSize.length === 0 || keyboardBrand.length === 0){
+        if (keyboardSize.length === 0 || keyboardBrand.length === 0) {
             this.setState({
-                searchError:"Form not submitted, all fields must be completed. "
+                searchError: "Form not submitted, all fields must be completed. "
             })
-            if(keyboardSize.length === 0){
+            if (keyboardSize.length === 0) {
                 this.setState({
                     keyboardSizeError: "At least one option must be selected"
                 })
-            } else{
+            } else {
                 this.setState({
                     keyboardSizeError: ""
                 })
             }
-            if(keyboardBrand.length === 0){
+            if (keyboardBrand.length === 0) {
                 this.setState({
                     keyboardBrandError: "At least one option must be selected"
                 })
-            } else{
+            } else {
                 this.setState({
                     keyboardBrandError: ""
                 })
             }
-        }else {
-                if (Array.isArray(keyboardSize)) {
-                    for (let i = 0; i < keyboardSize.length; i++) {
-                        keyboardSizeQuery += keyboardSize[i] + ",";
-                    }
-                    keyboardSizeQuery = keyboardSizeQuery.slice(0, -1);
-                } else {
-                    keyboardSizeQuery += keyboardSize + ",";
-                };
-            
-                if (Array.isArray(keyboardBrand)) {
-                    for (let i = 0; i < keyboardBrand.length; i++) {
-                        keyboardBrandQuery += keyboardBrand[i] + ",";
-                    }
-                    keyboardBrandQuery = keyboardBrandQuery.slice(0, -1);
-                } else {
-                    keyboardBrandQuery += keyboardBrand + ",";
-                };
-            
+        } else {
+            if (Array.isArray(keyboardSize)) {
+                for (let i = 0; i < keyboardSize.length; i++) {
+                    keyboardSizeQuery += keyboardSize[i] + ",";
+                }
+                keyboardSizeQuery = keyboardSizeQuery.slice(0, -1);
+            } else {
+                keyboardSizeQuery += keyboardSize + ",";
+            };
+
+            if (Array.isArray(keyboardBrand)) {
+                for (let i = 0; i < keyboardBrand.length; i++) {
+                    keyboardBrandQuery += keyboardBrand[i] + ",";
+                }
+                keyboardBrandQuery = keyboardBrandQuery.slice(0, -1);
+            } else {
+                keyboardBrandQuery += keyboardBrand + ",";
+            };
+
             let searchLinkQuery = this.url + "listings?" + query.toString() + keyboardSizeQuery + keyboardBrandQuery
             console.log(this.url + "listings?" + query.toString() + keyboardSizeQuery + keyboardBrandQuery);
-    
+
             let searchResults = await axios.get(searchLinkQuery)
             console.log(searchResults)
             let dataCountMessage = searchResults.data.count + " results found.";
-            
+
             this.setState({
                 data: searchResults.data.data,
                 dataCount: searchResults.data.count,
                 dataCountMessage,
-                searchError:"Form submitted. ",
+                searchError: "Form submitted. ",
             })
         }
     }
     keyboardBrandSelected = (event) => {
         if (this.state.keyboardBrand.includes(event.target.value)) {
             let indexToRemove = this.state.keyboardBrand.indexOf(event.target.value);
-            let keyboardBrand = [...this.state.keyboardBrand.slice(0, indexToRemove), ...this.state.keyboardBrand.slice(indexToRemove + 1)]
+            let keyboardBrand = [...this.state.keyboardBrand.slice(0, indexToRemove),
+            ...this.state.keyboardBrand.slice(indexToRemove + 1)];
             this.setState({
                 keyboardBrand
             })
@@ -359,7 +449,6 @@ export default class Main extends React.Component {
             })
         }
     }
-
     keyboardSizeSelected = (event) => {
         if (this.state.keyboardSize.includes(event.target.value)) {
             let keyboardSize = this.state.keyboardSize.slice();
@@ -376,6 +465,7 @@ export default class Main extends React.Component {
             })
         }
     }
+
     updateFormFieldGeneral = (event) => {
         this.setState({
             [event.target.name]: event.target.value
