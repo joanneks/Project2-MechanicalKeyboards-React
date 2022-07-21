@@ -44,10 +44,20 @@ export default class Main extends React.Component {
         textSearch:"",
         osCompatibilityInput: [],
         hotSwappableInput: "true",
+        switchesInput:"",
         keyboardBrandInput:"",
         keyboardBrandInputNew:"",
         keyboardModelInput:"",
         keyboardSizeInput:"",
+        keyboardProductLinkInput:"",
+        keyboardImageInput:"",
+        keycapModelInput:"",
+        keycapProfileOptions:[],
+        keycapProfileInput:"",
+        keycapProfileInputNew:"",
+        keycapMaterialOptions:[],
+        keycapMaterialInput:"",
+        keycapMaterialInputNew:"",
         keycapManufacturerOptions:[],
         keycapManufacturerInput:"",
         keycapManufacturerInputNew:"",
@@ -67,6 +77,8 @@ export default class Main extends React.Component {
 
     changePage(page) {
         this.deriveKeyboardBrands()
+        this.deriveKeycapProfile()
+        this.deriveKeycapMaterial()
         this.deriveKeycapManufacturer()
         this.setState({
             active: page
@@ -76,17 +88,27 @@ export default class Main extends React.Component {
         if (this.state.active === "create") {
             return <Create
                 data={this.state.data}
-                activeStateCreate={() => this.setState({ active: "create" })}
-                activeStateListings={() => this.setState({ active: "listings" })}
+                activeStateCreate={()=> this.changePage("create")}
+                activeStateListings={() => this.changePage("listings")}
                 activeStateHomePage={() => this.setState({ active: "home-page" })}
                 osCompatibilityInput={this.state.osCompatibilityInput}
                 hotSwappableInput={this.state.hotSwappableInput}
+                switchesInput={this.state.switchesInput}
                 keyboardBrandOptions={this.state.keyboardBrandOptions}
                 keyboardBrandInput={this.state.keyboardBrandInput}
                 keyboardBrandInputNew={this.state.keyboardBrandInputNew}
                 keyboardModelInput={this.state.keyboardModelInput}
+                keyboardProductLinkInput={this.state.keyboardProductLinkInput}
+                keyboardImageInput={this.state.keyboardImageInput}
+                keycapModelInput={this.state.keycapModelInput}
                 keyboardSizeInput={this.state.keyboardSizeInput}
                 keyboardBrandSelected={this.keyboardBrandSelected}
+                keycapProfileOptions={this.state.keycapProfileOptions}
+                keycapProfileInput={this.state.keycapProfileInput}
+                keycapProfileInputNew={this.state.keycapProfileInputNew}
+                keycapMaterialOptions={this.state.keycapMaterialOptions}
+                keycapMaterialInput={this.state.keycapMaterialInput}
+                keycapMaterialInputNew={this.state.keycapMaterialInputNew}
                 keycapManufacturerOptions={this.state.keycapManufacturerOptions}
                 keycapManufacturerInput={this.state.keycapManufacturerInput}
                 keycapManufacturerInputNew={this.state.keycapManufacturerInputNew}
@@ -144,8 +166,8 @@ export default class Main extends React.Component {
             />
         } else if (this.state.active === "each-listing") {
             return <EachListing
-                activeStateCreate={() => this.setState({ active: "create" })}
-                activeStateListings={() => this.setState({ active: "listings" })}
+                activeStateCreate={()=> this.changePage("create")}
+                activeStateListings={() => this.changePage("listings")}
                 activeStateHomePage={() => this.setState({ active: "home-page" })}
                 tempList={this.state.tempList}
                 newComment={this.state.newComment}
@@ -202,6 +224,30 @@ export default class Main extends React.Component {
 
         this.setState({
             keyboardBrandOptions
+        })
+        return
+    }
+    deriveKeycapProfile = async () => {
+        let keycapProfiles = [];
+        await this.state.database.map(each =>
+            keycapProfiles.push(each.keycap.keycapProfile)
+        );
+        let keycapProfileOptions = [...new Set(keycapProfiles)];
+
+        this.setState({
+            keycapProfileOptions
+        })
+        return
+    }
+    deriveKeycapMaterial = async () => {
+        let keycapMaterials = [];
+        await this.state.database.map(each =>
+            keycapMaterials.push(each.keycap.keycapMaterial)
+        );
+        let keycapMaterialOptions = [...new Set(keycapMaterials)];
+
+        this.setState({
+            keycapMaterialOptions
         })
         return
     }
@@ -393,8 +439,6 @@ export default class Main extends React.Component {
         })
 
     }
-
-
     editCommentVerification = () => {
         this.setState({
             displayEditCommentCheck: "block",
@@ -449,7 +493,6 @@ export default class Main extends React.Component {
             'tempList': tempListRevised
         })
     }
-
     addNewComment = async (username, email, newComment, tempList, data) => {
         // if (username.length >= 3) {
         //     if (email.includes("@") && email.includes(".")) {
