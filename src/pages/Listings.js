@@ -3,6 +3,7 @@ import logo1 from './logo.png';
 import expandSearch from './css/expandLogo.png'
 import editListing from './css/editLogo.png'
 import deleteListing from './css/deleteLogo.png'
+import closeSearch from './css/closeSearch.png'
 import './css/Listings.css';
 
 import Button from 'react-bootstrap/Button';
@@ -42,9 +43,9 @@ export default function Listings(props) {
                             Search Filters
                         </span>
                         <span>
-                            <img src={expandSearch} alt="expandSearchBtn"
-                                style={{ height: "21px", width: "21px", verticalAlign: "middle" }}
-
+                            <img src={closeSearch} alt="closeSearchBtn"
+                                className = "Listings-search-close"
+                                onClick={props.closeSearch}
                             />
                         </span>
                     </div>
@@ -91,7 +92,7 @@ export default function Listings(props) {
                         </div>
                     </div>
                     <div style={{ marginTop: "10px" }}>
-                        <label className="Listings-filter-label">Keyboard</label>
+                        <label className="Listings-filter-label">Keyboard Size:</label>
                         <div style={{ width: "40vw", display: "inline-block" }}>
                             <div className="Listings-multiselect">
                                 <div className="form-check Listings-multiselect-options">
@@ -146,32 +147,35 @@ export default function Listings(props) {
                                 </div>
                             </div>
                         </div>
+                        <div>{props.keyboardSizeError}</div>
                     </div>
-                    {/* <div style={{ marginTop: "10px" }}>
+                    <div style={{ marginTop: "10px" }}>
                         <label className="Listings-filter-label-keyboard">Keyboard Brands: </label>
-                        <div name="keyboardBrand" className="Listings-multiselect-options-brands"
-                        // value={props.keyboardBrand}
-                        // onChange={props.keyboardBrandSelected}
-                        >
-                            {props.deriveKeyboardBrands}
+                        <div name="keyboardBrand" className="Listings-multiselect-options-brands">
                             {props.keyboardBrandOptions.map(eachKeyboardBrand => (
-                                <React.Fragment>
-                                    <div className="form-check" style={{marginLeft:"10px"}}>
+                                <React.Fragment key={eachKeyboardBrand}>
+                                    <div className="form-check" style={{ marginLeft: "10px" }}>
                                         <input className="form-check-input"
                                             type="checkbox"
                                             value={eachKeyboardBrand}
                                             name="keyboardBrand"
                                             onChange={props.keyboardBrandSelected}
-                                            checked={props.keyboardBrand.includes("{eachKeyboardBrand}")}
+                                            checked={props.keyboardBrand.includes(eachKeyboardBrand)}
                                         />
                                         <label className="form-check-label">{eachKeyboardBrand}</label>
                                     </div>
                                 </React.Fragment>
                             ))}
                         </div>
-
-                    </div> */}
-                    <button className="btn btn-primary" style= {{marginTop:"20px"}} onClick={props.deriveSearch}>Submit</button>
+                        <div>{props.keyboardBrandError}</div>
+                    </div>
+                    <div style={{ marginTop: "20px" }}>
+                        <label>Text Search:</label>
+                        <input type="text" name="textSearch"/>
+                    </div>
+                    <div>{props.searchError}{props.dataCountMessage}</div>
+                    
+                    <button className="btn btn-primary" style={{ marginTop: "20px" }} onClick={props.deriveSearch}>Submit</button>
                 </div>
                 <div className="Listings-break1"></div>
                 <Row xs={1} md={2} lg={3} className="g-4">

@@ -13,6 +13,9 @@ export default class Main extends React.Component {
     state = {
         active: 'home-page',
         data: [],
+        dataCount: "",
+        dataCountMessage: "",
+        database: [],
         tempList: {},
         tempListId: "",
         commentToDelete: "",
@@ -31,18 +34,24 @@ export default class Main extends React.Component {
         errorMessageAddComment: [],
         errorMessageAddCommentUser: [],
         keyboardBrandOptions: [],
-        keyboardBrandLoaded: false,
         osCompatibility: "Windows",
         hotSwappable: "true",
         keyboardSize: [],
-        keyboardBrand: []
+        keyboardSizeError: "",
+        keyboardBrand: [],
+        keyboardBrandError: "",
+        searchError: "",
+        textSearch:"",
     }
     async componentDidMount() {
         let response = await axios.get(this.url + "listings");
         this.setState({
-            data: response.data.data
+            data: response.data.data,
+            dataCount: response.data.count,
+            database: response.data.data1
         })
         console.log(response.data.data)
+        // console.log(response.data.data1)
     }
 
     changePage(page) {
@@ -69,11 +78,10 @@ export default class Main extends React.Component {
                         tempList: each,
                         tempListId: each._id
                     });
-                    console.log(each);
+                    // console.log(each);
                 }}
-                // keyboardBrandLoaded={this.state.keyboardBrandLoaded}
-                // keyboardBrandOptions={this.state.keyboardBrandOptions}
-                // deriveKeyboardBrands={this.deriveKeyboardBrands()}
+                keyboardBrandOptions={this.state.keyboardBrandOptions}
+                deriveKeyboardBrands={this.deriveKeyboardBrands}
                 searchDisplay={() => {
                     let count = this.state.count
                     this.setState({
@@ -83,6 +91,7 @@ export default class Main extends React.Component {
                         this.setState({
                             displaySearch: "block",
                         })
+                        this.deriveKeyboardBrands();
                     } else if (count % 2 === 1) {
                         this.setState({
                             displaySearch: "none",
@@ -94,10 +103,17 @@ export default class Main extends React.Component {
                 hotSwappable={this.state.hotSwappable}
                 keyboardSize={this.state.keyboardSize}
                 keyboardSizeSelected={this.keyboardSizeSelected}
-                // keyboardBrandSelected={this.keyboardBrandSelected}
-                // keyboardBrand={this.state.keyboardBrand}
+                keyboardBrandSelected={this.keyboardBrandSelected}
+                keyboardBrand={this.state.keyboardBrand}
                 updateFormFieldGeneral={this.updateFormFieldGeneral}
+                dataCount={this.state.dataCount}
+                dataCountMessage={this.state.dataCountMessage}
+                keyboardSizeError={this.state.keyboardSizeError}
+                keyboardBrandError={this.state.keyboardBrandError}
+                searchError={this.state.searchError}
+                textSearch={this.state.textSearch}
                 deriveSearch={this.deriveSearch}
+                closeSearch={this.closeSearch}
             />
         } else if (this.state.active === "each-listing") {
             return <EachListing
@@ -149,63 +165,99 @@ export default class Main extends React.Component {
             />
         }
     };
-    deriveSearch = async ()=>{
-        let query = new URLSearchParams({
-            osCompatibility: this.state.osCompatibility,
-            hotSwappable: this.state.hotSwappable
-          });
-        
-        // let thisKeyboardSize = this.state.keyboardSize
-          // Object.entries(params).forEach(([k, v]) => {
-          //     if (Array.isArray(v)) {
-          //       v.forEach(vv => query.append(k, vv))
-          //     } else query.append(k, v)
-          //   })
-        //   Object.entries(query).forEach(([keyboardSize,eachKeyboardSize])=>{
-        //       if(Array.isArray(thisKeyboardSize)){
-        //           eachKeyboardSize.forEach((value) => query.append(keyboardSize, value)
-        //       )}else query.append(keyboardSize,value)
-        //   })
-
-        console.log(this.state.keyboardSize);
-        let searchLinkQuery = this.url+"listings?"+query.toString()
-        console.log(this.url+"listings?"+query.toString());
-
-        let searchResults = await axios.get(searchLinkQuery)
-        console.log(searchResults)
+    closeSearch = () => {
+        let count= this.state.count + 1
         this.setState({
-            data: searchResults.data.data
+            count,
+            displaySearch: "none"
         })
     }
-    // deriveKeyboardBrands = () => {
-        // let keyboardBrands = [];
-        // if (!this.state.keyboardBrandLoaded) {
-        //     let keyboardBrands = [];
-        //     this.state.data.map(each =>
-        //         keyboardBrands.push(each.keyboard.keyboardBrand)
-        //     );
-        //     let keyboardBrandOptions = [...new Set(keyboardBrands)];
-        //     this.setState({
-        //         keyboardBrandOptions,
-        //         keyboardBrandLoaded: true
-        //     })
-        //     return keyboardBrandOptions;
-        // } else {
-        //     return [];
-        // }
-        // let keyboardBrands = [];
-        // this.state.data.map(each =>
-        //     keyboardBrands.push(each.keyboard.keyboardBrand)
-        // );
-        // let keyboardBrandOptions = [...new Set(keyboardBrands)];
-        
-        // return !this.state.keyboardBrandLoaded ?
-        //     keyboardBrands = this.setState({
-        //         keyboardBrandOptions,
-        //         keyboardBrandLoaded: true
-        //     })
-        //     : keyboardBrands = []
-    // }
+    deriveSearch = async () => {
+        let query = new URLSearchParams({
+            osCompatibility: this.state.osCompatibility,
+            hotSwappable: this.state.hotSwappable,
+            textSearch: this.state.textSearch
+        });
+        let keyboardSize = this.state.keyboardSize;
+        let keyboardSizeQuery = "&keyboardSize=";
+        let keyboardBrand = this.state.keyboardBrand;
+        let keyboardBrandQuery = "&keyboardBrand=";
+        this.setState({
+            searchError:"",
+            keyboardSizeError:"",
+            keyboardBrandError:"",
+            dataCountMessage:"",
+        })
+        if(keyboardSize.length === 0 || keyboardBrand.length === 0){
+            this.setState({
+                searchError:"Form not submitted, all fields must be completed. "
+            })
+            if(keyboardSize.length === 0){
+                this.setState({
+                    keyboardSizeError: "At least one option must be selected"
+                })
+            } else{
+                this.setState({
+                    keyboardSizeError: ""
+                })
+            }
+            if(keyboardBrand.length === 0){
+                this.setState({
+                    keyboardBrandError: "At least one option must be selected"
+                })
+            } else{
+                this.setState({
+                    keyboardBrandError: ""
+                })
+            }
+        }else {
+                if (Array.isArray(keyboardSize)) {
+                    for (let i = 0; i < keyboardSize.length; i++) {
+                        keyboardSizeQuery += keyboardSize[i] + ",";
+                    }
+                    keyboardSizeQuery = keyboardSizeQuery.slice(0, -1);
+                } else {
+                    keyboardSizeQuery += keyboardSize + ",";
+                };
+            
+                if (Array.isArray(keyboardBrand)) {
+                    for (let i = 0; i < keyboardBrand.length; i++) {
+                        keyboardBrandQuery += keyboardBrand[i] + ",";
+                    }
+                    keyboardBrandQuery = keyboardBrandQuery.slice(0, -1);
+                } else {
+                    keyboardBrandQuery += keyboardBrand + ",";
+                };
+            
+            let searchLinkQuery = this.url + "listings?" + query.toString() + keyboardSizeQuery + keyboardBrandQuery
+            console.log(this.url + "listings?" + query.toString() + keyboardSizeQuery + keyboardBrandQuery);
+    
+            let searchResults = await axios.get(searchLinkQuery)
+            console.log(searchResults)
+            let dataCountMessage = searchResults.data.count + " results found.";
+            
+            this.setState({
+                data: searchResults.data.data,
+                dataCount: searchResults.data.count,
+                dataCountMessage,
+                searchError:"Form submitted. ",
+            })
+        }
+    }
+    deriveKeyboardBrands = async () => {
+        let keyboardBrands = [];
+        await this.state.database.map(each =>
+            keyboardBrands.push(each.keyboard.keyboardBrand)
+        );
+        let keyboardBrandOptions = [...new Set(keyboardBrands)];
+        console.log("key result===> ", keyboardBrandOptions)
+
+        this.setState({
+            keyboardBrandOptions
+        })
+        return
+    }
+
     keyboardBrandSelected = (event) => {
         if (this.state.keyboardBrand.includes(event.target.value)) {
             let indexToRemove = this.state.keyboardBrand.indexOf(event.target.value);
@@ -221,7 +273,7 @@ export default class Main extends React.Component {
             })
         }
     }
-   
+
     keyboardSizeSelected = (event) => {
         if (this.state.keyboardSize.includes(event.target.value)) {
             let keyboardSize = this.state.keyboardSize.slice();
@@ -302,39 +354,6 @@ export default class Main extends React.Component {
 
     }
 
-    // editCommentEmailCheck = async (tempList,commentToEdit, data)=>{
-    //     this.state.commentToEdit.email === this.state.editCommentEmail ?
-    //                 this.setState({
-    //                     displayEditCommentCheck : "none",
-    //                     displayEditCommentEmailStatus: "none"
-    //                 })
-    //                 :this.setState({
-    //                     displayEditCommentCheck : "block",
-    //                     displayEditCommentEmailStatus: "block"
-    //                 })
-    //     let comments = this.state.commentToEdit.comments
-    //     let response = await axios.post(this.url+"listings/review/edit/"+this.state.commentToEdit.reviewId,{
-    //         comments
-    //     })
-    //     let index = this.state.tempList.reviews.findIndex(function (each) {
-    //         if (each.reviewId === commentToEdit.reviewId) {
-    //             return true;
-    //         } else {
-    //             return false;
-    //         }
-    //     })
-    //     let tempListRevised = {
-    //         ...tempList, reviews: [
-    //             ...tempList.reviews.slice(0,index),
-    //             comment.toEdit,...tempList.reviews.slice(index+1)
-    //         ]
-    //     }
-    //     this.setState({
-    //         data: [...data.slice(0, index), tempListRevised, ...data.slice(index + 1)],
-    //         tempList: tempListRevised
-    //     })
-
-    // }
 
     editCommentVerification = () => {
         this.setState({
