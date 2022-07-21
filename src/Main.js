@@ -16,7 +16,9 @@ export default class Main extends React.Component {
         dataCount: "",
         dataCountMessage: "",
         database: [],
-        tempList: {},
+        tempList: {
+            reviews:[]
+        },
         tempListId: "",
         commentToDelete: "",
         commentToEdit: {
@@ -623,7 +625,7 @@ export default class Main extends React.Component {
             })
         :this.setState({
             data:[...data],
-            tempList:[...tempList]
+            tempList:{...tempList}
         })
     }
     editCommentVerification = () => {
