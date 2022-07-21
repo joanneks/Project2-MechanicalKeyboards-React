@@ -30,7 +30,12 @@ export default class Main extends React.Component {
         displayDelete: "none",
         displayDeleteVerification: "none",
         displayDeleteCheck: "none",
-        listingToDelete: "",
+        listingToDelete: {
+            keyboard:{
+                keyboardBrand:"",
+                keyboardModel:""
+            }
+        },
         deleteEmailToVerify:"",
         deleteEmailVerified:"none",
         deleteEmailNotVerified:"none",
@@ -184,10 +189,15 @@ export default class Main extends React.Component {
                 listingToDelete={this.state.listingToDelete}
                 displayDelete={this.state.displayDelete}
                 displayDeleteVerification={this.state.displayDeleteVerification}
+                closeDelete={this.closeDelete}
                 displayDeleteConfirmation={(each) => {
                     this.setState({
+                        deleteEmailToVerify:"",
+                        deleteEmailNotVerified:"none",
+                        deleteEmailVerified:"none",
                         displayDelete: "block",
                         displayDeleteVerification:"block",
+                        displayDeleteStatus:"none",
                         listingToDelete: each
                     })
                 }}
@@ -266,6 +276,11 @@ export default class Main extends React.Component {
         }
         console.log(creatorEmail,deleteEmailToVerify)
         
+    }
+    closeDelete = () => {
+        this.setState({
+            displayDelete: "none"
+        })
     }
     deleteListingYes = async() => {
         let listingToDelete =this.state.listingToDelete
@@ -580,10 +595,14 @@ export default class Main extends React.Component {
                 displayEditCommentCheck: "block",
                 displayEditCommentEmailStatus: "block"
             })
+
         let comments = commentToEdit.comments
-        await axios.post(this.url + "listings/review/edit/" + commentToEdit.reviewId, {
+        commentToEdit.email === editCommentEmail ?
+            await axios.post(this.url + "listings/review/edit/" + commentToEdit.reviewId, {
             comments
-        })
+            })
+        : console.log("Email verification failed, comment not edited")
+        
         let index = this.state.tempList.reviews.findIndex(function (each) {
             if (each.reviewId === commentToEdit.reviewId) {
                 return true;
@@ -597,11 +616,15 @@ export default class Main extends React.Component {
                 commentToEdit, ...tempList.reviews.slice(index + 1)
             ]
         }
-        this.setState({
-            data: [...data.slice(0, index), tempListRevised, ...data.slice(index + 1)],
-            tempList: tempListRevised
+        commentToEdit.email === editCommentEmail ?   
+            this.setState({
+                data: [...data.slice(0, index), tempListRevised, ...data.slice(index + 1)],
+                tempList: tempListRevised
+            })
+        :this.setState({
+            data:[...data],
+            tempList:[...tempList]
         })
-
     }
     editCommentVerification = () => {
         this.setState({

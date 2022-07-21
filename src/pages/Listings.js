@@ -4,6 +4,7 @@ import expandSearch from './css/expandLogo.png'
 import editListing from './css/editLogo.png'
 import deleteListing from './css/deleteLogo.png'
 import closeSearch from './css/closeSearch.png'
+import closeDelete from './css/closeSearch.png'
 import './css/Listings.css';
 
 import Button from 'react-bootstrap/Button';
@@ -197,6 +198,7 @@ export default function Listings(props) {
                                             <span style={{ "float": "right" }}>
                                                 <img src={editListing} alt="editListingBtn"
                                                     style={{ height: "34px", width: "34px" }}
+                                                    onClick={()=>{""}}
                                                 />
                                                 <img src={deleteListing} alt="deleteListingBtn"
                                                     style={{ height: "30px", width: "30px" }}
@@ -213,8 +215,15 @@ export default function Listings(props) {
                 </Row>
                 <div style={{ display: props.displayDelete }} className="Listing-delete-display">
                     <div style={{ display: props.displayDeleteVerification }}>
-                        <h2>Verification Required</h2>
-                        <div>Only the creator of this post can delete.</div>
+                        <h2>Verification Required
+                            <span>
+                                <img src={closeDelete} alt="closeDeleteBtn"
+                                    className="Listings-delete-close"
+                                    onClick={props.closeDelete}
+                                />
+                            </span>
+                        </h2>
+                        <div>Only the creator of this post <span>{"<"+props.listingToDelete.keyboard.keyboardBrand+" "+props.listingToDelete.keyboard.keyboardModel+" >"}</span> can delete.</div>
                         <div>
                             <input type="email" className="form-control" 
                                 name="deleteEmailToVerify"
@@ -225,7 +234,14 @@ export default function Listings(props) {
                         <button className="btn btn-success" onClick={props.deleteListingEmailCheck}>Verify Email</button>
                     </div>
                     <div style={{ display: props.deleteEmailVerified }}>
-                        <h2>Email Verified</h2>
+                        <h2>Email Verified
+                            <span>
+                                <img src={closeDelete} alt="closeDeleteBtn"
+                                    className="Listings-delete-close"
+                                    onClick={props.closeDelete}
+                                />
+                            </span>
+                        </h2>
                         <div>Are you sure you want to delete?</div>
                         <div>
                             <button className="btn btn-danger" onClick={props.deleteListingYes}>Yes</button>
