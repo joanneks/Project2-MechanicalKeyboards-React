@@ -30,6 +30,17 @@ export default function Create(props) {
                 </Navbar>
                 <div className="Create-break1"></div>
                 <Container className="Create-container">
+                    <div className="row">
+                        <div class=" col-sm-1 col-md-2">
+                        1 of 3
+                        </div>
+                        <div class=" col-sm-2 col-md-5">
+                        2 of 3 (wider)
+                        </div>
+                        <div class="col-sm-0 col-md ">
+                        
+                        </div>
+                    </div>
                     <div className="Create-container-div">
                         <label>OS Compatibility: </label>
                         <div className="Create-container-div-osCompatibility">

@@ -97,3 +97,17 @@
     height: 25px;
     position: sticky;
 }
+
+.Listing-delete-display{
+    position: absolute;
+    z-index: 100;
+    padding:20px;
+    margin-top: 200px;
+    margin-left: auto;
+    margin-right: auto;
+    top:0;
+    left: 0;
+    right: 0;
+    width: 80vw;
+    background-color: aliceblue;
+}

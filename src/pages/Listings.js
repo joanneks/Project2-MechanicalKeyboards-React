@@ -44,7 +44,7 @@ export default function Listings(props) {
                         </span>
                         <span>
                             <img src={closeSearch} alt="closeSearchBtn"
-                                className = "Listings-search-close"
+                                className="Listings-search-close"
                                 onClick={props.closeSearch}
                             />
                         </span>
@@ -172,10 +172,10 @@ export default function Listings(props) {
                     </div>
                     <div style={{ marginTop: "20px" }}>
                         <label>Text Search:</label>
-                        <input type="text" name="textSearch"/>
+                        <input type="text" name="textSearch" />
                     </div>
                     <div>{props.searchError}{props.dataCountMessage}</div>
-                    
+
                     <button className="btn btn-primary" style={{ marginTop: "20px" }} onClick={props.deriveSearch}>Submit</button>
                 </div>
                 <div className="Listings-break1"></div>
@@ -200,6 +200,7 @@ export default function Listings(props) {
                                                 />
                                                 <img src={deleteListing} alt="deleteListingBtn"
                                                     style={{ height: "30px", width: "30px" }}
+                                                    onClick={() => { props.displayDeleteConfirmation(each) }}
                                                 />
                                             </span>
                                         </Card.Body>
@@ -210,6 +211,32 @@ export default function Listings(props) {
                         </Col>
                     ))}
                 </Row>
+                <div style={{ display: props.displayDelete }} className="Listing-delete-display">
+                    <div style={{ display: props.displayDeleteVerification }}>
+                        <h2>Verification Required</h2>
+                        <div>Only the creator of this post can delete.</div>
+                        <div>
+                            <input type="email" className="form-control" 
+                                name="deleteEmailToVerify"
+                                value={props.deleteEmailToVerify} 
+                                onChange={props.updateFormFieldGeneral}/>
+                        </div>
+                        <div style={{display:props.deleteEmailNotVerified}}>Email Verification Failed. Please try again.</div>
+                        <button className="btn btn-success" onClick={props.deleteListingEmailCheck}>Verify Email</button>
+                    </div>
+                    <div style={{ display: props.deleteEmailVerified }}>
+                        <h2>Email Verified</h2>
+                        <div>Are you sure you want to delete?</div>
+                        <div>
+                            <button className="btn btn-danger" onClick={props.deleteListingYes}>Yes</button>
+                            <button className="btn btn-success" onClick={props.deleteListingNo}>No</button>
+                        </div>
+                    </div>
+                    <div style={{ display: props.displayDeleteStatus }}>
+                        <h4>Listing has been deleted successfully</h4>
+                    </div>
+                </div>
+
 
             </div>
         </React.Fragment>

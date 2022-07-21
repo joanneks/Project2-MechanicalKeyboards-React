@@ -27,6 +27,14 @@ export default class Main extends React.Component {
         displayEditComment: "none",
         displayEditCommentCheck: "none",
         displayEditCommentEmailStatus: "none",
+        displayDelete: "none",
+        displayDeleteVerification: "none",
+        displayDeleteCheck: "none",
+        listingToDelete: "",
+        deleteEmailToVerify:"",
+        deleteEmailVerified:"none",
+        deleteEmailNotVerified:"none",
+        displayDeleteStatus:"none",
         newComment: "",
         username: "",
         editCommentEmail: "",
@@ -76,18 +84,18 @@ export default class Main extends React.Component {
     }
 
     changePage = async (page) => {
-            await Promise.all([
-                this.deriveKeyboardBrands(),
-                this.deriveKeycapProfile(),
-                this.deriveKeycapMaterial(),
-                this.deriveKeycapManufacturer()
-            ])
-        
-            // this.deriveKeyboardBrands()
-            // this.deriveKeycapProfile()
-            // this.deriveKeycapMaterial()
-            // this.deriveKeycapManufacturer()
-           
+        await Promise.all([
+            this.deriveKeyboardBrands(),
+            this.deriveKeycapProfile(),
+            this.deriveKeycapMaterial(),
+            this.deriveKeycapManufacturer()
+        ])
+
+        // this.deriveKeyboardBrands()
+        // this.deriveKeycapProfile()
+        // this.deriveKeycapMaterial()
+        // this.deriveKeycapManufacturer()
+
         this.setState({
             active: page
         })
@@ -96,8 +104,8 @@ export default class Main extends React.Component {
         if (this.state.active === "create") {
             return <Create
                 data={this.state.data}
-                activeStateCreate={async() => this.changePage("create")}
-                activeStateListings={async() => this.changePage("listings")}
+                activeStateCreate={async () => this.changePage("create")}
+                activeStateListings={async () => this.changePage("listings")}
                 activeStateHomePage={() => this.setState({ active: "home-page" })}
                 osCompatibilityInput={this.state.osCompatibilityInput}
                 osCompatibilityInputSelected={this.osCompatibilityInputSelected}
@@ -173,11 +181,29 @@ export default class Main extends React.Component {
                 textSearch={this.state.textSearch}
                 deriveSearch={this.deriveSearch}
                 closeSearch={this.closeSearch}
+                listingToDelete={this.state.listingToDelete}
+                displayDelete={this.state.displayDelete}
+                displayDeleteVerification={this.state.displayDeleteVerification}
+                displayDeleteConfirmation={(each) => {
+                    this.setState({
+                        displayDelete: "block",
+                        displayDeleteVerification:"block",
+                        listingToDelete: each
+                    })
+                }}
+                deleteEmailToVerify={this.state.deleteEmailToVerify}
+                deleteEmailVerified={this.state.deleteEmailVerified}
+                deleteEmailNotVerified={this.state.deleteEmailNotVerified}
+                deleteListingEmailCheck={this.deleteListingEmailCheck}
+                displayDeleteCheck={this.state.displayDeleteCheck}
+                displayDeleteStatus={this.state.displayDeleteStatus}
+                deleteListingNo={this.deleteListingNo}
+                deleteListingYes={this.deleteListingYes}
             />
         } else if (this.state.active === "each-listing") {
             return <EachListing
-                activeStateCreate={async() => this.changePage("create")}
-                activeStateListings={async() => this.changePage("listings")}
+                activeStateCreate={async () => this.changePage("create")}
+                activeStateListings={async () => this.changePage("listings")}
                 activeStateHomePage={() => this.setState({ active: "home-page" })}
                 tempList={this.state.tempList}
                 newComment={this.state.newComment}
@@ -219,19 +245,67 @@ export default class Main extends React.Component {
             />
         } else if (this.state.active === "home-page") {
             return <HomePage
-                changePageCreate={async() => this.changePage("create")}
-                changePageListings={async() => this.changePage("listings")}
+                changePageCreate={async () => this.changePage("create")}
+                changePageListings={async () => this.changePage("listings")}
             />
         }
     };
+    deleteListingEmailCheck = () => {
+        let listingToDelete = this.state.listingToDelete
+        let creatorEmail = listingToDelete.user.email
+        let deleteEmailToVerify = this.state.deleteEmailToVerify
+        if(deleteEmailToVerify === creatorEmail){
+            this.setState({
+                deleteEmailVerified:"block",
+                displayDeleteVerification:"none"
+            })
+        }else{
+            this.setState({
+                deleteEmailNotVerified:"block"
+            })
+        }
+        console.log(creatorEmail,deleteEmailToVerify)
+        
+    }
+    deleteListingYes = async() => {
+        let listingToDelete =this.state.listingToDelete
+        await axios.delete(this.url+"listings/delete/"+listingToDelete._id)
+        let indexToRemove = this.state.data.findIndex(function (eachListing){
+            if(eachListing._id ===listingToDelete._id){
+                return true
+            } else{
+                return false
+            }
+        })
+        let dataCount = this.state.dataCount -1
+        let revisedData = [...this.state.data.slice(0,indexToRemove),...this.state.data.slice(indexToRemove+1)]
+        this.setState({
+            data: revisedData,
+            dataCount,
+            deleteEmailVerified:"none",
+            displayDeleteStatus:"block"
+        })
+        setTimeout(()=>{
+            this.setState({
+                displayDelete:"none",
+                displayDeleteStatus:"none"
+            })
+          }, 2000);
+    }
+    deleteListingNo = () => {
+        this.setState({
+            displayDelete:"none",
+            deleteEmailVerified:"none"
+        })
+    }
     addNewListing = async () => {
         let osCompatibility = this.state.osCompatibilityInput
         let hotSwappable = this.state.hotSwappableInput
         let switches = this.state.switchesInput
         let keyboardBrand = this.state.keyboardBrandInput
-        if(keyboardBrand === "new-input"){
+        if (keyboardBrand === "new-input") {
             keyboardBrand = this.state.keyboardBrandInputNew
-        }else{
+        } else {
             keyboardBrand = this.state.keyboardBrandInput
         }
         let keyboardModel = this.state.keyboardModelInput
@@ -240,21 +314,21 @@ export default class Main extends React.Component {
         let keyboardImage = this.state.keyboardImageInput
         let keycapModel = this.state.keycapModelInput
         let keycapMaterial = this.state.keycapMaterialInput
-        if(keycapMaterial === "new-input"){
+        if (keycapMaterial === "new-input") {
             keycapMaterial = this.state.keycapMaterialInputNew
-        }else{
+        } else {
             keycapMaterial = this.state.keycapMaterialInput
         }
         let keycapProfile = this.state.keycapProfileInput
-        if(keycapProfile === "new-input"){
+        if (keycapProfile === "new-input") {
             keycapProfile = this.state.keycapProfileInputNew
-        }else{
+        } else {
             keycapProfile = this.state.keycapProfileInput
         }
         let keycapManufacturer = this.state.keycapManufacturerInput
-        if(keycapManufacturer === "new-input"){
+        if (keycapManufacturer === "new-input") {
             keycapManufacturer = this.state.keycapManufacturerInputNew
-        }else{
+        } else {
             keycapManufacturer = this.state.keycapManufacturerInput
         }
         let username = this.state.usernameInput
