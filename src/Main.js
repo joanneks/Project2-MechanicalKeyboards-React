@@ -17,7 +17,7 @@ export default class Main extends React.Component {
         dataCountMessage: "",
         database: [],
         tempList: {
-            reviews:[]
+            reviews: []
         },
         tempListId: "",
         commentToDelete: "",
@@ -33,15 +33,15 @@ export default class Main extends React.Component {
         displayDeleteVerification: "none",
         displayDeleteCheck: "none",
         listingToDelete: {
-            keyboard:{
-                keyboardBrand:"",
-                keyboardModel:""
+            keyboard: {
+                keyboardBrand: "",
+                keyboardModel: ""
             }
         },
-        deleteEmailToVerify:"",
-        deleteEmailVerified:"none",
-        deleteEmailNotVerified:"none",
-        displayDeleteStatus:"none",
+        deleteEmailToVerify: "",
+        deleteEmailVerified: "none",
+        deleteEmailNotVerified: "none",
+        displayDeleteStatus: "none",
         newComment: "",
         username: "",
         editCommentEmail: "",
@@ -78,19 +78,19 @@ export default class Main extends React.Component {
         keycapManufacturerInputNew: "",
         usernameInput: "",
         emailInput: "",
-        osCompatibilityError:"",
-        switchesError:"",
-        keyboardBrandError:"",
-        keyboardModelError:"",
-        keyboardSizeError:"",
-        keyboardProductLinkError:"",
-        keyboardImageError:"",
-        keycapModelError:"",
-        keycapMaterialError:"",
-        keycapProfileError:"",
-        keycapManufacturerError:"",
-        usernameError:"",
-        emailError:""
+        osCompatibilityInputError: "",
+        switchesInputError: "",
+        keyboardBrandInputError: "",
+        keyboardModelInputError: "",
+        keyboardSizeInputError: "",
+        keyboardProductLinkInputError: "",
+        keyboardImageInputError: "",
+        keycapModelInputError: "",
+        keycapMaterialInputError: "",
+        keycapProfileInputError: "",
+        keycapManufacturerInputError: "",
+        usernameInputError: "",
+        emailInputError: ""
     }
     async componentDidMount() {
         let response = await axios.get(this.url + "listings");
@@ -145,18 +145,19 @@ export default class Main extends React.Component {
                 keycapManufacturerInputNew={this.state.keycapManufacturerInputNew}
                 usernameInput={this.state.usernameInput}
                 emailInput={this.state.emailInput}
-                osCompatibilityError={this.state.osCompatibilityError}
-                switchesError={this.state.switchesError}
-                keyboardBrandError={this.state.keyboardBrandError}
-                keyboardModelError={this.state.keyboardModelError}
-                keyboardSizeError={this.state.keyboardSizeError}
-                keyboardProductLinkError={this.state.keyboardProductLinkError}
-                keyboardImageError={this.state.keyboardImageError}
-                keycapModelError={this.keycapModelError}
-                keycapMaterialError={this.keycapManufacturerError}
-                keycapProfileError={this.keycapProfileError}
-                usernameError={this.state.usernameError}
-                emailError={this.state.emailError}
+                osCompatibilityInputError={this.state.osCompatibilityInputError}
+                switchesInputError={this.state.switchesInputError}
+                keyboardBrandInputError={this.state.keyboardBrandInputError}
+                keyboardModelInputError={this.state.keyboardModelInputError}
+                keyboardSizeInputError={this.state.keyboardSizeInputError}
+                keyboardProductLinkInputError={this.state.keyboardProductLinkInputError}
+                keyboardImageInputError={this.state.keyboardImageInputError}
+                keycapModelInputError={this.state.keycapModelInputError}
+                keycapMaterialInputError={this.state.keycapMaterialInputError}
+                keycapManufacturerInputError={this.state.keycapManufacturerInputError}
+                keycapProfileInputError={this.keycapProfileInputError}
+                usernameInputError={this.state.usernameInputError}
+                emailInputError={this.state.emailInputError}
                 updateFormFieldGeneral={this.updateFormFieldGeneral}
                 addNewListing={this.addNewListing}
             />
@@ -212,12 +213,12 @@ export default class Main extends React.Component {
                 closeDelete={this.closeDelete}
                 displayDeleteConfirmation={(each) => {
                     this.setState({
-                        deleteEmailToVerify:"",
-                        deleteEmailNotVerified:"none",
-                        deleteEmailVerified:"none",
+                        deleteEmailToVerify: "",
+                        deleteEmailNotVerified: "none",
+                        deleteEmailVerified: "none",
                         displayDelete: "block",
-                        displayDeleteVerification:"block",
-                        displayDeleteStatus:"none",
+                        displayDeleteVerification: "block",
+                        displayDeleteStatus: "none",
                         listingToDelete: each
                     })
                 }}
@@ -284,53 +285,53 @@ export default class Main extends React.Component {
         let listingToDelete = this.state.listingToDelete
         let creatorEmail = listingToDelete.user.email
         let deleteEmailToVerify = this.state.deleteEmailToVerify
-        if(deleteEmailToVerify === creatorEmail){
+        if (deleteEmailToVerify === creatorEmail) {
             this.setState({
-                deleteEmailVerified:"block",
-                displayDeleteVerification:"none"
+                deleteEmailVerified: "block",
+                displayDeleteVerification: "none"
             })
-        }else{
+        } else {
             this.setState({
-                deleteEmailNotVerified:"block"
+                deleteEmailNotVerified: "block"
             })
         }
-        console.log(creatorEmail,deleteEmailToVerify)
-        
+        console.log(creatorEmail, deleteEmailToVerify)
+
     }
     closeDelete = () => {
         this.setState({
             displayDelete: "none"
         })
     }
-    deleteListingYes = async() => {
-        let listingToDelete =this.state.listingToDelete
-        await axios.delete(this.url+"listings/delete/"+listingToDelete._id)
-        let indexToRemove = this.state.data.findIndex(function (eachListing){
-            if(eachListing._id ===listingToDelete._id){
+    deleteListingYes = async () => {
+        let listingToDelete = this.state.listingToDelete
+        await axios.delete(this.url + "listings/delete/" + listingToDelete._id)
+        let indexToRemove = this.state.data.findIndex(function (eachListing) {
+            if (eachListing._id === listingToDelete._id) {
                 return true
-            } else{
+            } else {
                 return false
             }
         })
-        let dataCount = this.state.dataCount -1
-        let revisedData = [...this.state.data.slice(0,indexToRemove),...this.state.data.slice(indexToRemove+1)]
+        let dataCount = this.state.dataCount - 1
+        let revisedData = [...this.state.data.slice(0, indexToRemove), ...this.state.data.slice(indexToRemove + 1)]
         this.setState({
             data: revisedData,
             dataCount,
-            deleteEmailVerified:"none",
-            displayDeleteStatus:"block"
+            deleteEmailVerified: "none",
+            displayDeleteStatus: "block"
         })
-        setTimeout(()=>{
+        setTimeout(() => {
             this.setState({
-                displayDelete:"none",
-                displayDeleteStatus:"none"
+                displayDelete: "none",
+                displayDeleteStatus: "none"
             })
-          }, 2000);
+        }, 2000);
     }
     deleteListingNo = () => {
         this.setState({
-            displayDelete:"none",
-            deleteEmailVerified:"none"
+            displayDelete: "none",
+            deleteEmailVerified: "none"
         })
     }
     addNewListing = async () => {
@@ -354,6 +355,7 @@ export default class Main extends React.Component {
         } else {
             keycapMaterial = this.state.keycapMaterialInput
         }
+        console.log(keycapMaterial)
         let keycapProfile = this.state.keycapProfileInput
         if (keycapProfile === "new-input") {
             keycapProfile = this.state.keycapProfileInputNew
@@ -369,39 +371,109 @@ export default class Main extends React.Component {
         let username = this.state.usernameInput
         let email = this.state.emailInput
         let password = "password1!";
-        if (osCompatibility.length===0){
-            let osCompatibilityError = "At least one option must be selected"
+        if (osCompatibility.length === 0) {
+            let osCompatibilityInputError = "At least one option must be selected"
             this.setState({
-                osCompatibilityError
+                osCompatibilityInputError
             })
-        }else{
+        } else {
             this.setState({
-                osCompatibilityError:""
-            })
-        }
-        if (switches.length<=5){
-            let switchesError = "Field value should be at least 5 characters long"
-            this.setState({
-                switchesError
-            })
-        }else{
-            this.setState({
-                switchesError:""
+                osCompatibilityInputError: ""
             })
         }
-        if (keyboardBrand.length<=5){
-            let keyboardBrandError = "Field value should be at least 5 characters long"
+        if (switches.length <= 5) {
+            let switchesInputError = "Field value must be at least 5 characters long"
             this.setState({
-                keyboardBrandError
+                switchesInputError
             })
-        }else{
+        } else {
             this.setState({
-                keyboardBrandError:""
+                switchesInputError: ""
+            })
+        }
+        if (keyboardBrand.length < 5) {
+            let keyboardBrandInputError = "Field value must be at least 5 characters long"
+            this.setState({
+                keyboardBrandInputError
+            })
+        } else {
+            this.setState({
+                keyboardBrandInputError: ""
+            })
+        }
+        if (keyboardModel.length < 3) {
+            let keyboardModelInputError = "Field value must be at least 3 characters long"
+            this.setState({
+                keyboardModelInputError
+            })
+        } else {
+            this.setState({
+                keyboardModelInputError: ""
+            })
+        }
+        if (keyboardSize.length === 0) {
+            let keyboardSizeInputError = "One option must be selected"
+            this.setState({
+                keyboardSizeInputError
+            })
+        } else {
+            this.setState({
+                keyboardSizeInputError: ""
+            })
+        }
+        if(!keyboardProductLink.includes("https://")){
+            let keyboardProductLinkInputError = "Link provided must start with https://"
+            this.setState({
+                keyboardProductLinkInputError
+            })
+        } else if (keyboardProductLink.includes("https://")) {
+            this.setState({
+                keyboardProductLinkInputError: ""
+            })
+        }
+        if(!keyboardImage.includes("https://")){
+            let keyboardImageInputError = "Link provided must start with https://"
+            this.setState({
+                keyboardImageInputError
+            })
+        } else if (keyboardImage.includes("https://")) {
+            this.setState({
+                keyboardImageInputError: ""
+            })
+        }
+        if(keycapModel.length<3){
+            let keycapModelInputError = "Field value must be at least 3 characters long"
+            this.setState({
+                keycapModelInputError
+            })
+        } else {
+            this.setState({
+                keycapModelInputError: ""
+            })
+        }
+        if (keycapMaterial.length<3){
+            let keycapMaterialInputError = "Field value must be at least 3 characters long"
+            this.setState({
+                keycapMaterialInputError
+            })
+        } else {
+            this.setState({
+                keycapMaterialInputError: ""
+            })
+        }
+        if (keycapProfile.length<2){
+            let keycapProfileInputError = "Field value must be at least 2 characters long"
+            this.setState({
+                keycapProfileInputError
+            })
+        } else {
+            this.setState({
+                keycapProfileInputError: ""
             })
         }
 
         let listingToCreate = {
-            '_id':"",
+            '_id': "",
             osCompatibility,
             hotSwappable,
             switches,
@@ -423,17 +495,17 @@ export default class Main extends React.Component {
                 email,
                 password
             },
-            'reviews':[]
+            'reviews': []
         }
         console.log(listingToCreate)
-        
+
         let response = await axios.post(this.url + "listings/create", listingToCreate,)
-        
-        let data = [...this.state.data,{...listingToCreate,'_id':response.data.insertedId}]
+
+        let data = [...this.state.data, { ...listingToCreate, '_id': response.data.insertedId }]
         // let data = [...this.state.data,listingToCreate]
-        let dataCount = this.state.dataCount+1;
+        let dataCount = this.state.dataCount + 1;
         this.setState({
-            active:"listings",
+            active: "listings",
             data,
             dataCount,
             osCompatibilityInput: [],
@@ -684,10 +756,10 @@ export default class Main extends React.Component {
         let comments = commentToEdit.comments
         commentToEdit.email === editCommentEmail ?
             await axios.post(this.url + "listings/review/edit/" + commentToEdit.reviewId, {
-            comments
+                comments
             })
-        : console.log("Email verification failed, comment not edited")
-        
+            : console.log("Email verification failed, comment not edited")
+
         let index = this.state.tempList.reviews.findIndex(function (each) {
             if (each.reviewId === commentToEdit.reviewId) {
                 return true;
@@ -701,15 +773,15 @@ export default class Main extends React.Component {
                 commentToEdit, ...tempList.reviews.slice(index + 1)
             ]
         }
-        commentToEdit.email === editCommentEmail ?   
+        commentToEdit.email === editCommentEmail ?
             this.setState({
                 data: [...data.slice(0, index), tempListRevised, ...data.slice(index + 1)],
                 tempList: tempListRevised
             })
-        :this.setState({
-            data:[...data],
-            tempList:{...tempList}
-        })
+            : this.setState({
+                data: [...data],
+                tempList: { ...tempList }
+            })
     }
     editCommentVerification = () => {
         this.setState({

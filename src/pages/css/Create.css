@@ -22,12 +22,30 @@
     margin-left:8px;
     margin-right:20px;
 }
+.keyboardSize-label{
+    margin-left:8px;
+    margin-right:20px;
+}
+.keycapMaterial-label{
+    margin-left:8px;
+    margin-right:20px;
+}
 
 .Create-div-input-error {
     margin-top:10px;
     margin-bottom:10px;
+    color:red;
     
 }
 .Create-container-div-osCompatibility-input{
     margin-right:10px;
+}
+
+.Create-container-div-osCompatibility{
+    display:flex;
+    flex-wrap:wrap;
+}
+.Create-container-div-keycapMaterial{
+    display:flex;
+    flex-wrap:wrap;
 }

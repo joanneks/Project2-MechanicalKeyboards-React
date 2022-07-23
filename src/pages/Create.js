@@ -30,36 +30,29 @@ export default function Create(props) {
                 </Navbar>
                 <div className="Create-break1"></div>
                 <Container className="Create-container">
-                    <div className="row">
-                        <div className=" col-4 col-md-2">
-                        1 of 3
-                        </div>
-                        <div className=" col-8 col-md-5">
-                        2 of 3 (wider)
-                        </div>
-                        <div className="col-0 col-md ">
-                        
-                        </div>
-                    </div>
-                    <div className="Create-container-div">
-                        <div className="row">
-                            <div className=" col-12 col-md-3 col-lg-3">
+                    <div className="Create-container-div row">
+                        <div className=" col-12 col-sm-5 col-md-4 col-lg-3">
                             <label>OS Compatibility: </label>
-                            </div>
-                            <div className=" col-12 col-md-8 col-lg-8">
-                                <div className="Create-container-div-osCompatibility">
+                        </div>
+                        <div className="col-12 col-sm-7 col-md-7 col-lg-8">
+                            <div className="Create-container-div-osCompatibility">
+                                <div>
                                     <input type="checkbox"
                                         value="Windows"
                                         name="osCompatibilityInput"
                                         onChange={props.osCompatibilityInputSelected}
                                         className="form-check-input" />
                                     <label className="osCompatibility-label">Windows</label>
+                                </div>
+                                <div>
                                     <input type="checkbox"
                                         value="Mac"
                                         name="osCompatibilityInput"
                                         onChange={props.osCompatibilityInputSelected}
                                         className="form-check-input" />
                                     <label className="osCompatibility-label">Mac</label>
+                                </div>
+                                <div>
                                     <input type="checkbox"
                                         value="Linux"
                                         name="osCompatibilityInput"
@@ -68,15 +61,16 @@ export default function Create(props) {
                                     <label className="osCompatibility-label">Linux</label>
                                 </div>
                             </div>
+                            <div className="Create-div-input-error">{props.osCompatibilityInputError}
+                            </div>
                         </div>
                     </div>
-                    <div className="Create-div-input-error">{props.osCompatibilityError}</div>
                     <div className="Create-container-div">
                         <div className="row">
-                            <div className=" col-6 col-md-3 col-lg-3">
+                            <div className="col-12 col-sm-5 col-md-4 col-lg-3">
                                 <label>Hot Swappable:</label>
                             </div>
-                            <div className=" col-6 col-md-3 col-lg-3">
+                            <div className=" col-12 col-sm-7 col-md-3 col-lg-3">
                                 <select className="form-select form-select-sm"
                                     name="hotSwappableInput"
                                     value={props.hotSwappableInput}
@@ -89,10 +83,10 @@ export default function Create(props) {
                         </div>
                     </div>
                     <div className="Create-container-div row">
-                        <div className=" col-6  col-md-3 col-lg-3">  
+                        <div className="col-12 col-sm-5 col-md-4 col-lg-3">
                             <label>Switch Name:</label>
                         </div>
-                        <div style={{display:"inline"}} className="col-12 col-md-8 col-lg-8">
+                        <div style={{ display: "inline" }} className="col-12 col-sm-7 col-md-7 col-lg-8">
                             <textarea
                                 name="switchesInput"
                                 value={props.switchesInput}
@@ -100,18 +94,17 @@ export default function Create(props) {
                                 placeholder="e.g Cherry Speed Silver Switches"
                                 rows="1"
                                 className=" col-12"
-                                // style={{marginLeft:"12px",marginRight:"12px"}}
                             >
                             </textarea>
+                            <div className="Create-div-input-error">{props.switchesInputError}</div>
 
                         </div>
                     </div>
-                    <div className="Create-div-input-error">{props.switchesError}</div>
                     <div className="Create-container-div row">
-                        <div className=" col-6 col-md-3 col-lg-3">  
+                        <div className="col-12 col-sm-5 col-md-4 col-lg-3">
                             <label>Keyboard Brand:</label>
                         </div>
-                        <div className=" col-6 col-md-8 col-lg-8">  
+                        <div className="col-12 col-sm-7 col-md-7 col-lg-8">
                             <select className="form-select form-select-sm"
                                 name="keyboardBrandInput"
                                 value={props.keyboardBrandInput}
@@ -128,158 +121,222 @@ export default function Create(props) {
                         <div className="Create-container-div">
                             {props.keyboardBrandInput === "new-input" ?
                                 <div className="row">
-                                    <div className="col-0 col-md-3 col-lg-3">
+                                    <div className="col-1 col-sm-5 col-md-4 col-lg-3">
                                     </div>
-                                    <label className="col-12 col-md-4 col-lg-4">New Keyboard Brand:</label>
-                                    <input type="text" name="keyboardBrandInputNew" 
-                                        value={props.keyboardBrandInputNew}
-                                        onChange={props.updateFormFieldGeneral}
-                                        className="col-12 col-md-4 col-lg-4"
-                                    />
-                                    <div className="Create-div-input-error">{props.keyboardBrandError}</div>
+                                    <div className="col-12 col-sm-7 col-md-7 col-lg-8">
+                                        <label className="col-12">New Keyboard Brand:</label>
+                                        <div className="col-12">
+                                            <input type="text" name="keyboardBrandInputNew"
+                                                value={props.keyboardBrandInputNew}
+                                                onChange={props.updateFormFieldGeneral}
+                                                className="col-12"
+                                            />
+                                        </div>
+                                        <div className="col-1 col-sm-5 col-md-4 col-lg-3">
+                                        </div>
+                                        <div className="Create-div-input-error col-12">{props.keyboardBrandInputError}</div>
+                                    </div>
                                 </div>
                                 : <div></div>
                             }
                         </div>
                     </div>
-                    <div className="Create-container-div">
-                        <label>Keyboard Model:</label>
-                        <input type="text"
-                            name="keyboardModelInput"
-                            value={props.keyboardModelInput}
-                            onChange={props.updateFormFieldGeneral} />
-                    </div>
-
-                    <div className="Create-container-div">
-                        <label>Keyboard Size:</label>
-                        <div style={{ display: "flex", flexWrap: "wrap" }}>
-                            <div>
-                                <input className="form-check-input" type="radio"
-                                    value="60"
-                                    name="keyboardSizeInput"
-                                    onChange={props.updateFormFieldGeneral}
-                                    checked={props.keyboardSizeInput === "60"}
-                                />
-                                <label className="form-check-label">60%</label>
-                            </div>
-                            <div>
-                                <input className="form-check-input" type="radio"
-                                    value="65"
-                                    name="keyboardSizeInput"
-                                    onChange={props.updateFormFieldGeneral}
-                                    checked={props.keyboardSizeInput === "65"}
-                                />
-                                <label className="form-check-label">65%</label>
-                            </div>
-                            <div>
-                                <input className="form-check-input" type="radio"
-                                    value="75"
-                                    name="keyboardSizeInput"
-                                    onChange={props.updateFormFieldGeneral}
-                                    checked={props.keyboardSizeInput === "75"}
-                                />
-                                <label className="form-check-label">75%</label>
-                            </div>
-                            <div>
-                                <input className="form-check-input" type="radio"
-                                    value="80"
-                                    name="keyboardSizeInput"
-                                    onChange={props.updateFormFieldGeneral}
-                                    checked={props.keyboardSizeInput === "80"}
-                                />
-                                <label className="form-check-label">80%</label>
-                            </div>
-                            <div>
-                                <input className="form-check-input" type="radio"
-                                    value="100"
-                                    name="keyboardSizeInput"
-                                    onChange={props.updateFormFieldGeneral}
-                                    checked={props.keyboardSizeInput === "100"}
-                                />
-                                <label className="form-check-label">100%</label>
-                            </div>
+                    <div className="Create-container-div row">
+                        <div className="col-12 col-sm-5 col-md-4 col-lg-3">
+                            <label>Keyboard Model:</label>
+                        </div>
+                        <div className="col-12 col-sm-7 col-md-7 col-lg-8">
+                            <input type="text"
+                                className="col-12"
+                                placeholder="e.g GMMK 2"
+                                name="keyboardModelInput"
+                                value={props.keyboardModelInput}
+                                onChange={props.updateFormFieldGeneral} />
+                            <div className="Create-div-input-error">{props.keyboardModelError}</div>
                         </div>
                     </div>
-                    <div className="Create-container-div">
-                        <label>Keyboard Product Link:</label>
-                        <input type="text"
-                            name="keyboardProductLinkInput"
-                            value={props.keyboardProductLinkInput}
-                            onChange={props.updateFormFieldGeneral} />
-                    </div>
-                    <div className="Create-container-div">
-                        <label>Keyboard Image Link:</label>
-                        <input type="text"
-                            name="keyboardImageInput"
-                            value={props.keyboardImageInput}
-                            onChange={props.updateFormFieldGeneral} />
-                    </div>
-                    <div className="Create-container-div">
-                        <label>Keycap Model:</label>
-                        <input type="text"
-                            name="keycapModelInput"
-                            value={props.keycapModelInput}
-                            onChange={props.updateFormFieldGeneral} />
-                    </div>
-                    <div className="Create-container-div">
-                        <label>Keycap Material:</label>
-                        <div style={{ display: "flex", flexWrap: "wrap" }}>
-                            {props.keycapMaterialOptions.map(eachKeycapMaterial => (
-                                <div key={eachKeycapMaterial}>
+                    <div className="Create-container-div row">
+                        <div className="col-12 col-sm-5 col-md-4 col-lg-3">
+                            <label>Keyboard Size:</label>
+                        </div>
+                        <div className="col-12 col-sm-7 col-md-7 col-lg-8">
+                            <div style={{ display: "flex", flexWrap: "wrap" }}>
+                                <div>
                                     <input className="form-check-input" type="radio"
-                                        value={eachKeycapMaterial}
+                                        value="60"
+                                        name="keyboardSizeInput"
+                                        onChange={props.updateFormFieldGeneral}
+                                        checked={props.keyboardSizeInput === "60"}
+                                    />
+                                    <label className="form-check-label keyboardSize-label">60%</label>
+                                </div>
+                                <div>
+                                    <input className="form-check-input" type="radio"
+                                        value="65"
+                                        name="keyboardSizeInput"
+                                        onChange={props.updateFormFieldGeneral}
+                                        checked={props.keyboardSizeInput === "65"}
+                                    />
+                                    <label className="form-check-label keyboardSize-label">65%</label>
+                                </div>
+                                <div>
+                                    <input className="form-check-input" type="radio"
+                                        value="75"
+                                        name="keyboardSizeInput"
+                                        onChange={props.updateFormFieldGeneral}
+                                        checked={props.keyboardSizeInput === "75"}
+                                    />
+                                    <label className="form-check-label keyboardSize-label">75%</label>
+                                </div>
+                                <div>
+                                    <input className="form-check-input" type="radio"
+                                        value="80"
+                                        name="keyboardSizeInput"
+                                        onChange={props.updateFormFieldGeneral}
+                                        checked={props.keyboardSizeInput === "80"}
+                                    />
+                                    <label className="form-check-label keyboardSize-label">80%</label>
+                                </div>
+                                <div>
+                                    <input className="form-check-input" type="radio"
+                                        value="100"
+                                        name="keyboardSizeInput"
+                                        onChange={props.updateFormFieldGeneral}
+                                        checked={props.keyboardSizeInput === "100"}
+                                    />
+                                    <label className="form-check-label keyboardSize-label">100%</label>
+                                </div>
+                            </div>
+                            <div className="Create-div-input-error">{props.keyboardSizeInputError}</div>
+                        </div>
+                    </div>
+                    <div className="Create-container-div row">
+                        <label className="col-12 col-sm-5 col-md-4 col-lg-3">Keyboard Product Link:</label>
+                        <div className="col-12 col-sm-7 col-md-7 col-lg-8">
+                            <textarea
+                                name="keyboardProductLinkInput"
+                                rows="1"
+                                className="col-12"
+                                placeholder="e.g https://"
+                                value={props.keyboardProductLinkInput}
+                                onChange={props.updateFormFieldGeneral}>
+                            </textarea>
+                            <div className="Create-div-input-error">{props.keyboardProductLinkInputError}</div>
+                        </div>
+                    </div>
+                    <div className="Create-container-div row">
+                        <label className="col-12 col-sm-5 col-md-4 col-lg-3">Keyboard Image Link:</label>
+                        <div className="col-12 col-sm-7 col-md-7 col-lg-8">
+                            <textarea
+                                name="keyboardImageInput"
+                                rows="1"
+                                className="col-12"
+                                placeholder="e.g https://"
+                                value={props.keyboardImageInput}
+                                onChange={props.updateFormFieldGeneral}>
+                            </textarea>
+                            <div className="Create-div-input-error">{props.keyboardImageInputError}</div>
+                        </div>
+                    </div>
+                    <div className="Create-container-div row">
+                        <label className="col-12 col-sm-5 col-md-4 col-lg-3">Keycap Model:</label>
+                        <div className="col-12 col-sm-7 col-md-7 col-lg-8">
+                            <input type="text"
+                                name="keycapModelInput"
+                                className="col-12"
+                                placeholder="e.g Black and Silver"
+                                value={props.keycapModelInput}
+                                onChange={props.updateFormFieldGeneral} />
+                            <div className="Create-div-input-error">{props.keycapModelInputError}</div>
+                        </div>
+                    </div>
+                    <div className="Create-container-div row">
+                        <div className="col-12 col-sm-5 col-md-4 col-lg-3">
+                            <label>Keycap Material:</label>
+                        </div>
+                        <div className="col-12 col-sm-6 col-md-7 col-lg-8 Create-container-div-keycapMaterial">
+                                {props.keycapMaterialOptions.map(eachKeycapMaterial => (
+                                    <div key={eachKeycapMaterial}>
+                                        <input className="form-check-input" type="radio"
+                                            value={eachKeycapMaterial}
+                                            name="keycapMaterialInput"
+                                            onChange={props.updateFormFieldGeneral}
+                                            checked={props.keycapMaterialInput === eachKeycapMaterial}
+                                        />
+                                        <label className="form-check-label keycapMaterial-label">{eachKeycapMaterial}</label>
+                                    </div>
+                                ))}
+                                <div>
+                                    <input className="form-check-input" type="radio"
+                                        value="new-input"
                                         name="keycapMaterialInput"
                                         onChange={props.updateFormFieldGeneral}
-                                        checked={props.keycapMaterialInput === eachKeycapMaterial}
+                                        checked={props.keycapMaterialInput === "new-input"}
                                     />
-                                    <label className="form-check-label">{eachKeycapMaterial}</label>
+                                    <label className="form-check-label keycapMaterial-label">Add Keycap Material</label>
                                 </div>
-                            ))}
-                            <div>
-                                <input className="form-check-input" type="radio"
-                                    value="new-input"
-                                    name="keycapMaterialInput"
-                                    onChange={props.updateFormFieldGeneral}
-                                    checked={props.keycapMaterialInput === "new-input"}
-                                />
-                                <label className="form-check-label">Add New Keycap Material</label>
-                            </div>
                         </div>
                         <div className="Create-container-div">
                             {props.keycapMaterialInput === "new-input" ?
-                                <div>
-                                    <label>Create New Keycap Material</label>
-                                    <input type="text" name="keycapMaterialInputNew" value={props.keycapMaterialInputNew}
-                                        onChange={props.updateFormFieldGeneral}
-                                    />
+                                <div className="row">
+                                    <div className="col-1 col-sm-5 col-md-4 col-lg-3">
+                                    </div>
+                                    <div className="col-12 col-sm-7 col-md-7 col-lg-8">
+                                        <label>New Keycap Material</label>
+                                        <div className="col-12">
+                                            <input type="text" name="keycapMaterialInputNew"
+                                                className="col-12"
+                                                value={props.keycapMaterialInputNew}
+                                                onChange={props.updateFormFieldGeneral}
+                                            />
+                                        </div>
+                                        <div className="col-1 col-sm-5 col-md-4 col-lg-3">
+                                        </div>
+                                    </div>
+                                    <div className="col-1 col-sm-5 col-md-4 col-lg-3">
+                                    </div>
+                                    <div className="Create-div-input-error col-12 col-sm-7 col-md-7 col-lg-8">{props.keycapMaterialInputError}</div>
                                 </div>
-                                : <div></div>
+                            : <div></div>
                             }
                         </div>
                     </div>
-                    <div className="Create-container-div">
-                        <label>Keycap Profile:</label>
-                        <select className="form-select form-select-sm"
-                            name="keycapProfileInput"
-                            value={props.keycapProfileInput}
-                            onChange={props.updateFormFieldGeneral}
-                        >
-                            {props.keycapProfileOptions.map(eachKeycapProfile => (
-                                <React.Fragment key={eachKeycapProfile}>
-                                    <option value={eachKeycapProfile}>{eachKeycapProfile}</option>
-                                </React.Fragment>
-                            ))}
-                            <option value="new-input">Add Keycap Profile</option>
-                        </select>
+                    <div className="Create-container-div row">
+                        <div className="col-12 col-sm-5 col-md-4 col-lg-3">
+                            <label>Keycap Profile:</label>
+                        </div>
+                        <div className="col-12 col-sm-7 col-md-7 col-lg-8">
+                            <select className="form-select form-select-sm"
+                                name="keycapProfileInput"
+                                value={props.keycapProfileInput}
+                                onChange={props.updateFormFieldGeneral}
+                            >
+                                {props.keycapProfileOptions.map(eachKeycapProfile => (
+                                    <React.Fragment key={eachKeycapProfile}>
+                                        <option value={eachKeycapProfile}>{eachKeycapProfile}</option>
+                                    </React.Fragment>
+                                ))}
+                                <option value="new-input">Add Keycap Profile</option>
+                            </select>
+                        </div>
                         <div className="Create-container-div">
                             {props.keycapProfileInput === "new-input" ?
-                                <div>
-                                    <label>Create New Keycap Profile</label>
-                                    <input type="text" name="keycapProfileInputNew" value={props.keycapProfileInputNew}
-                                        onChange={props.updateFormFieldGeneral}
-                                    />
+                                <div className="row">
+                                    <div className="col-1 col-sm-5 col-md-4 col-lg-3">
+                                    </div>
+                                    <div className="col-12 col-sm-7 col-md-7 col-lg-8">
+                                        <label className="col-12">New Keycap Profile</label>
+                                        <div className="col-12">
+                                            <input className="col-12" type="text" name="keycapProfileInputNew" value={props.keycapProfileInputNew}
+                                                onChange={props.updateFormFieldGeneral}
+                                            />
+                                        </div>
+                                        <div className="col-1 col-sm-5 col-md-4 col-lg-3">
+                                        </div>
+                                    </div>
+                                    <div className="Create-div-input-error col-12">{props.keycapProfileInputError}</div>
                                 </div>
-                                : <div></div>
+                            : <div></div>
                             }
                         </div>
                     </div>
@@ -325,13 +382,10 @@ export default function Create(props) {
                             onChange={props.updateFormFieldGeneral}
                         />
                     </div>
-                    {/* <div className="Create-container-div">
-
-                    </div> */}
-                    <button className="btn btn-primary"
-                        onClick={props.addNewListing}>
-                        Add Listing
-                    </button>
+                        <button className="btn btn-primary"
+                            onClick={props.addNewListing}>
+                            Add Listing
+                        </button>
                 </Container>
             </div>
         </React.Fragment>
