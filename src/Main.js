@@ -68,19 +68,39 @@ export default class Main extends React.Component {
         keyboardImageInput: "",
         keycapModelInput: "",
         keycapProfileOptions: [],
-        keycapProfileInput: "",
+        keycapProfileInput: "ASA",
         keycapProfileInputNew: "",
         keycapMaterialOptions: [],
         keycapMaterialInput: "",
         keycapMaterialInputNew: "",
         keycapManufacturerOptions: [],
-        keycapManufacturerInput: "",
+        keycapManufacturerInput: "Akko",
         keycapManufacturerInputNew: "",
         usernameInput: "",
-        emailInput: ""
+        emailInput: "",
+        osCompatibilityError:"",
+        switchesError:"",
+        keyboardBrandError:"",
+        keyboardModelError:"",
+        keyboardSizeError:"",
+        keyboardProductLinkError:"",
+        keyboardImageError:"",
+        keycapModelError:"",
+        keycapMaterialError:"",
+        keycapProfileError:"",
+        keycapManufacturerError:"",
+        usernameError:"",
+        emailError:""
     }
     async componentDidMount() {
         let response = await axios.get(this.url + "listings");
+
+        await Promise.all([
+            this.deriveKeyboardBrands(),
+            this.deriveKeycapProfile(),
+            this.deriveKeycapMaterial(),
+            this.deriveKeycapManufacturer()
+        ])
         this.setState({
             data: response.data.data,
             dataCount: response.data.count,
@@ -90,19 +110,7 @@ export default class Main extends React.Component {
         // console.log(response.data.data1)
     }
 
-    changePage = async (page) => {
-        await Promise.all([
-            this.deriveKeyboardBrands(),
-            this.deriveKeycapProfile(),
-            this.deriveKeycapMaterial(),
-            this.deriveKeycapManufacturer()
-        ])
-
-        // this.deriveKeyboardBrands()
-        // this.deriveKeycapProfile()
-        // this.deriveKeycapMaterial()
-        // this.deriveKeycapManufacturer()
-
+    changePage = (page) => {
         this.setState({
             active: page
         })
@@ -111,9 +119,9 @@ export default class Main extends React.Component {
         if (this.state.active === "create") {
             return <Create
                 data={this.state.data}
-                activeStateCreate={async () => this.changePage("create")}
-                activeStateListings={async () => this.changePage("listings")}
-                activeStateHomePage={() => this.setState({ active: "home-page" })}
+                activeStateCreate={() => this.changePage("create")}
+                activeStateListings={() => this.changePage("listings")}
+                activeStateHomePage={() => this.changePage("home-page")}
                 osCompatibilityInput={this.state.osCompatibilityInput}
                 osCompatibilityInputSelected={this.osCompatibilityInputSelected}
                 hotSwappableInput={this.state.hotSwappableInput}
@@ -126,7 +134,6 @@ export default class Main extends React.Component {
                 keyboardImageInput={this.state.keyboardImageInput}
                 keycapModelInput={this.state.keycapModelInput}
                 keyboardSizeInput={this.state.keyboardSizeInput}
-                // keyboardBrandSelected={this.keyboardBrandSelected}
                 keycapProfileOptions={this.state.keycapProfileOptions}
                 keycapProfileInput={this.state.keycapProfileInput}
                 keycapProfileInputNew={this.state.keycapProfileInputNew}
@@ -138,14 +145,26 @@ export default class Main extends React.Component {
                 keycapManufacturerInputNew={this.state.keycapManufacturerInputNew}
                 usernameInput={this.state.usernameInput}
                 emailInput={this.state.emailInput}
+                osCompatibilityError={this.state.osCompatibilityError}
+                switchesError={this.state.switchesError}
+                keyboardBrandError={this.state.keyboardBrandError}
+                keyboardModelError={this.state.keyboardModelError}
+                keyboardSizeError={this.state.keyboardSizeError}
+                keyboardProductLinkError={this.state.keyboardProductLinkError}
+                keyboardImageError={this.state.keyboardImageError}
+                keycapModelError={this.keycapModelError}
+                keycapMaterialError={this.keycapManufacturerError}
+                keycapProfileError={this.keycapProfileError}
+                usernameError={this.state.usernameError}
+                emailError={this.state.emailError}
                 updateFormFieldGeneral={this.updateFormFieldGeneral}
                 addNewListing={this.addNewListing}
             />
         } else if (this.state.active === "listings") {
             return <Listings
                 data={this.state.data}
-                activeStateCreate={() => this.setState({ active: "create" })}
-                activeStateHomePage={() => this.setState({ active: "home-page" })}
+                activeStateCreate={() => this.changePage("create")}
+                activeStateHomePage={() => this.changePage("home-page")}
                 activeStateEachListing={(each) => {
                     this.setState({
                         active: "each-listing",
@@ -155,7 +174,6 @@ export default class Main extends React.Component {
                     // console.log(each);
                 }}
                 keyboardBrandOptions={this.state.keyboardBrandOptions}
-                deriveKeyboardBrands={this.deriveKeyboardBrands}
                 searchDisplay={() => {
                     let count = this.state.count
                     this.setState({
@@ -165,7 +183,7 @@ export default class Main extends React.Component {
                         this.setState({
                             displaySearch: "block",
                         })
-                        this.deriveKeyboardBrands();
+                        // this.deriveKeyboardBrands();
                     } else if (count % 2 === 1) {
                         this.setState({
                             displaySearch: "none",
@@ -214,9 +232,9 @@ export default class Main extends React.Component {
             />
         } else if (this.state.active === "each-listing") {
             return <EachListing
-                activeStateCreate={async () => this.changePage("create")}
-                activeStateListings={async () => this.changePage("listings")}
-                activeStateHomePage={() => this.setState({ active: "home-page" })}
+                activeStateCreate={() => this.changePage("create")}
+                activeStateListings={() => this.changePage("listings")}
+                activeStateHomePage={() => this.changePage("home-page")}
                 tempList={this.state.tempList}
                 newComment={this.state.newComment}
                 username={this.state.username}
@@ -351,7 +369,39 @@ export default class Main extends React.Component {
         let username = this.state.usernameInput
         let email = this.state.emailInput
         let password = "password1!";
+        if (osCompatibility.length===0){
+            let osCompatibilityError = "At least one option must be selected"
+            this.setState({
+                osCompatibilityError
+            })
+        }else{
+            this.setState({
+                osCompatibilityError:""
+            })
+        }
+        if (switches.length<=5){
+            let switchesError = "Field value should be at least 5 characters long"
+            this.setState({
+                switchesError
+            })
+        }else{
+            this.setState({
+                switchesError:""
+            })
+        }
+        if (keyboardBrand.length<=5){
+            let keyboardBrandError = "Field value should be at least 5 characters long"
+            this.setState({
+                keyboardBrandError
+            })
+        }else{
+            this.setState({
+                keyboardBrandError:""
+            })
+        }
+
         let listingToCreate = {
+            '_id':"",
             osCompatibility,
             hotSwappable,
             switches,
@@ -373,9 +423,42 @@ export default class Main extends React.Component {
                 email,
                 password
             },
+            'reviews':[]
         }
         console.log(listingToCreate)
-        await axios.post(this.url + "listings/create", listingToCreate)
+        
+        let response = await axios.post(this.url + "listings/create", listingToCreate,)
+        
+        let data = [...this.state.data,{...listingToCreate,'_id':response.data.insertedId}]
+        // let data = [...this.state.data,listingToCreate]
+        let dataCount = this.state.dataCount+1;
+        this.setState({
+            active:"listings",
+            data,
+            dataCount,
+            osCompatibilityInput: [],
+            hotSwappableInput: "true",
+            switchesInput: "",
+            keyboardBrandInput: "Glorious",
+            keyboardBrandInputNew: "",
+            keyboardModelInput: "",
+            keyboardSizeInput: "",
+            keyboardProductLinkInput: "",
+            keyboardImageInput: "",
+            keycapModelInput: "",
+            keycapProfileOptions: [],
+            keycapProfileInput: "ASA",
+            keycapProfileInputNew: "",
+            keycapMaterialOptions: [],
+            keycapMaterialInput: "",
+            keycapMaterialInputNew: "",
+            keycapManufacturerOptions: [],
+            keycapManufacturerInput: "Akko",
+            keycapManufacturerInputNew: "",
+            usernameInput: "",
+            emailInput: ""
+
+        })
     }
     deriveKeyboardBrands = async () => {
         let keyboardBrands = [];

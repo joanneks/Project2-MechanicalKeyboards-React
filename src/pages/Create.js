@@ -31,77 +31,112 @@ export default function Create(props) {
                 <div className="Create-break1"></div>
                 <Container className="Create-container">
                     <div className="row">
-                        <div className=" col-sm-1 col-md-2">
+                        <div className=" col-4 col-md-2">
                         1 of 3
                         </div>
-                        <div className=" col-sm-2 col-md-5">
+                        <div className=" col-8 col-md-5">
                         2 of 3 (wider)
                         </div>
-                        <div className="col-sm-0 col-md ">
+                        <div className="col-0 col-md ">
                         
                         </div>
                     </div>
                     <div className="Create-container-div">
-                        <label>OS Compatibility: </label>
-                        <div className="Create-container-div-osCompatibility">
-                            <input type="checkbox"
-                                value="Windows"
-                                name="osCompatibilityInput"
-                                onChange={props.osCompatibilityInputSelected}
-                                className="form-check-input" />
-                            <label>Windows</label>
-                            <input type="checkbox"
-                                value="Mac"
-                                name="osCompatibilityInput"
-                                onChange={props.osCompatibilityInputSelected}
-                                className="form-check-input" />
-                            <label>Mac</label>
-                            <input type="checkbox"
-                                value="Linux"
-                                name="osCompatibilityInput"
-                                onChange={props.osCompatibilityInputSelected}
-                                className="form-check-input" />
-                            <label>Linux</label>
+                        <div className="row">
+                            <div className=" col-12 col-md-3 col-lg-3">
+                            <label>OS Compatibility: </label>
+                            </div>
+                            <div className=" col-12 col-md-8 col-lg-8">
+                                <div className="Create-container-div-osCompatibility">
+                                    <input type="checkbox"
+                                        value="Windows"
+                                        name="osCompatibilityInput"
+                                        onChange={props.osCompatibilityInputSelected}
+                                        className="form-check-input" />
+                                    <label className="osCompatibility-label">Windows</label>
+                                    <input type="checkbox"
+                                        value="Mac"
+                                        name="osCompatibilityInput"
+                                        onChange={props.osCompatibilityInputSelected}
+                                        className="form-check-input" />
+                                    <label className="osCompatibility-label">Mac</label>
+                                    <input type="checkbox"
+                                        value="Linux"
+                                        name="osCompatibilityInput"
+                                        onChange={props.osCompatibilityInputSelected}
+                                        className="form-check-input" />
+                                    <label className="osCompatibility-label">Linux</label>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    <div className="Create-div-input-error">{props.osCompatibilityError}</div>
                     <div className="Create-container-div">
-                        <label>Hot Swappable</label>
-                        <select className="form-select form-select-sm"
-                            name="hotSwappableInput"
-                            value={props.hotSwappableInput}
-                            onChange={props.updateFormFieldGeneral}>
-                            <option value="true">Yes</option>
-                            <option value="false">No</option>
-                        </select>
+                        <div className="row">
+                            <div className=" col-6 col-md-3 col-lg-3">
+                                <label>Hot Swappable:</label>
+                            </div>
+                            <div className=" col-6 col-md-3 col-lg-3">
+                                <select className="form-select form-select-sm"
+                                    name="hotSwappableInput"
+                                    value={props.hotSwappableInput}
+                                    onChange={props.updateFormFieldGeneral}
+                                >
+                                    <option value="true">Yes</option>
+                                    <option value="false">No</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
-                    <div className="Create-container-div">
-                        <label>Type of Switch</label>
-                        <textarea
-                            name="switchesInput"
-                            value={props.switchesInput}
-                            onChange={props.updateFormFieldGeneral}></textarea>
+                    <div className="Create-container-div row">
+                        <div className=" col-6  col-md-3 col-lg-3">  
+                            <label>Switch Name:</label>
+                        </div>
+                        <div style={{display:"inline"}} className="col-12 col-md-8 col-lg-8">
+                            <textarea
+                                name="switchesInput"
+                                value={props.switchesInput}
+                                onChange={props.updateFormFieldGeneral}
+                                placeholder="e.g Cherry Speed Silver Switches"
+                                rows="1"
+                                className=" col-12"
+                                // style={{marginLeft:"12px",marginRight:"12px"}}
+                            >
+                            </textarea>
+
+                        </div>
                     </div>
-                    <div className="Create-container-div">
-                        <label>Keyboard Brand:</label>
-                        <select className="form-select form-select-sm"
-                            name="keyboardBrandInput"
-                            value={props.keyboardBrandInput}
-                            onChange={props.updateFormFieldGeneral}
-                        >
-                            {props.keyboardBrandOptions.map(eachKeyboardBrand => (
-                                <React.Fragment key={eachKeyboardBrand}>
-                                    <option value={eachKeyboardBrand}>{eachKeyboardBrand}</option>
-                                </React.Fragment>
-                            ))}
-                            <option value="new-input">Add Brand</option>
-                        </select>
+                    <div className="Create-div-input-error">{props.switchesError}</div>
+                    <div className="Create-container-div row">
+                        <div className=" col-6 col-md-3 col-lg-3">  
+                            <label>Keyboard Brand:</label>
+                        </div>
+                        <div className=" col-6 col-md-8 col-lg-8">  
+                            <select className="form-select form-select-sm"
+                                name="keyboardBrandInput"
+                                value={props.keyboardBrandInput}
+                                onChange={props.updateFormFieldGeneral}
+                            >
+                                {props.keyboardBrandOptions.map(eachKeyboardBrand => (
+                                    <React.Fragment key={eachKeyboardBrand}>
+                                        <option value={eachKeyboardBrand}>{eachKeyboardBrand}</option>
+                                    </React.Fragment>
+                                ))}
+                                <option value="new-input">Add Brand</option>
+                            </select>
+                        </div>
                         <div className="Create-container-div">
                             {props.keyboardBrandInput === "new-input" ?
-                                <div>
-                                    <label>Create New Keyboard Brand</label>
-                                    <input type="text" name="keyboardBrandInputNew" value={props.keyboardBrandInputNew}
+                                <div className="row">
+                                    <div className="col-0 col-md-3 col-lg-3">
+                                    </div>
+                                    <label className="col-12 col-md-4 col-lg-4">New Keyboard Brand:</label>
+                                    <input type="text" name="keyboardBrandInputNew" 
+                                        value={props.keyboardBrandInputNew}
                                         onChange={props.updateFormFieldGeneral}
+                                        className="col-12 col-md-4 col-lg-4"
                                     />
+                                    <div className="Create-div-input-error">{props.keyboardBrandError}</div>
                                 </div>
                                 : <div></div>
                             }
