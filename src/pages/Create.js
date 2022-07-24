@@ -80,6 +80,7 @@ export default function Create(props) {
                                     <option value="false">No</option>
                                 </select>
                             </div>
+                        <div className="Create-div-input-error"></div>
                         </div>
                     </div>
                     <div className="Create-container-div row">
@@ -152,7 +153,7 @@ export default function Create(props) {
                                 name="keyboardModelInput"
                                 value={props.keyboardModelInput}
                                 onChange={props.updateFormFieldGeneral} />
-                            <div className="Create-div-input-error">{props.keyboardModelError}</div>
+                            <div className="Create-div-input-error">{props.keyboardModelInputError}</div>
                         </div>
                     </div>
                     <div className="Create-container-div row">
@@ -215,7 +216,7 @@ export default function Create(props) {
                         <div className="col-12 col-sm-7 col-md-7 col-lg-8">
                             <textarea
                                 name="keyboardProductLinkInput"
-                                rows="1"
+                                rows="2"
                                 className="col-12"
                                 placeholder="e.g https://"
                                 value={props.keyboardProductLinkInput}
@@ -255,26 +256,26 @@ export default function Create(props) {
                             <label>Keycap Material:</label>
                         </div>
                         <div className="col-12 col-sm-6 col-md-7 col-lg-8 Create-container-div-keycapMaterial">
-                                {props.keycapMaterialOptions.map(eachKeycapMaterial => (
-                                    <div key={eachKeycapMaterial}>
-                                        <input className="form-check-input" type="radio"
-                                            value={eachKeycapMaterial}
-                                            name="keycapMaterialInput"
-                                            onChange={props.updateFormFieldGeneral}
-                                            checked={props.keycapMaterialInput === eachKeycapMaterial}
-                                        />
-                                        <label className="form-check-label keycapMaterial-label">{eachKeycapMaterial}</label>
-                                    </div>
-                                ))}
-                                <div>
+                            {props.keycapMaterialOptions.map(eachKeycapMaterial => (
+                                <div key={eachKeycapMaterial}>
                                     <input className="form-check-input" type="radio"
-                                        value="new-input"
+                                        value={eachKeycapMaterial}
                                         name="keycapMaterialInput"
                                         onChange={props.updateFormFieldGeneral}
-                                        checked={props.keycapMaterialInput === "new-input"}
+                                        checked={props.keycapMaterialInput === eachKeycapMaterial}
                                     />
-                                    <label className="form-check-label keycapMaterial-label">Add Keycap Material</label>
+                                    <label className="form-check-label keycapMaterial-label">{eachKeycapMaterial}</label>
                                 </div>
+                            ))}
+                            <div>
+                                <input className="form-check-input" type="radio"
+                                    value="new-input"
+                                    name="keycapMaterialInput"
+                                    onChange={props.updateFormFieldGeneral}
+                                    checked={props.keycapMaterialInput === "new-input"}
+                                />
+                                <label className="form-check-label keycapMaterial-label">Add Keycap Material</label>
+                            </div>
                         </div>
                         <div className="Create-container-div">
                             {props.keycapMaterialInput === "new-input" ?
@@ -297,7 +298,7 @@ export default function Create(props) {
                                     </div>
                                     <div className="Create-div-input-error col-12 col-sm-7 col-md-7 col-lg-8">{props.keycapMaterialInputError}</div>
                                 </div>
-                            : <div></div>
+                                : <div></div>
                             }
                         </div>
                     </div>
@@ -333,59 +334,84 @@ export default function Create(props) {
                                         </div>
                                         <div className="col-1 col-sm-5 col-md-4 col-lg-3">
                                         </div>
+                                        <div className="Create-div-input-error col-12">{props.keycapProfileInputError}</div>
                                     </div>
-                                    <div className="Create-div-input-error col-12">{props.keycapProfileInputError}</div>
-                                </div>
-                            : <div></div>
-                            }
-                        </div>
-                    </div>
-                    <div className="Create-container-div">
-                        <label>Keycap Manufacturer:</label>
-                        <select className="form-select form-select-sm"
-                            name="keycapManufacturerInput"
-                            value={props.keycapManufacturerInput}
-                            onChange={props.updateFormFieldGeneral}
-                        >
-                            {props.keycapManufacturerOptions.map(eachKeycapManufacturer => (
-                                <React.Fragment key={eachKeycapManufacturer}>
-                                    <option value={eachKeycapManufacturer}>{eachKeycapManufacturer}</option>
-                                </React.Fragment>
-                            ))}
-                            <option value="new-input">Add KeyCap Manufacturer</option>
-                        </select>
-                        <div className="Create-container-div">
-                            {props.keycapManufacturerInput === "new-input" ?
-                                <div>
-                                    <label>Create New Keycap Manufacturer</label>
-                                    <input type="text" name="keycapManufacturerInputNew" value={props.keycapManufacturerInputNew}
-                                        onChange={props.updateFormFieldGeneral}
-                                    />
                                 </div>
                                 : <div></div>
                             }
                         </div>
                     </div>
-                    <div className="Create-container-div">
-                        <label>Username:</label>
-                        <input type="text"
-                            name="usernameInput"
-                            value={props.usernameInput}
-                            onChange={props.updateFormFieldGeneral}
-                        />
+                    <div className="Create-container-div row">
+                        <div className="col-12 col-sm-5 col-md-4 col-lg-3">
+                            <label>Keycap Manufacturer:</label>
+                        </div>
+                        <div className="col-12 col-sm-7 col-md-7 col-lg-8">
+                            <select className="form-select form-select-sm"
+                                name="keycapManufacturerInput"
+                                value={props.keycapManufacturerInput}
+                                onChange={props.updateFormFieldGeneral}
+                            >
+                                {props.keycapManufacturerOptions.map(eachKeycapManufacturer => (
+                                    <React.Fragment key={eachKeycapManufacturer}>
+                                        <option value={eachKeycapManufacturer}>{eachKeycapManufacturer}</option>
+                                    </React.Fragment>
+                                ))}
+                                <option value="new-input">Add KeyCap Manufacturer</option>
+                            </select>
+                        </div>
+                        <div className="Create-container-div">
+                            {props.keycapManufacturerInput === "new-input" ?
+                                <div className="row">
+                                    <div className="col-1 col-sm-5 col-md-4 col-lg-3">
+                                    </div>
+                                    <div className="col-12 col-sm-7 col-md-7 col-lg-8">
+                                        <label className="col-12">Create New Keycap Manufacturer</label>
+                                        <div className="col-12">
+                                            <input className="col-12" type="text" name="keycapManufacturerInputNew" value={props.keycapManufacturerInputNew}
+                                                onChange={props.updateFormFieldGeneral}
+                                            />
+                                        </div>
+                                        <div className="col-1 col-sm-5 col-md-4 col-lg-3">
+                                        </div>
+                                        <div className="Create-div-input-error col-12">{props.keycapManufacturerInputError}</div>
+                                    </div>
+                                </div>
+                                : <div></div>
+                            }
+                        </div>
                     </div>
-                    <div className="Create-container-div">
-                        <label>Email:</label>
-                        <input type="email"
-                            name="emailInput"
-                            value={props.emailInput}
-                            onChange={props.updateFormFieldGeneral}
-                        />
+                    <div className="Create-container-div row">
+                        <div className="col-12 col-sm-5 col-md-4 col-lg-3">
+                            <label>Username:</label>
+                        </div>
+                        <div className="col-12 col-sm-7 col-md-7 col-lg-8">
+                            <input type="text"
+                                className="col-12"
+                                name="usernameInput"
+                                value={props.usernameInput}
+                                onChange={props.updateFormFieldGeneral}
+                            />
+                            <div className="Create-div-input-error">{props.usernameInputError}</div>
+                        </div>
                     </div>
-                        <button className="btn btn-primary"
-                            onClick={props.addNewListing}>
-                            Add Listing
-                        </button>
+                    <div className="Create-container-div row">
+                        <div className="col-12 col-sm-5 col-md-4 col-lg-3">
+                            <label>Email:</label>
+                        </div>
+                        <div className="col-12 col-sm-7 col-md-7 col-lg-8">
+                            <input type="email"
+                                className="col-12"
+                                name="emailInput"
+                                value={props.emailInput}
+                                onChange={props.updateFormFieldGeneral}
+                            />
+                            <div className="Create-div-input-error">{props.emailInputError}</div>
+                        </div>
+                    </div>
+                    <button className="btn btn-primary"
+                        onClick={props.addNewListing}>
+                        Add Listing
+                    </button>
                 </Container>
             </div>
         </React.Fragment>

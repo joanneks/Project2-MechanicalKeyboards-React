@@ -17,7 +17,7 @@ export default function HomePage(props) {
                         <h3 className="HomePage-text">Share mechanical keyboard creations</h3>
                         <button
                             className="btn btn-primary HomePage-text"
-                            onClick={props.changePageCreate}
+                            onClick={props.activeStateCreate}
                         >Create</button>
                     </div>
                     <div className="col col-1"></div>
@@ -34,7 +34,7 @@ export default function HomePage(props) {
                         <h3 className="HomePage-text">Search for mechanical keyboards</h3>
                         <button
                             className="btn btn-primary HomePage-text"
-                            onClick={props.changePageListings}
+                            onClick={props.activeStateListings}
                         >Search</button>
                     </div>
                     <div className="col col-1"></div>

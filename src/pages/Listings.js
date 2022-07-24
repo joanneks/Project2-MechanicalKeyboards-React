@@ -198,7 +198,7 @@ export default function Listings(props) {
                                             <span style={{ "float": "right" }}>
                                                 <img src={editListing} alt="editListingBtn"
                                                     style={{ height: "34px", width: "34px" }}
-                                                    onClick={()=>{""}}
+                                                    onClick={()=>{props.activeStateEdit}}
                                                 />
                                                 <img src={deleteListing} alt="deleteListingBtn"
                                                     style={{ height: "30px", width: "30px" }}

@@ -29,7 +29,7 @@ export default function Create(props) {
                     </Container>
                 </Navbar>
                 <div className="Create-break1"></div>
-                <Container className="Create-container">
+                {/* <Container className="Create-container">
                     <div className="row">
                         <div className=" col-sm-1 col-md-2">
                         1 of 3
@@ -293,11 +293,11 @@ export default function Create(props) {
                     {/* <div className="Create-container-div">
 
                     </div> */}
-                    <button className="btn btn-primary"
+                    {/* <button className="btn btn-primary"
                         onClick={props.addNewListing}>
                         Add Listing
                     </button>
-                </Container>
+                </Container>  */}
             </div>
         </React.Fragment>
     )
