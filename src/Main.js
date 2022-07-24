@@ -39,6 +39,29 @@ export default class Main extends React.Component {
                 keyboardModel: ""
             }
         },
+        listingToEdit: {
+            hotSwappable: "",
+            osCompatibility: [],
+            switches: "",
+            keyboard: {
+                keyboardBrand: "",
+                keyboardBrand: "",
+                keyboardModel: "",
+                keyboardSize: "",
+                keyboardProductLink: "",
+                keyboardImage: ""
+            },
+            keycap: {
+                keycapModel: "",
+                keycapProfile: "",
+                keycapMaterial: "",
+                keycapManufacturer: ""
+            },
+            user: {
+                username: "",
+                email: ""
+            }
+        },
         deleteEmailToVerify: "",
         deleteEmailVerified: "none",
         deleteEmailNotVerified: "none",
@@ -168,14 +191,19 @@ export default class Main extends React.Component {
                 data={this.state.data}
                 activeStateCreate={() => this.changePage("create")}
                 activeStateHomePage={() => this.changePage("home-page")}
-                activeStateEdit={async () => this.changePage("edit")}
+                activeStateEdit={(each) => {
+                    this.setState({
+                        active: "edit",
+                        listingToEdit: each,
+                        // listingToEditId: each._id
+                    });
+                }}
                 activeStateEachListing={(each) => {
                     this.setState({
                         active: "each-listing",
                         tempList: each,
                         tempListId: each._id
                     });
-                    // console.log(each);
                 }}
                 keyboardBrandOptions={this.state.keyboardBrandOptions}
                 searchDisplay={() => {
@@ -282,15 +310,63 @@ export default class Main extends React.Component {
                 activeStateCreate={async () => this.changePage("create")}
                 activeStateListings={async () => this.changePage("listings")}
             />
-        } else if (this.state.active === "edit"){
+        } else if (this.state.active === "edit") {
             return <Edit
                 activeStateHomePage={() => this.changePage("home-page")}
                 activeStateCreate={async () => this.changePage("create")}
                 activeStateListings={async () => this.changePage("listings")}
+                listingToEdit={this.state.listingToEdit}
+                keyboardBrandOptions={this.state.keyboardBrandOptions}
+                keycapProfileOptions={this.state.keycapProfileOptions}
+                keycapMaterialOptions={this.state.keycapMaterialOptions}
+                keycapManufacturerOptions={this.state.keycapManufacturerOptions}
+                keyboardBrandInputNew={this.state.keyboardBrandInputNew}
+                keycapProfileInputNew={this.state.keycapProfileInputNew}
+                keycapMaterialInputNew={this.state.keycapMaterialInputNew}
+                keycapManufacturerInputNew={this.state.keycapManufacturerInputNew}
+
+                osCompatibilityEdit={this.osCompatibilityEdit}
+                osCompatibilityInputError={this.state.osCompatibilityInputError}
+                switchesInputError={this.state.switchesInputError}
+                keyboardBrandInputError={this.state.keyboardBrandInputError}
+                keyboardModelInputError={this.state.keyboardModelInputError}
+                keyboardSizeInputError={this.state.keyboardSizeInputError}
+                keyboardProductLinkInputError={this.state.keyboardProductLinkInputError}
+                keyboardImageInputError={this.state.keyboardImageInputError}
+                keycapModelInputError={this.state.keycapModelInputError}
+                keycapMaterialInputError={this.state.keycapMaterialInputError}
+                keycapProfileInputError={this.state.keycapProfileInputError}
+                keycapManufacturerInputError={this.state.keycapManufacturerInputError}
+                usernameInputError={this.state.usernameInputError}
+                emailInputError={this.state.emailInputError}
+                
+                updateFormFieldGeneral={this.updateFormFieldGeneral}
+                updateFormFieldEdit={this.updateFormFieldEdit}
+                updateFormFieldEditKeyboard={this.updateFormFieldEditKeyboard}
+                updateFormFieldEditKeycap={this.updateFormFieldEditKeycap}
+                updateFormFieldEditUser={this.updateFormFieldEditUser}
+                confirmChanges={this.confirmChanges}
             />
         }
     };
-    
+    osCompatibilityEdit = (event) => {
+        let osCompatibility = this.state.listingToEdit.osCompatibility;
+        let osCompatibilityEdited =[];
+        if (osCompatibility.includes(event.target.value)) {
+            let indexToRemove = osCompatibility.indexOf(event.target.value);
+            osCompatibilityEdited = [...osCompatibility.slice(0, indexToRemove),
+            ...osCompatibility.slice(indexToRemove + 1)];
+            this.setState({
+                listingToEdit:{...this.state.listingToEdit,osCompatibility:osCompatibilityEdited}
+            })
+        } else {
+            osCompatibilityEdited = [...osCompatibility]
+            osCompatibilityEdited.push(event.target.value);
+            this.setState({
+                listingToEdit:{...this.state.listingToEdit,osCompatibility:osCompatibilityEdited}
+            })
+        }
+    }
     deleteListingEmailCheck = () => {
         let listingToDelete = this.state.listingToDelete
         let creatorEmail = listingToDelete.user.email
@@ -380,7 +456,6 @@ export default class Main extends React.Component {
         }
         let username = this.state.usernameInput
         let email = this.state.emailInput
-        let password = "password1!";
         if (osCompatibility.length === 0) {
             let osCompatibilityInputError = "At least one option must be selected"
             this.setState({
@@ -391,7 +466,7 @@ export default class Main extends React.Component {
                 osCompatibilityInputError: ""
             })
         }
-        if (switches.length <= 5) {
+        if (switches.length < 5) {
             let switchesInputError = "Field value must be at least 5 characters long"
             this.setState({
                 switchesInputError
@@ -462,12 +537,12 @@ export default class Main extends React.Component {
             })
         }
         let keycapMaterialInput = this.state.keycapMaterialInput
-        if (keycapMaterial.length===0 && keycapMaterialInput!=="new-input" && keycapMaterial===""){
+        if (keycapMaterial.length === 0 && keycapMaterialInput !== "new-input" && keycapMaterial === "") {
             let keycapMaterialInputError = "One option must be selected"
             this.setState({
                 keycapMaterialInputError
             })
-        } else if (keycapMaterialInput==="new-input" && keycapMaterial.length < 3) {
+        } else if (keycapMaterialInput === "new-input" && keycapMaterial.length < 3) {
             let keycapMaterialInputError = "Field value must be at least 3 characters long"
             this.setState({
                 keycapMaterialInputError
@@ -507,14 +582,14 @@ export default class Main extends React.Component {
                 usernameInputError: ""
             })
         }
-        if(email.length<10){
+        if (email.length < 10) {
             let emailInputError = `Must be a valid email address that includes @ and "." and be more than 10 characters long`
-            if(email.includes(".") && email.includes("@")){
+            if (email.includes(".") && email.includes("@")) {
                 emailInputError = `Email must be more than 10 characters long`
                 this.setState({
                     emailInputError
                 })
-            } else if(!email.includes(".") && !email.includes("@")){
+            } else if (!email.includes(".") && !email.includes("@")) {
                 emailInputError = `Must be a valid email address that includes @ and "." and be more than 10 characters long`
                 this.setState({
                     emailInputError
@@ -524,19 +599,19 @@ export default class Main extends React.Component {
                 this.setState({
                     emailInputError
                 })
-            } else if(email.includes(".")){
+            } else if (email.includes(".")) {
                 let emailInputError = `Must be a valid email address that includes "@" and be more than 10 characters long`
                 this.setState({
                     emailInputError
                 })
             }
-        } else if(email.length>=10){
+        } else if (email.length >= 10) {
             let emailInputError = `Must be a valid email address that includes @ and "."`
-            if(email.includes(".") && email.includes("@")){
+            if (email.includes(".") && email.includes("@")) {
                 this.setState({
-                    emailInputError:""
+                    emailInputError: ""
                 })
-            } else if(!email.includes(".") && !email.includes("@")){
+            } else if (!email.includes(".") && !email.includes("@")) {
                 emailInputError = `Must be a valid email address that includes @ and "."`
                 this.setState({
                     emailInputError
@@ -546,7 +621,7 @@ export default class Main extends React.Component {
                 this.setState({
                     emailInputError
                 })
-            } else if(email.includes(".")){
+            } else if (email.includes(".")) {
                 let emailInputError = `Must be a valid email address that includes "@"`
                 this.setState({
                     emailInputError
@@ -574,8 +649,7 @@ export default class Main extends React.Component {
             },
             'user': {
                 username,
-                email,
-                password
+                email
             },
             'reviews': []
         }
@@ -833,6 +907,237 @@ export default class Main extends React.Component {
         }
     }
 
+    confirmChanges = ()=>{
+        let listingToEdit = this.state.listingToEdit
+        let listingToEditCloned = {...listingToEdit}
+        let osCompatibility = listingToEdit.osCompatibility;
+        let switches = listingToEdit.switches
+        let keyboardBrand = listingToEdit.keyboard.keyboardBrand
+        let keyboardBrandInputNew = this.state.keyboardBrandInputNew
+        if (keyboardBrand === "new-input") {
+            keyboardBrand = keyboardBrandInputNew
+        } else {
+            keyboardBrand = listingToEdit.keyboard.keyboardBrand
+        }
+        let keyboardModel = listingToEdit.keyboard.keyboardModel
+        let keyboardProductLink = listingToEdit.keyboard.keyboardProductLink
+        let keyboardImage = listingToEdit.keyboard.keyboardImage
+        let keycapModel = listingToEdit.keycap.keycapModel
+        let username = listingToEdit.user.username
+        let email = listingToEdit.user.email
+        let keycapMaterial = listingToEdit.keycap.keycapMaterial
+        let keycapMaterialInputNew = this.state.keycapMaterialInputNew
+        let keycapProfile = this.state.listingToEdit.keycap.keycapProfile
+        let keycapProfileInputNew = this.state.keycapProfileInputNew
+        let keycapManufacturer = listingToEdit.keycap.keycapManufacturer
+        let keycapManufacturerInputNew = this.state.keycapManufacturerInputNew
+
+        // validation for edits
+        if(osCompatibility.length===0){
+            this.setState({
+                osCompatibilityInputError:"At least one option must be selected"
+            })
+        } else {
+            this.setState({
+                osCompatibilityInputError:""
+            })
+        }
+        if (switches.length < 5){
+            let switchesInputError = "Field value must be at least 5 characters long"
+            this.setState({
+                switchesInputError
+            })
+        } else {
+            this.setState({
+                switchesInputError: ""
+            })
+        }
+        if (keyboardBrand.length < 5) {
+            let keyboardBrandInputError = "Field value must be at least 5 characters long"
+            this.setState({
+                keyboardBrandInputError
+            })
+        } else {
+            this.setState({
+                keyboardBrandInputError: "",
+                listingToEdit:{...listingToEditCloned,
+                keyboard:{...listingToEdit.keyboard,keyboardBrand: keyboardBrandInputNew}
+            }
+            })
+        }
+        if (keyboardModel.length < 3) {
+            let keyboardModelInputError = "Field value must be at least 3 characters long"
+            this.setState({
+                keyboardModelInputError
+            })
+        } else {
+            this.setState({
+                keyboardModelInputError: ""
+            })
+        }
+        if (!keyboardProductLink.includes("https://")) {
+            let keyboardProductLinkInputError = "Link provided must start with https://"
+            this.setState({
+                keyboardProductLinkInputError
+            })
+        } else if (keyboardProductLink.includes("https://")) {
+            this.setState({
+                keyboardProductLinkInputError: ""
+            })
+        }
+        if (!keyboardImage.includes("https://")) {
+            let keyboardImageInputError = "Link provided must start with https://"
+            this.setState({
+                keyboardImageInputError
+            })
+        } else if (keyboardImage.includes("https://")) {
+            this.setState({
+                keyboardImageInputError: ""
+            })
+        }
+        if (keycapModel.length < 3) {
+            let keycapModelInputError = "Field value must be at least 3 characters long"
+            this.setState({
+                keycapModelInputError
+            })
+        } else {
+            this.setState({
+                keycapModelInputError: ""
+            })
+        }
+        if (keycapMaterial === "new-input" && keycapMaterialInputNew.length < 3) {
+            let keycapMaterialInputError = "Field value must be at least 3 characters long"
+            this.setState({
+                keycapMaterialInputError
+            })
+        } else {
+            this.setState({
+                keycapMaterialInputError: "",
+                listingToEdit:{...listingToEditCloned,
+                keycap:{...listingToEdit.keycap,keycapMaterial: keycapMaterialInputNew}
+                }
+            })
+        }
+        if (keycapProfile === "new-input" && keycapProfileInputNew.length < 2) {
+            let keycapProfileInputError = "Field value must be at least 2 characters long"
+            this.setState({
+                keycapProfileInputError
+            })
+        } else {
+            this.setState({
+                keycapProfileInputError: "",
+                listingToEdit:{...listingToEditCloned,
+                keycap:{...listingToEdit.keycap,keycapProfile: keycapProfileInputNew}
+                }
+            })
+        }
+        if (keycapManufacturer === "new-input" && keycapManufacturerInputNew.length < 3) {
+            let keycapManufacturerInputError = "Field value must be at least 3 characters long"
+            this.setState({
+                keycapManufacturerInputError
+            })
+        } else {
+            this.setState({
+                keycapManufacturerInputError: "",
+                listingToEdit:{...listingToEditCloned,
+                keycap:{...listingToEdit.keycap,keycapManufacturer: keycapManufacturerInputNew}
+                }
+            })
+        }
+        if (username.length < 5) {
+            let usernameInputError = "Field value must be at least 5 characters long"
+            this.setState({
+                usernameInputError
+            })
+        } else {
+            this.setState({
+                usernameInputError: ""
+            })
+        }
+        if (email.length < 10) {
+            let emailInputError = `Must be a valid email address that includes @ and "." and be more than or equal to 10 characters long`
+            if (email.includes(".") && email.includes("@")) {
+                emailInputError = `Email must be more than or equal to 10 characters long`
+                this.setState({
+                    emailInputError
+                })
+            } else if (!email.includes(".") && !email.includes("@")) {
+                emailInputError = `Must be a valid email address that includes @ and "." and be more than or equal to 10 characters long`
+                this.setState({
+                    emailInputError
+                })
+            } else if (email.includes("@")) {
+                let emailInputError = `Must be a valid email address that includes "." and be more than or equal to 10 characters long`
+                this.setState({
+                    emailInputError
+                })
+            } else if (email.includes(".")) {
+                let emailInputError = `Must be a valid email address that includes "@" and be more than or equal to 10 characters long`
+                this.setState({
+                    emailInputError
+                })
+            }
+        } else if (email.length >= 10) {
+            let emailInputError = `Must be a valid email address that includes @ and "."`
+            if (email.includes(".") && email.includes("@")) {
+                this.setState({
+                    emailInputError: ""
+                })
+            } else if (!email.includes(".") && !email.includes("@")) {
+                emailInputError = `Must be a valid email address that includes @ and "."`
+                this.setState({
+                    emailInputError
+                })
+            } else if (email.includes("@")) {
+                let emailInputError = `Must be a valid email address that includes "."`
+                this.setState({
+                    emailInputError
+                })
+            } else if (email.includes(".")) {
+                let emailInputError = `Must be a valid email address that includes "@"`
+                this.setState({
+                    emailInputError
+                })
+            }
+        }
+    }
+    updateFormFieldEditKeyboard = (event) => {
+        let listingToEdit = this.state.listingToEdit
+        let listingToEditCloned = {...listingToEdit}
+        this.setState({
+            listingToEdit:{...listingToEditCloned,
+                keyboard:{...listingToEdit.keyboard,[event.target.name]: event.target.value}
+            }
+        })
+    }
+    updateFormFieldEditKeycap = (event) => {
+        let listingToEdit = this.state.listingToEdit
+        let listingToEditCloned = {...listingToEdit}
+        this.setState({
+            listingToEdit:{...listingToEditCloned,
+                keycap:{...listingToEdit.keycap,[event.target.name]: event.target.value}
+            }
+        })
+    }
+    updateFormFieldEditUser = (event) => {
+        let listingToEdit = this.state.listingToEdit
+        let listingToEditCloned = {...listingToEdit}
+        this.setState({
+            listingToEdit:{...listingToEditCloned,
+                user:{...listingToEdit.user,[event.target.name]: event.target.value}
+            }
+        })
+    }
+    updateFormFieldEdit = (event) => {
+        let listingToEdit = this.state.listingToEdit
+        let listingToEditCloned = {...listingToEdit}
+
+        this.setState({
+            listingToEdit:{...listingToEditCloned,
+                [event.target.name]: event.target.value
+            }
+        })
+    }
     updateFormFieldGeneral = (event) => {
         this.setState({
             [event.target.name]: event.target.value
@@ -1023,8 +1328,6 @@ export default class Main extends React.Component {
             })
         };
     }
-
-
 
     returnPage = () => {
         this.setState({
