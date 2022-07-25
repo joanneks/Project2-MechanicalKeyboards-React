@@ -100,6 +100,10 @@ export default class Main extends React.Component {
         keycapManufacturerOptions: [],
         keycapManufacturerInput: "Akko",
         keycapManufacturerInputNew: "",
+        keyboardBrandEditStatus: "",
+        keycapProfileEditStatus: "",
+        keycapMaterialEditStatus: "",
+        keycapManufacturerEditStatus: "",
         usernameInput: "",
         emailInput: "",
         osCompatibilityInputError: "",
@@ -339,34 +343,20 @@ export default class Main extends React.Component {
                 keycapManufacturerInputError={this.state.keycapManufacturerInputError}
                 usernameInputError={this.state.usernameInputError}
                 emailInputError={this.state.emailInputError}
-                
+
                 updateFormFieldGeneral={this.updateFormFieldGeneral}
                 updateFormFieldEdit={this.updateFormFieldEdit}
                 updateFormFieldEditKeyboard={this.updateFormFieldEditKeyboard}
                 updateFormFieldEditKeycap={this.updateFormFieldEditKeycap}
                 updateFormFieldEditUser={this.updateFormFieldEditUser}
+                keyboardBrandEditStatus={this.state.keyboardBrandEditStatus}
+                keycapMaterialEditStatus={this.state.keycapMaterialEditStatus}
+                keycapProfileEditStatus={this.state.keycapProfileEditStatus}
+                keycapManufacturerEditStatus={this.state.keycapManufacturerEditStatus}
                 confirmChanges={this.confirmChanges}
             />
         }
     };
-    osCompatibilityEdit = (event) => {
-        let osCompatibility = this.state.listingToEdit.osCompatibility;
-        let osCompatibilityEdited =[];
-        if (osCompatibility.includes(event.target.value)) {
-            let indexToRemove = osCompatibility.indexOf(event.target.value);
-            osCompatibilityEdited = [...osCompatibility.slice(0, indexToRemove),
-            ...osCompatibility.slice(indexToRemove + 1)];
-            this.setState({
-                listingToEdit:{...this.state.listingToEdit,osCompatibility:osCompatibilityEdited}
-            })
-        } else {
-            osCompatibilityEdited = [...osCompatibility]
-            osCompatibilityEdited.push(event.target.value);
-            this.setState({
-                listingToEdit:{...this.state.listingToEdit,osCompatibility:osCompatibilityEdited}
-            })
-        }
-    }
     deleteListingEmailCheck = () => {
         let listingToDelete = this.state.listingToDelete
         let creatorEmail = listingToDelete.user.email
@@ -907,17 +897,44 @@ export default class Main extends React.Component {
         }
     }
 
-    confirmChanges = ()=>{
+    osCompatibilityEdit = (event) => {
+        let osCompatibility = this.state.listingToEdit.osCompatibility;
+        let osCompatibilityEdited = [];
+        if (Array.isArray(osCompatibility) && osCompatibility.includes(event.target.value)) {
+            let indexToRemove = osCompatibility.indexOf(event.target.value);
+            osCompatibilityEdited = [...osCompatibility.slice(0, indexToRemove),
+            ...osCompatibility.slice(indexToRemove + 1)];
+            this.setState({
+                listingToEdit: { ...this.state.listingToEdit, osCompatibility: osCompatibilityEdited }
+            })
+        } else if (!Array.isArray(osCompatibility) && osCompatibility.includes(event.target.value)) {
+            this.setState({
+                listingToEdit: { ...this.state.listingToEdit, osCompatibility: [] }
+            })
+        } else if (!Array.isArray(osCompatibility) && !osCompatibility.includes(event.target.value)) {
+            osCompatibilityEdited = [osCompatibility];
+            osCompatibilityEdited.push(event.target.value);
+            this.setState({
+                listingToEdit: { ...this.state.listingToEdit, osCompatibility: osCompatibilityEdited }
+            })
+        } else if (Array.isArray(osCompatibility) && !osCompatibility.includes(event.target.value)) {
+            osCompatibilityEdited = [...osCompatibility];
+            osCompatibilityEdited.push(event.target.value);
+            this.setState({
+                listingToEdit: { ...this.state.listingToEdit, osCompatibility: osCompatibilityEdited }
+            })
+        }
+    }
+    confirmChanges = async () => {
+        let tracker=[];
         let listingToEdit = this.state.listingToEdit
-        let listingToEditCloned = {...listingToEdit}
+        let listingToEditCloned = { ...listingToEdit }
         let osCompatibility = listingToEdit.osCompatibility;
         let switches = listingToEdit.switches
         let keyboardBrand = listingToEdit.keyboard.keyboardBrand
         let keyboardBrandInputNew = this.state.keyboardBrandInputNew
         if (keyboardBrand === "new-input") {
             keyboardBrand = keyboardBrandInputNew
-        } else {
-            keyboardBrand = listingToEdit.keyboard.keyboardBrand
         }
         let keyboardModel = listingToEdit.keyboard.keyboardModel
         let keyboardProductLink = listingToEdit.keyboard.keyboardProductLink
@@ -927,22 +944,22 @@ export default class Main extends React.Component {
         let email = listingToEdit.user.email
         let keycapMaterial = listingToEdit.keycap.keycapMaterial
         let keycapMaterialInputNew = this.state.keycapMaterialInputNew
-        let keycapProfile = this.state.listingToEdit.keycap.keycapProfile
+        let keycapProfile = listingToEdit.keycap.keycapProfile
         let keycapProfileInputNew = this.state.keycapProfileInputNew
         let keycapManufacturer = listingToEdit.keycap.keycapManufacturer
         let keycapManufacturerInputNew = this.state.keycapManufacturerInputNew
 
         // validation for edits
-        if(osCompatibility.length===0){
+        if (osCompatibility.length === 0) {
             this.setState({
-                osCompatibilityInputError:"At least one option must be selected"
+                osCompatibilityInputError: "At least one option must be selected"
             })
         } else {
             this.setState({
-                osCompatibilityInputError:""
+                osCompatibilityInputError: ""
             })
         }
-        if (switches.length < 5){
+        if (switches.length < 5) {
             let switchesInputError = "Field value must be at least 5 characters long"
             this.setState({
                 switchesInputError
@@ -958,12 +975,7 @@ export default class Main extends React.Component {
                 keyboardBrandInputError
             })
         } else {
-            this.setState({
-                keyboardBrandInputError: "",
-                listingToEdit:{...listingToEditCloned,
-                keyboard:{...listingToEdit.keyboard,keyboardBrand: keyboardBrandInputNew}
-            }
-            })
+            tracker.push("true")
         }
         if (keyboardModel.length < 3) {
             let keyboardModelInputError = "Field value must be at least 3 characters long"
@@ -1011,39 +1023,29 @@ export default class Main extends React.Component {
                 keycapMaterialInputError
             })
         } else {
-            this.setState({
-                keycapMaterialInputError: "",
-                listingToEdit:{...listingToEditCloned,
-                keycap:{...listingToEdit.keycap,keycapMaterial: keycapMaterialInputNew}
-                }
-            })
+            tracker.push("true")
         }
         if (keycapProfile === "new-input" && keycapProfileInputNew.length < 2) {
+            listingToEditCloned = {...listingToEdit}
             let keycapProfileInputError = "Field value must be at least 2 characters long"
             this.setState({
-                keycapProfileInputError
+                keycapProfileInputError,
+                // keycapProfileEditStatus:""
             })
         } else {
-            this.setState({
-                keycapProfileInputError: "",
-                listingToEdit:{...listingToEditCloned,
-                keycap:{...listingToEdit.keycap,keycapProfile: keycapProfileInputNew}
-                }
-            })
+            tracker.push("true")
         }
         if (keycapManufacturer === "new-input" && keycapManufacturerInputNew.length < 3) {
+            listingToEditCloned = {...listingToEdit}
             let keycapManufacturerInputError = "Field value must be at least 3 characters long"
             this.setState({
-                keycapManufacturerInputError
+                keycapManufacturerInputError,
+                keycapManufacturerEditStatus:""
             })
         } else {
-            this.setState({
-                keycapManufacturerInputError: "",
-                listingToEdit:{...listingToEditCloned,
-                keycap:{...listingToEdit.keycap,keycapManufacturer: keycapManufacturerInputNew}
-                }
-            })
+            tracker.push("true")
         }
+
         if (username.length < 5) {
             let usernameInputError = "Field value must be at least 5 characters long"
             this.setState({
@@ -1100,40 +1102,79 @@ export default class Main extends React.Component {
                 })
             }
         }
+        
+        // await axios.put(this.url+"listings/edit/"+listingToEdit._id,{
+        //   listingToEdit  
+        // })
+        if ( tracker.length == 4) {
+            this.setState({
+                listingToEdit: {
+                    ...listingToEditCloned,
+                    keyboard: {
+                        ...listingToEditCloned.keyboard,
+                        keyboardBrand: keyboardBrandInputNew
+                    },
+                    keycap:{...listingToEdit.keycap,
+                        keycapMaterial: keycapMaterialInputNew,
+                        keycapProfile: keycapProfileInputNew,
+                        keycapManufacturer: keycapManufacturerInputNew
+                    }
+                }
+            })
+        }
+        this.setState({
+            listingToEdit: {
+                ...listingToEditCloned,
+                keyboard: {
+                    ...listingToEditCloned.keyboard,
+                    keyboardBrand: keyboardBrandInputNew
+                },
+                keycap:{...listingToEdit.keycap,
+                    keycapMaterial: keycapMaterialInputNew,
+                    keycapProfile: keycapProfileInputNew,
+                    keycapManufacturer: keycapManufacturerInputNew
+                }
+            }
+                //     keycap:{...listingToEdit.keycap,keycapMaterial: keycapMaterialInputNew}
+        })
     }
     updateFormFieldEditKeyboard = (event) => {
         let listingToEdit = this.state.listingToEdit
-        let listingToEditCloned = {...listingToEdit}
+        let listingToEditCloned = { ...listingToEdit }
         this.setState({
-            listingToEdit:{...listingToEditCloned,
-                keyboard:{...listingToEdit.keyboard,[event.target.name]: event.target.value}
+            listingToEdit: {
+                ...listingToEditCloned,
+                keyboard: { ...listingToEdit.keyboard, [event.target.name]: event.target.value }
             }
         })
     }
     updateFormFieldEditKeycap = (event) => {
         let listingToEdit = this.state.listingToEdit
-        let listingToEditCloned = {...listingToEdit}
+        let listingToEditCloned = { ...listingToEdit }
         this.setState({
-            listingToEdit:{...listingToEditCloned,
-                keycap:{...listingToEdit.keycap,[event.target.name]: event.target.value}
+            listingToEdit: {
+                ...listingToEditCloned,
+                keycap: { ...listingToEdit.keycap, [event.target.name]: event.target.value }
             }
         })
     }
     updateFormFieldEditUser = (event) => {
         let listingToEdit = this.state.listingToEdit
-        let listingToEditCloned = {...listingToEdit}
+        let listingToEditCloned = { ...listingToEdit }
         this.setState({
-            listingToEdit:{...listingToEditCloned,
-                user:{...listingToEdit.user,[event.target.name]: event.target.value}
+            listingToEdit: {
+                ...listingToEditCloned,
+                user: { ...listingToEdit.user, [event.target.name]: event.target.value }
             }
         })
     }
     updateFormFieldEdit = (event) => {
         let listingToEdit = this.state.listingToEdit
-        let listingToEditCloned = {...listingToEdit}
+        let listingToEditCloned = { ...listingToEdit }
 
         this.setState({
-            listingToEdit:{...listingToEditCloned,
+            listingToEdit: {
+                ...listingToEditCloned,
                 [event.target.name]: event.target.value
             }
         })

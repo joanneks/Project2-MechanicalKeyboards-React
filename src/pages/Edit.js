@@ -1,6 +1,6 @@
 import React from "react";
 import logo1 from './logo.png';
-import './css/Create.css';
+import './css/Edit.css';
 
 
 import Container from 'react-bootstrap/Container';
@@ -8,7 +8,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 
 
-export default function Create(props) {
+export default function Edit(props) {
     return (
         <React.Fragment>
             <div className="Create">
