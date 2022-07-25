@@ -10,6 +10,7 @@ import Edit from './pages/Edit';
 
 export default class Main extends React.Component {
     url = "https://8000-joanneks-project2mechan-wyo4981gl1z.ws-us54.gitpod.io/";
+    // url = "https://mechanical-keyboards-express.herokuapp.com/";
 
     state = {
         active: 'home-page',
@@ -39,12 +40,19 @@ export default class Main extends React.Component {
                 keyboardModel: ""
             }
         },
+        deleteEmailToVerify: "",
+        deleteEmailVerified: "none",
+        deleteEmailNotVerified: "none",
+        displayDeleteStatus: "none",
+        displayEdit: "none",
+        displayEditVerification: "none",
+        displayEditCheck: "none",
+        displayEditStatus:"none",
         listingToEdit: {
             hotSwappable: "",
             osCompatibility: [],
             switches: "",
             keyboard: {
-                keyboardBrand: "",
                 keyboardBrand: "",
                 keyboardModel: "",
                 keyboardSize: "",
@@ -62,10 +70,9 @@ export default class Main extends React.Component {
                 email: ""
             }
         },
-        deleteEmailToVerify: "",
-        deleteEmailVerified: "none",
-        deleteEmailNotVerified: "none",
-        displayDeleteStatus: "none",
+        editEmailToVerify: "",
+        editEmailVerified: "none",
+        editEmailNotVerified: "none",
         newComment: "",
         username: "",
         editCommentEmail: "",
@@ -100,10 +107,6 @@ export default class Main extends React.Component {
         keycapManufacturerOptions: [],
         keycapManufacturerInput: "Akko",
         keycapManufacturerInputNew: "",
-        keyboardBrandEditStatus: "",
-        keycapProfileEditStatus: "",
-        keycapMaterialEditStatus: "",
-        keycapManufacturerEditStatus: "",
         usernameInput: "",
         emailInput: "",
         osCompatibilityInputError: "",
@@ -265,6 +268,29 @@ export default class Main extends React.Component {
                 displayDeleteStatus={this.state.displayDeleteStatus}
                 deleteListingNo={this.deleteListingNo}
                 deleteListingYes={this.deleteListingYes}
+                listingToEdit={this.state.listingToEdit}
+                displayEdit={this.state.displayEdit}
+                displayEditStatus={this.state.displayEditStatus}
+                displayEditVerification={this.state.displayEditVerification}
+                closeEdit={this.closeEdit}
+                displayEditConfirmation={(each) => {
+                    this.setState({
+                        editEmailToVerify: "",
+                        editEmailNotVerified: "none",
+                        editEmailVerified: "none",
+                        displayEdit: "block",
+                        displayEditStatus: "none",
+                        displayEditVerification: "block",
+                        listingToEdit: each
+                    })
+                }}
+                editEmailToVerify={this.state.editEmailToVerify}
+                editEmailVerified={this.state.editEmailVerified}
+                editEmailNotVerified={this.state.editEmailNotVerified}
+                editListingEmailCheck={this.editListingEmailCheck}
+                displayEditCheck={this.state.displayEditCheck}
+                editListingNo={this.editListingNo}
+                editListingYes={this.editListingYes}
             />
         } else if (this.state.active === "each-listing") {
             return <EachListing
@@ -349,10 +375,6 @@ export default class Main extends React.Component {
                 updateFormFieldEditKeyboard={this.updateFormFieldEditKeyboard}
                 updateFormFieldEditKeycap={this.updateFormFieldEditKeycap}
                 updateFormFieldEditUser={this.updateFormFieldEditUser}
-                keyboardBrandEditStatus={this.state.keyboardBrandEditStatus}
-                keycapMaterialEditStatus={this.state.keycapMaterialEditStatus}
-                keycapProfileEditStatus={this.state.keycapProfileEditStatus}
-                keycapManufacturerEditStatus={this.state.keycapManufacturerEditStatus}
                 confirmChanges={this.confirmChanges}
             />
         }
@@ -402,12 +424,47 @@ export default class Main extends React.Component {
                 displayDelete: "none",
                 displayDeleteStatus: "none"
             })
-        }, 2000);
+        }, 1500);
     }
     deleteListingNo = () => {
         this.setState({
             displayDelete: "none",
             deleteEmailVerified: "none"
+        })
+    }
+    editListingEmailCheck = () => {
+        let listingToEdit = this.state.listingToEdit
+        let creatorEmail = listingToEdit.user.email
+        let editEmailToVerify = this.state.editEmailToVerify
+        if (editEmailToVerify === creatorEmail) {
+            this.setState({
+                editEmailVerified: "block",
+                displayEditVerification: "none"
+            })
+        } else {
+            this.setState({
+                editEmailNotVerified: "block"
+            })
+        }
+        console.log(creatorEmail, editEmailToVerify)
+
+    }
+    closeEdit = () => {
+        this.setState({
+            displayEdit: "none"
+        })
+    }
+    editListingYes = async () => {
+        // let listingToDelete = this.state.listingToDelete
+        this.setState({
+            active:"edit",
+            editEmailVerified: "none"
+        })
+    }
+    editListingNo = () => {
+        this.setState({
+            displayEdit: "none",
+            editEmailVerified: "none"
         })
     }
     addNewListing = async () => {
@@ -944,17 +1001,25 @@ export default class Main extends React.Component {
         let email = listingToEdit.user.email
         let keycapMaterial = listingToEdit.keycap.keycapMaterial
         let keycapMaterialInputNew = this.state.keycapMaterialInputNew
+        if (keycapMaterial === "new-input") {
+            keycapMaterial = keycapMaterialInputNew
+        }
         let keycapProfile = listingToEdit.keycap.keycapProfile
         let keycapProfileInputNew = this.state.keycapProfileInputNew
+        if (keycapProfile === "new-input") {
+            keycapProfile = keycapProfileInputNew
+        }
         let keycapManufacturer = listingToEdit.keycap.keycapManufacturer
         let keycapManufacturerInputNew = this.state.keycapManufacturerInputNew
-
-        // validation for edits
+        if (keycapManufacturer === "new-input") {
+            keycapManufacturer = keycapManufacturerInputNew
+        }
         if (osCompatibility.length === 0) {
             this.setState({
                 osCompatibilityInputError: "At least one option must be selected"
             })
         } else {
+            tracker.push("true")
             this.setState({
                 osCompatibilityInputError: ""
             })
@@ -965,17 +1030,23 @@ export default class Main extends React.Component {
                 switchesInputError
             })
         } else {
+            tracker.push("true")
             this.setState({
                 switchesInputError: ""
             })
         }
+        let keyboardBrandInputError = ""
         if (keyboardBrand.length < 5) {
-            let keyboardBrandInputError = "Field value must be at least 5 characters long"
+            keyboardBrandInputError = "Field value must be at least 5 characters long"
             this.setState({
                 keyboardBrandInputError
             })
         } else {
-            tracker.push("true")
+            tracker.push("true");
+            keyboardBrandInputError = ""
+            this.setState({
+                keyboardBrandInputError
+            })
         }
         if (keyboardModel.length < 3) {
             let keyboardModelInputError = "Field value must be at least 3 characters long"
@@ -983,6 +1054,7 @@ export default class Main extends React.Component {
                 keyboardModelInputError
             })
         } else {
+            tracker.push("true")
             this.setState({
                 keyboardModelInputError: ""
             })
@@ -993,6 +1065,7 @@ export default class Main extends React.Component {
                 keyboardProductLinkInputError
             })
         } else if (keyboardProductLink.includes("https://")) {
+            tracker.push("true")
             this.setState({
                 keyboardProductLinkInputError: ""
             })
@@ -1003,6 +1076,7 @@ export default class Main extends React.Component {
                 keyboardImageInputError
             })
         } else if (keyboardImage.includes("https://")) {
+            tracker.push("true")
             this.setState({
                 keyboardImageInputError: ""
             })
@@ -1013,37 +1087,49 @@ export default class Main extends React.Component {
                 keycapModelInputError
             })
         } else {
+            tracker.push("true")
             this.setState({
                 keycapModelInputError: ""
             })
         }
-        if (keycapMaterial === "new-input" && keycapMaterialInputNew.length < 3) {
-            let keycapMaterialInputError = "Field value must be at least 3 characters long"
+        let keycapMaterialInputError = ""
+        if (keycapMaterialInputNew.length < 3) {
+            keycapMaterialInputError = "Field value must be at least 3 characters long"
             this.setState({
                 keycapMaterialInputError
             })
         } else {
             tracker.push("true")
+            keycapMaterialInputError = ""
+            this.setState({
+                keycapMaterialInputError
+            })
         }
-        if (keycapProfile === "new-input" && keycapProfileInputNew.length < 2) {
-            listingToEditCloned = {...listingToEdit}
-            let keycapProfileInputError = "Field value must be at least 2 characters long"
+        let keycapProfileInputError = ""
+        if (keycapProfileInputNew.length < 2) {
+            keycapProfileInputError = "Field value must be at least 2 characters long"
             this.setState({
                 keycapProfileInputError,
-                // keycapProfileEditStatus:""
             })
         } else {
             tracker.push("true")
+            keycapProfileInputError = ""
+            this.setState({
+                keycapProfileInputError
+            })
         }
-        if (keycapManufacturer === "new-input" && keycapManufacturerInputNew.length < 3) {
-            listingToEditCloned = {...listingToEdit}
-            let keycapManufacturerInputError = "Field value must be at least 3 characters long"
+        let keycapManufacturerInputError = ""
+        if (keycapManufacturerInputNew.length < 3) {
+            keycapManufacturerInputError = "Field value must be at least 3 characters long"
             this.setState({
                 keycapManufacturerInputError,
-                keycapManufacturerEditStatus:""
             })
         } else {
             tracker.push("true")
+            keycapManufacturerInputError = ""
+            this.setState({
+                keycapManufacturerInputError
+            })
         }
 
         if (username.length < 5) {
@@ -1052,6 +1138,7 @@ export default class Main extends React.Component {
                 usernameInputError
             })
         } else {
+            tracker.push("true")
             this.setState({
                 usernameInputError: ""
             })
@@ -1082,6 +1169,7 @@ export default class Main extends React.Component {
         } else if (email.length >= 10) {
             let emailInputError = `Must be a valid email address that includes @ and "."`
             if (email.includes(".") && email.includes("@")) {
+                tracker.push("true");
                 this.setState({
                     emailInputError: ""
                 })
@@ -1103,11 +1191,16 @@ export default class Main extends React.Component {
             }
         }
         
-        // await axios.put(this.url+"listings/edit/"+listingToEdit._id,{
-        //   listingToEdit  
-        // })
-        if ( tracker.length == 4) {
+        console.log(tracker)
+        if ( tracker.length === 12) {
+            keyboardBrandInputNew=this.state.keyboardBrandInputNew
+            keycapManufacturerInputNew= this.state.keycapManufacturerInputNew
+            keycapMaterialInputNew=this.state.keycapMaterialInputNew
+            keycapProfileInputNew=this.state.keycapProfileInputNew
+            console.log(keyboardBrandInputNew,keycapManufacturerInputNew,keycapMaterialInputNew,keycapProfileInputNew)
             this.setState({
+                active:'listings',
+                displayEditStatus: "block",
                 listingToEdit: {
                     ...listingToEditCloned,
                     keyboard: {
@@ -1121,9 +1214,8 @@ export default class Main extends React.Component {
                     }
                 }
             })
-        }
-        this.setState({
-            listingToEdit: {
+
+            let listingToEditConfirmed = {
                 ...listingToEditCloned,
                 keyboard: {
                     ...listingToEditCloned.keyboard,
@@ -1135,8 +1227,57 @@ export default class Main extends React.Component {
                     keycapManufacturer: keycapManufacturerInputNew
                 }
             }
-                //     keycap:{...listingToEdit.keycap,keycapMaterial: keycapMaterialInputNew}
-        })
+            console.log(listingToEditConfirmed)
+            await axios.put(this.url+"listings/edit/"+listingToEdit._id,listingToEditConfirmed)
+            
+            setTimeout(() => {
+                this.setState({
+                    displayEditStatus: "none",
+                    displayEdit: "none"
+                })
+            }, 1500);
+
+        } else {
+            if(keyboardBrand === " new-input" ||keycapMaterial === "new-input" || keycapProfile === "new-input" || keycapManufacturer === "new-input") {
+                this.setState({
+                    listingToEdit: {
+                        ...listingToEditCloned,
+                        keyboard: {
+                            ...listingToEditCloned.keyboard,
+                            keyboardBrand
+                        },
+                        keycap:{...listingToEdit.keycap,
+                            keycapMaterial,
+                            keycapProfile,
+                            keycapManufacturer
+                        }
+                    },
+                    keyboardBrandInputError,
+                    keycapMaterialInputError,
+                    keycapProfileInputError,
+                    keycapManufacturerInputError
+                })
+            } else{
+                this.setState({
+                    listingToEdit: {
+                        ...listingToEditCloned,
+                        keyboard: {
+                            ...listingToEditCloned.keyboard,
+                            keyboardBrand: "new-input"
+                        },
+                        keycap:{...listingToEdit.keycap,
+                            keycapMaterial: "new-input",
+                            keycapProfile: "new-input",
+                            keycapManufacturer: "new-input"
+                        }
+                    },
+                    keyboardBrandInputError,
+                    keycapMaterialInputError,
+                    keycapProfileInputError,
+                    keycapManufacturerInputError
+                })
+            }
+        }
     }
     updateFormFieldEditKeyboard = (event) => {
         let listingToEdit = this.state.listingToEdit

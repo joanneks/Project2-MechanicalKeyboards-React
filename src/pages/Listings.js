@@ -1,10 +1,10 @@
 import React from "react";
 import logo1 from './logo.png';
-import expandSearch from './css/expandLogo.png'
 import editListing from './css/editLogo.png'
 import deleteListing from './css/deleteLogo.png'
-import closeSearch from './css/closeSearch.png'
-import closeDelete from './css/closeSearch.png'
+import closeSearch from './css/closeLogo.png'
+import closeEdit from './css/closeLogo.png'
+import closeDelete from './css/closeLogo.png'
 import './css/Listings.css';
 
 import Button from 'react-bootstrap/Button';
@@ -198,7 +198,7 @@ export default function Listings(props) {
                                             <span style={{ "float": "right" }}>
                                                 <img src={editListing} alt="editListingBtn"
                                                     style={{ height: "34px", width: "34px" }}
-                                                    onClick={() => props.activeStateEdit(each)}
+                                                    onClick={() => { props.displayEditConfirmation(each) }}
                                                 />
                                                 <img src={deleteListing} alt="deleteListingBtn"
                                                     style={{ height: "30px", width: "30px" }}
@@ -252,7 +252,47 @@ export default function Listings(props) {
                         <h4>Listing has been deleted successfully</h4>
                     </div>
                 </div>
+                
 
+                <div style={{ display: props.displayEdit }} className="Listing-edit-display">
+                    <div style={{ display: props.displayEditVerification }}>
+                        <h2>Verification Required
+                            <span>
+                                <img src={closeEdit} alt="closeEditBtn"
+                                    className="Listings-edit-close"
+                                    onClick={props.closeEdit}
+                                />
+                            </span>
+                        </h2>
+                        <div>Only the creator of this post <span>{"<"+props.listingToEdit.keyboard.keyboardBrand+" "+props.listingToEdit.keyboard.keyboardModel+" >"}</span> can edit.</div>
+                        <div>
+                            <input type="email" className="form-control" 
+                                name="editEmailToVerify"
+                                value={props.editEmailToVerify} 
+                                onChange={props.updateFormFieldGeneral}/>
+                        </div>
+                        <div style={{display:props.editEmailNotVerified}}>Email Verification Failed. Please try again.</div>
+                        <button className="btn btn-success" onClick={props.editListingEmailCheck}>Verify Email</button>
+                    </div>
+                    <div style={{ display: props.editEmailVerified }}>
+                        <h2>Email Verified
+                            <span>
+                                <img src={closeEdit} alt="closeEditBtn"
+                                    className="Listings-edit-close"
+                                    onClick={props.closeEdit}
+                                />
+                            </span>
+                        </h2>
+                        <div>Are you sure you want to edit?</div>
+                        <div>
+                            <button className="btn btn-danger" onClick={props.editListingYes}>Yes</button>
+                            <button className="btn btn-success" onClick={props.editListingNo}>No</button>
+                        </div>
+                    </div>
+                    <div style={{ display: props.displayEditStatus }}>
+                        <h4>Listing has been updated successfully</h4>
+                    </div>
+                </div>
 
             </div>
         </React.Fragment>

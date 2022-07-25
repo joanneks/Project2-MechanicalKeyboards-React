@@ -1,3 +1,23 @@
 .Create-container {
     width: 80vw;
 }
+.Listings-edit-close {
+    height: 25px;
+    width: 25px;
+    vertical-align: middle;
+    float: right;
+}
+.Listing-edit-display{
+    position: fixed;
+    z-index: 100;
+    padding:20px;
+    margin-top: 200px;
+    margin-left: auto;
+    margin-right: auto;
+    top:0;
+    left: 0;
+    right: 0;
+    width: 80vw;
+    background-color: aliceblue;
+    border-radius: 20px;
+}
