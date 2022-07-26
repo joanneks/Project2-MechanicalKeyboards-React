@@ -31,6 +31,7 @@ export default class Main extends React.Component {
         displayEditComment: "none",
         displayEditCommentCheck: "none",
         displayEditCommentEmailStatus: "none",
+        displayEditCommentText:"none",
         displayDelete: "none",
         displayDeleteVerification: "none",
         displayDeleteCheck: "none",
@@ -209,7 +210,9 @@ export default class Main extends React.Component {
                     this.setState({
                         active: "each-listing",
                         tempList: each,
-                        tempListId: each._id
+                        tempListId: each._id,
+                        displayDelete:"none",
+                        displayEdit:"none"
                     });
                 }}
                 keyboardBrandOptions={this.state.keyboardBrandOptions}
@@ -251,6 +254,7 @@ export default class Main extends React.Component {
                 closeDelete={this.closeDelete}
                 displayDeleteConfirmation={(each) => {
                     this.setState({
+                        displayEdit:"none",
                         deleteEmailToVerify: "",
                         deleteEmailNotVerified: "none",
                         deleteEmailVerified: "none",
@@ -275,6 +279,7 @@ export default class Main extends React.Component {
                 closeEdit={this.closeEdit}
                 displayEditConfirmation={(each) => {
                     this.setState({
+                        displayDelete:"none",
                         editEmailToVerify: "",
                         editEmailNotVerified: "none",
                         editEmailVerified: "none",
@@ -318,6 +323,7 @@ export default class Main extends React.Component {
                 }}
                 deleteComment={this.deleteComment}
                 commentToEdit={this.state.commentToEdit}
+                displayEditCommentText={this.state.displayEditCommentText}
                 displayEditComment={this.state.displayEditComment}
                 displayEditCommentCheck={this.state.displayEditCommentCheck}
                 displayEditCommentEmailStatus={this.state.displayEditCommentEmailStatus}
@@ -584,12 +590,18 @@ export default class Main extends React.Component {
             })
         }
         let keycapMaterialInput = this.state.keycapMaterialInput
-        if (keycapMaterial.length === 0 && keycapMaterialInput !== "new-input" && keycapMaterial === "") {
+        let keycapMaterialInputNew = this.state.keycapMaterialInputNew
+        if (keycapMaterialInput!=="new-input") {
             let keycapMaterialInputError = "One option must be selected"
             this.setState({
                 keycapMaterialInputError
             })
-        } else if (keycapMaterialInput === "new-input" && keycapMaterial.length < 3) {
+        } else if(keycapMaterialInput === "new-input" ){
+            let keycapMaterialInputError = "One option must be selected"
+            this.setState({
+                keycapMaterialInputError
+            })
+        } else if (keycapMaterialInput === "new-input" && keycapMaterialInputNew.length < 3) {
             let keycapMaterialInputError = "Field value must be at least 3 characters long"
             this.setState({
                 keycapMaterialInputError
@@ -1419,11 +1431,13 @@ export default class Main extends React.Component {
             this.setState({
                 displayEditCommentCheck: "none",
                 displayEditCommentEmailStatus: "none",
-                editCommentEmail: ""
+                editCommentEmail: "",
+                displayEditCommentText:"none"
             })
             : this.setState({
                 displayEditCommentCheck: "block",
-                displayEditCommentEmailStatus: "block"
+                displayEditCommentEmailStatus: "block",
+                displayEditCommentText:"none"
             })
 
         let comments = commentToEdit.comments
@@ -1459,8 +1473,8 @@ export default class Main extends React.Component {
     editCommentVerification = () => {
         this.setState({
             displayEditCommentCheck: "block",
-            displayEditComment: "none"
-
+            displayEditComment: "none",
+            displayEditCommentText:"block"
         })
     }
     editComment = (eachComment) => {
@@ -1511,9 +1525,6 @@ export default class Main extends React.Component {
         })
     }
     addNewComment = async (username, email, newComment, tempList, data) => {
-        // if (username.length >= 3) {
-        //     if (email.includes("@") && email.includes(".")) {
-        //         if (email.length >= 10) {
         if (newComment.length >= 3 && username.length >= 3 && email.includes("@") && email.includes(".") && email.length >= 10) {
             try {
                 let response = await axios.post(this.url + "listings/review/create/" + tempList._id, {

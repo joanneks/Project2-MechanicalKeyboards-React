@@ -166,3 +166,21 @@
     margin-top: 20px;
     margin-bottom: 20px;
 }
+.edit-comment-div{
+    margin-top:10px;
+    padding-left:20px;
+}
+.edit-comment-verify{
+    font-size:smaller;
+    color:#3b3b6b;
+}
+.edit-comment-verify-status{
+    font-size:smaller;
+    color:red;
+    width:60vw;
+}
+.edit-comment-email-input{
+    display:inline-block;
+    margin-right:20px;
+    width:45vw;
+}

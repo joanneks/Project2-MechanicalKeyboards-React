@@ -294,12 +294,12 @@ export default function Create(props) {
                                         <div className="col-1 col-sm-5 col-md-4 col-lg-3">
                                         </div>
                                     </div>
-                                    <div className="col-1 col-sm-5 col-md-4 col-lg-3">
-                                    </div>
-                                    <div className="Create-div-input-error col-12 col-sm-7 col-md-7 col-lg-8">{props.keycapMaterialInputError}</div>
                                 </div>
                                 : <div></div>
                             }
+                            <div className="col-12 col-sm-5 col-md-4 col-lg-3" style={{display:"inline-block"}}>
+                            </div>
+                            <div className="Create-div-input-error col-12 col-sm-7 col-md-7 col-lg-8" style={{display:"inline-block",paddingLeft:"5px"}}>{props.keycapMaterialInputError}</div>
                         </div>
                     </div>
                     <div className="Create-container-div row">

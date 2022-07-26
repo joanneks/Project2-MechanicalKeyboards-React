@@ -54,7 +54,10 @@
 .Listings-search-header {
     margin-bottom: 10px;
 }
-
+.Listings-search-error{
+    color:red;
+    margin-top:5px;
+}
 .Listings-search-close {
     height: 25px;
     width: 25px;

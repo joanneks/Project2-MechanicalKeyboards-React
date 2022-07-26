@@ -167,18 +167,19 @@ export default function EachListing(props) {
 
                                                     <div style={{ display: props.displayEditCommentCheck }}>
                                                         {eachComment.reviewId === props.commentToEdit.reviewId ?
-                                                            <div>
-                                                                <div>Email verification required to edit comment</div>
+                                                            <div className="edit-comment-div">
+                                                                <div className="edit-comment-verify" style={{display:props.displayEditCommentText}}>Authentication is required to edit.</div>
                                                                 <input type="email"
                                                                     name="editCommentEmail"
                                                                     value={props.editCommentEmail}
                                                                     onChange={props.updateFormFieldGeneral}
+                                                                    className="edit-comment-email-input form-control"
                                                                 />
                                                                 <Button variant="outline-success" size="sm"
                                                                     onClick={props.editCommentEmailCheck}
                                                                 >Verify</Button>
-                                                                <div style={{ display: props.displayEditCommentEmailStatus }}>
-                                                                    Email does not match username. Comment not edited
+                                                                <div className="edit-comment-verify-status" style={{ display: props.displayEditCommentEmailStatus }}>
+                                                                    Email does not correspond with user. Please try again.
                                                                 </div>
                                                             </div>
                                                             : <div></div>
