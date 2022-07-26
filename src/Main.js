@@ -9,8 +9,8 @@ import Edit from './pages/Edit';
 
 
 export default class Main extends React.Component {
-    url = "https://8000-joanneks-project2mechan-wyo4981gl1z.ws-us54.gitpod.io/";
-    // url = "https://mechanical-keyboards-express.herokuapp.com/";
+    // url = "https://8000-joanneks-project2mechan-wyo4981gl1z.ws-us54.gitpod.io/";
+    url = "https://mechanical-keyboards-express.herokuapp.com/";
 
     state = {
         active: 'home-page',
