@@ -145,7 +145,9 @@ export default class Main extends React.Component {
     changePage = (page) => {
         this.clearAddListingErrors(page)
         this.setState({
-            active: page
+            active: page,
+            displayDelete:"none",
+            displayEdit:"none"
         })
     }
     renderPage() {
