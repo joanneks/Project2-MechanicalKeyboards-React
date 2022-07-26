@@ -21,7 +21,7 @@ export default function EachListing(props) {
     return (
         <React.Fragment>
             <div className="EachListing">
-                <Navbar  className="Edit-navbar-color" bg="light" expand="lg" fixed="top">
+                <Navbar  className="EachListing-navbar-color" bg="light" expand="lg" fixed="top">
                     <Container fluid>
                         <Navbar.Brand href="">
                             <img src={logo1} style={{ height: '7vh' }} alt="logo" onClick={props.activeStateHomePage} />

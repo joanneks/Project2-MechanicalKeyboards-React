@@ -6,12 +6,17 @@
 .Create-navbar-color{
     background-color: #f1f1f1 !important;
 }
+.Create-navbar-color{
+    background-color: #3b3b6b !important;
+}
+.navbar-nav .nav-link{
+    color:#f1f1f1;
+}
 .navbar-links{
     font-size: large;
     font-weight: 600;
     margin-right: 20px;
     font-family: 'Inder', sans-serif;
-    color:#d24847;
 }
 
 .Create-break1 {

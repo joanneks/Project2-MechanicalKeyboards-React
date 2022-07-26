@@ -12,7 +12,7 @@ export default function Edit(props) {
     return (
         <React.Fragment>
             <div className="Edit">
-                <Navbar bg="light" expand="lg" fixed="top">
+                <Navbar className="Edit-navbar-color" bg="light" expand="lg" fixed="top">
                     <Container fluid>
                         <Navbar.Brand href="">
                             <img src={logo1} style={{ height: '7vh' }} alt="logo" onClick={props.activeStateHomePage} />
