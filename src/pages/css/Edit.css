@@ -1,23 +1,30 @@
-.Create-container {
+.Edit {
+    background-color: #efefef;
+    height: auto;
+    min-height:100vh;
+}
+.Edit-navbar-color{
+    background-color: #f1f1f1 !important;
+}
+.navbar-links{
+    font-size: large;
+    font-weight: 600;
+    margin-right: 20px;
+}
+.Edit-break1 {
+    height:110px;
+}
+
+.Edit-container {
     width: 80vw;
 }
-.Listings-edit-close {
-    height: 25px;
-    width: 25px;
-    vertical-align: middle;
-    float: right;
+.Edit-container-div {
+    margin-top:10px;
+    margin-bottom:10px;
+    
 }
-.Listing-edit-display{
-    position: fixed;
-    z-index: 100;
-    padding:20px;
-    margin-top: 200px;
-    margin-left: auto;
-    margin-right: auto;
-    top:0;
-    left: 0;
-    right: 0;
-    width: 80vw;
-    background-color: aliceblue;
-    border-radius: 20px;
+.Edit-div-input-error {
+    margin-top:10px;
+    margin-bottom:10px;
+    color:red;
 }

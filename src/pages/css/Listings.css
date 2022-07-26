@@ -4,9 +4,22 @@
     min-height: 100vh;
 }
 
+.Listings-navbar-color{
+    background-color: #f1f1f1 !important;
+}
+.navbar-links{
+    font-size: large;
+    font-weight: 600;
+    margin-right: 20px;
+}
+
 .Listings-card-img {
     height: 200px;
     object-fit: cover;
+}
+
+.Listings-card-title {
+    height: 50px;
 }
 
 .Listings-card-text {
@@ -26,7 +39,7 @@
     width: 80vw;
     display: flex;
     justify-content: center;
-    position: absolute;
+    position: fixed;
     z-index: 100;
     background-color: #e8cd84;
     margin-left: auto;
@@ -115,6 +128,55 @@
     left: 0;
     right: 0;
     width: 80vw;
-    background-color: aliceblue;
+    background-color: #e8cd84;
     border-radius: 20px;
+}
+.Listings-edit-close {
+    height: 25px;
+    width: 25px;
+    vertical-align: middle;
+    float: right;
+}
+.Listing-edit-display{
+    position: fixed;
+    z-index: 100;
+    padding:20px;
+    margin-top: 200px;
+    margin-left: auto;
+    margin-right: auto;
+    top:0;
+    left: 0;
+    right: 0;
+    width: 80vw;
+    background-color: #e8cd84;
+    border-radius: 20px;
+}
+.verification-title{
+    color: #3b3b6b;
+    font-weight: 600;
+}
+.verification-details{
+    font-size: medium;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    color: #3b3b6b;
+    font-weight: 600;
+}
+.verification-details-span{
+    font-weight: bold;
+    color: #d96562;
+    font-size: large;
+}
+
+.verification-status{
+    margin-top: 10px;
+    color: red;
+    font-size: medium;
+}
+.verify-button{
+    margin-top:20px;
+    margin-bottom:10px;
+}
+.verify-buttons{
+    margin-right:20px;
 }

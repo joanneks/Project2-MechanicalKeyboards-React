@@ -21,7 +21,7 @@ export default function EachListing(props) {
     return (
         <React.Fragment>
             <div className="EachListing">
-                <Navbar bg="light" expand="lg" fixed="top">
+                <Navbar  className="Edit-navbar-color" bg="light" expand="lg" fixed="top">
                     <Container fluid>
                         <Navbar.Brand href="">
                             <img src={logo1} style={{ height: '7vh' }} alt="logo" onClick={props.activeStateHomePage} />
@@ -31,8 +31,8 @@ export default function EachListing(props) {
                                 className="me-auto my-2 my-lg-0"
                                 navbarScroll
                             >
-                                <Nav.Link onClick={props.activeStateCreate}>Create</Nav.Link>
-                                <Nav.Link onClick={props.activeStateListings}>All Listings</Nav.Link>
+                                <Nav.Link className="navbar-links" onClick={props.activeStateCreate}>Create</Nav.Link>
+                                <Nav.Link className="navbar-links" onClick={props.activeStateListings}>All Listings</Nav.Link>
                             </Nav>
                         </Navbar>
                     </Container>

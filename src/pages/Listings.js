@@ -21,7 +21,7 @@ export default function Listings(props) {
     return (
         <React.Fragment>
             <div className="Listings">
-                <Navbar bg="light" expand="lg" fixed="top">
+                <Navbar className="Listings-navbar-color" bg="light" expand="lg" fixed="top">
                     <Container fluid>
                         <Navbar.Brand href="">
                             <img src={logo1} style={{ height: '7vh' }} alt="logo" onClick={props.activeStateHomePage} />
@@ -31,8 +31,8 @@ export default function Listings(props) {
                                 className="me-auto my-2 my-lg-0"
                                 navbarScroll
                             >
-                                <Nav.Link onClick={props.activeStateCreate}>Create</Nav.Link>
-                                <Nav.Link onClick={props.searchDisplay}>Search</Nav.Link>
+                                <Nav.Link className="navbar-links" onClick={props.activeStateCreate}>Create</Nav.Link>
+                                <Nav.Link className="navbar-links" onClick={props.searchDisplay}>Search</Nav.Link>
                             </Nav>
                         </Navbar>
                     </Container>
@@ -173,7 +173,7 @@ export default function Listings(props) {
                     </div>
                     <div style={{ marginTop: "20px" }}>
                         <label>Text Search:</label>
-                        <input type="text" name="textSearch" />
+                        <input type="text" className="form-control" name="textSearch" />
                     </div>
                     <div>{props.searchError}{props.dataCountMessage}</div>
 
@@ -188,7 +188,7 @@ export default function Listings(props) {
                                     <Card style={{ width: '18rem' }} >
                                         <Card.Img variant="top" src={each.keyboard.keyboardImage} className="Listings-card-img" />
                                         <Card.Body>
-                                            <Card.Title>{each.keyboard.keyboardBrand} {each.keyboard.keyboardModel}</Card.Title>
+                                            <Card.Title className="Listings-card-title">{each.keyboard.keyboardBrand} {each.keyboard.keyboardModel}</Card.Title>
                                             <Card.Text className="Listings-card-text">
                                                 <Badge pill bg="light" text="dark">{each.keyboard.keyboardSize + "%"}</Badge>{' '}
                                                 <Badge pill bg="warning" text="dark">{each.hotSwappable === "true" ? "hot-swappable" : "soldered"}</Badge>{' '}
@@ -256,7 +256,7 @@ export default function Listings(props) {
 
                 <div style={{ display: props.displayEdit }} className="Listing-edit-display">
                     <div style={{ display: props.displayEditVerification }}>
-                        <h2>Verification Required
+                        <h2 className="verification-title">Verification Required
                             <span>
                                 <img src={closeEdit} alt="closeEditBtn"
                                     className="Listings-edit-close"
@@ -264,18 +264,18 @@ export default function Listings(props) {
                                 />
                             </span>
                         </h2>
-                        <div>Only the creator of this post <span>{"<"+props.listingToEdit.keyboard.keyboardBrand+" "+props.listingToEdit.keyboard.keyboardModel+" >"}</span> can edit.</div>
+                        <div className="verification-details">Only the creator of this post <span className="verification-details-span">{"<"+props.listingToEdit.keyboard.keyboardBrand+" "+props.listingToEdit.keyboard.keyboardModel+" >"}</span> can edit.</div>
                         <div>
                             <input type="email" className="form-control" 
                                 name="editEmailToVerify"
                                 value={props.editEmailToVerify} 
                                 onChange={props.updateFormFieldGeneral}/>
                         </div>
-                        <div style={{display:props.editEmailNotVerified}}>Email Verification Failed. Please try again.</div>
-                        <button className="btn btn-success" onClick={props.editListingEmailCheck}>Verify Email</button>
+                        <div className="verification-status" style={{display:props.editEmailNotVerified}}>Email Verification Failed. Please try again.</div>
+                        <button className="btn btn-success verify-button" onClick={props.editListingEmailCheck}>Verify Email</button>
                     </div>
                     <div style={{ display: props.editEmailVerified }}>
-                        <h2>Email Verified
+                        <h2 className="verification-title">Email Verified
                             <span>
                                 <img src={closeEdit} alt="closeEditBtn"
                                     className="Listings-edit-close"
@@ -283,10 +283,10 @@ export default function Listings(props) {
                                 />
                             </span>
                         </h2>
-                        <div>Are you sure you want to edit?</div>
-                        <div>
-                            <button className="btn btn-danger" onClick={props.editListingYes}>Yes</button>
-                            <button className="btn btn-success" onClick={props.editListingNo}>No</button>
+                        <div className="verification-details">Are you sure you want to edit?</div>
+                        <div className="verify-button">
+                            <button className="btn btn-danger btn-sm verify-buttons" onClick={props.editListingYes}>Yes</button>
+                            <button className="btn btn-success btn-sm verify-buttons" onClick={props.editListingNo}>No</button>
                         </div>
                     </div>
                     <div style={{ display: props.displayEditStatus }}>

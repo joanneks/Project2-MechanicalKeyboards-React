@@ -710,6 +710,7 @@ export default class Main extends React.Component {
         this.setState({
             active: "listings",
             data,
+            database:data,
             dataCount,
             osCompatibilityInput: [],
             hotSwappableInput: "true",
@@ -984,63 +985,70 @@ export default class Main extends React.Component {
     }
     confirmChanges = async () => {
         let tracker=[];
-        let listingToEdit = this.state.listingToEdit
-        let listingToEditCloned = { ...listingToEdit }
+        let trackerAddNew =[];
+        let listingToEdit = this.state.listingToEdit;
+        let listingToEditCloned = { ...listingToEdit };
         let osCompatibility = listingToEdit.osCompatibility;
-        let switches = listingToEdit.switches
-        let keyboardBrand = listingToEdit.keyboard.keyboardBrand
-        let keyboardBrandInputNew = this.state.keyboardBrandInputNew
+        let switches = listingToEdit.switches;
+        let keyboardBrand = listingToEdit.keyboard.keyboardBrand;
+        let keyboardBrandInputNew = this.state.keyboardBrandInputNew;
         if (keyboardBrand === "new-input") {
-            keyboardBrand = keyboardBrandInputNew
+            keyboardBrand = keyboardBrandInputNew;
+            trackerAddNew.push("keyboardBrand")
         }
-        let keyboardModel = listingToEdit.keyboard.keyboardModel
-        let keyboardProductLink = listingToEdit.keyboard.keyboardProductLink
-        let keyboardImage = listingToEdit.keyboard.keyboardImage
-        let keycapModel = listingToEdit.keycap.keycapModel
-        let username = listingToEdit.user.username
-        let email = listingToEdit.user.email
-        let keycapMaterial = listingToEdit.keycap.keycapMaterial
-        let keycapMaterialInputNew = this.state.keycapMaterialInputNew
+        let keyboardModel = listingToEdit.keyboard.keyboardModel;
+        let keyboardProductLink = listingToEdit.keyboard.keyboardProductLink;
+        let keyboardImage = listingToEdit.keyboard.keyboardImage;
+        let keycapModel = listingToEdit.keycap.keycapModel;
+        let username = listingToEdit.user.username;
+        let email = listingToEdit.user.email;
+        let keycapMaterial = listingToEdit.keycap.keycapMaterial;
+        let keycapMaterialInputNew = this.state.keycapMaterialInputNew;
         if (keycapMaterial === "new-input") {
-            keycapMaterial = keycapMaterialInputNew
-        }
-        let keycapProfile = listingToEdit.keycap.keycapProfile
-        let keycapProfileInputNew = this.state.keycapProfileInputNew
+            keycapMaterial = keycapMaterialInputNew;
+            trackerAddNew.push("keycapMaterial")
+        };
+        let keycapProfile = listingToEdit.keycap.keycapProfile;
+        let keycapProfileInputNew = this.state.keycapProfileInputNew;
         if (keycapProfile === "new-input") {
-            keycapProfile = keycapProfileInputNew
-        }
-        let keycapManufacturer = listingToEdit.keycap.keycapManufacturer
-        let keycapManufacturerInputNew = this.state.keycapManufacturerInputNew
+            keycapProfile = keycapProfileInputNew;
+            trackerAddNew.push("keycapProfile")
+        };
+        let keycapManufacturer = listingToEdit.keycap.keycapManufacturer;
+        let keycapManufacturerInputNew = this.state.keycapManufacturerInputNew;
         if (keycapManufacturer === "new-input") {
-            keycapManufacturer = keycapManufacturerInputNew
-        }
+            keycapManufacturer = keycapManufacturerInputNew;
+            trackerAddNew.push("keycapManufacturer")
+        };
         if (osCompatibility.length === 0) {
             this.setState({
                 osCompatibilityInputError: "At least one option must be selected"
             })
         } else {
-            tracker.push("true")
+            tracker.push("true");
             this.setState({
                 osCompatibilityInputError: ""
-            })
-        }
+            });
+        };
         if (switches.length < 5) {
             let switchesInputError = "Field value must be at least 5 characters long"
             this.setState({
                 switchesInputError
             })
         } else {
-            tracker.push("true")
+            tracker.push("true");
             this.setState({
                 switchesInputError: ""
-            })
-        }
-        let keyboardBrandInputError = ""
+            });
+        };
+        console.log(keyboardBrand)
+        console.log(keyboardBrand.length < 5)
+        let keyboardBrandInputError = "";
         if (keyboardBrand.length < 5) {
             keyboardBrandInputError = "Field value must be at least 5 characters long"
             this.setState({
                 keyboardBrandInputError
-            })
+            });
         } else {
             tracker.push("true");
             keyboardBrandInputError = ""
@@ -1190,43 +1198,63 @@ export default class Main extends React.Component {
                 })
             }
         }
-        
-        console.log(tracker)
-        if ( tracker.length === 12) {
-            keyboardBrandInputNew=this.state.keyboardBrandInputNew
+
+        if(trackerAddNew.includes("keyboardBrand")){
+            keyboardBrand=this.state.keyboardBrandInputNew
+        }if(trackerAddNew.includes("keycapProfile")){
+            keycapProfile=this.state.keycapProfileInputNew
+        }
+        if(trackerAddNew.includes("keycapManufacturer")){
             keycapManufacturerInputNew= this.state.keycapManufacturerInputNew
-            keycapMaterialInputNew=this.state.keycapMaterialInputNew
-            keycapProfileInputNew=this.state.keycapProfileInputNew
-            console.log(keyboardBrandInputNew,keycapManufacturerInputNew,keycapMaterialInputNew,keycapProfileInputNew)
-            this.setState({
-                active:'listings',
-                displayEditStatus: "block",
-                listingToEdit: {
-                    ...listingToEditCloned,
-                    keyboard: {
-                        ...listingToEditCloned.keyboard,
-                        keyboardBrand: keyboardBrandInputNew
-                    },
-                    keycap:{...listingToEdit.keycap,
-                        keycapMaterial: keycapMaterialInputNew,
-                        keycapProfile: keycapProfileInputNew,
-                        keycapManufacturer: keycapManufacturerInputNew
-                    }
+        }
+        if(trackerAddNew.includes("keycapMaterial")){
+            keycapMaterial=this.state.keycapMaterialInputNew
+        }
+        console.log(tracker)
+        console.log(trackerAddNew)
+        if (tracker.length === 9 && trackerAddNew.length === 0) {
+            //when editor changes nothing and saves
+            let listingToEditConfirmed = {...listingToEditCloned}
+            console.log(listingToEditConfirmed)
+
+            let listingToEditId =this.state.listingToEdit._id;
+            let indexToReplace = this.state.data.findIndex(function (each) {
+                if (each._id === listingToEditId) {
+                    return true;
+                } else {
+                    return false;
                 }
             })
-
-            let listingToEditConfirmed = {
-                ...listingToEditCloned,
-                keyboard: {
-                    ...listingToEditCloned.keyboard,
-                    keyboardBrand: keyboardBrandInputNew
+            let revisedData =[...this.state.data.slice(0,indexToReplace),
+                                listingToEditConfirmed,
+                                ...this.state.data.slice(indexToReplace+1)]
+            this.setState({
+                active:'listings',
+                data:revisedData,
+                displayEditStatus: "block",
+                listingToEdit: {
+                    ...listingToEditCloned
                 },
-                keycap:{...listingToEdit.keycap,
-                    keycapMaterial: keycapMaterialInputNew,
-                    keycapProfile: keycapProfileInputNew,
-                    keycapManufacturer: keycapManufacturerInputNew
-                }
-            }
+                keyyboardBrandInputNew: "",
+                keycapProfileInputNew: "",
+                keycapMaterialInputNew: "",
+                keycapManufacturerInputNew: "",
+                osCompatibilityInputError: "",
+                switchesInputError: "",
+                keyboardBrandInputError: "",
+                keyboardModelInputError: "",
+                keyboardSizeInputError: "",
+                keyboardProductLinkInputError: "",
+                keyboardImageInputError: "",
+                keycapModelInputError: "",
+                keycapMaterialInputError: "",
+                keycapProfileInputError: "",
+                keycapManufacturerInputError: "",
+                usernameInputError: "",
+                emailInputError: ""
+            })
+
+            
             console.log(listingToEditConfirmed)
             await axios.put(this.url+"listings/edit/"+listingToEdit._id,listingToEditConfirmed)
             
@@ -1237,47 +1265,84 @@ export default class Main extends React.Component {
                 })
             }, 1500);
 
-        } else {
-            if(keyboardBrand === " new-input" ||keycapMaterial === "new-input" || keycapProfile === "new-input" || keycapManufacturer === "new-input") {
-                this.setState({
-                    listingToEdit: {
-                        ...listingToEditCloned,
-                        keyboard: {
-                            ...listingToEditCloned.keyboard,
-                            keyboardBrand
-                        },
-                        keycap:{...listingToEdit.keycap,
-                            keycapMaterial,
-                            keycapProfile,
-                            keycapManufacturer
-                        }
-                    },
-                    keyboardBrandInputError,
-                    keycapMaterialInputError,
-                    keycapProfileInputError,
-                    keycapManufacturerInputError
-                })
-            } else{
-                this.setState({
-                    listingToEdit: {
-                        ...listingToEditCloned,
-                        keyboard: {
-                            ...listingToEditCloned.keyboard,
-                            keyboardBrand: "new-input"
-                        },
-                        keycap:{...listingToEdit.keycap,
-                            keycapMaterial: "new-input",
-                            keycapProfile: "new-input",
-                            keycapManufacturer: "new-input"
-                        }
-                    },
-                    keyboardBrandInputError,
-                    keycapMaterialInputError,
-                    keycapProfileInputError,
-                    keycapManufacturerInputError
-                })
+        } else if ((tracker.length === 12 && trackerAddNew.length === 4) ||
+            (tracker.length >= 9 && trackerAddNew.length === 1) ||
+            (tracker.length >= 10 && trackerAddNew.length === 2) ||
+            (tracker.length >= 11 && trackerAddNew.length === 3)) {
+            // when editor changes keyboardBrand,keycapProfile,keycapManufacturer,keycapMaterial to add a new option
+            console.log(keyboardBrandInputNew,keycapManufacturerInputNew,keycapMaterialInputNew,keycapProfileInputNew)
+            
+            let listingToEditConfirmed = {
+                ...listingToEditCloned,
+                keyboard: {
+                    ...listingToEditCloned.keyboard,
+                    keyboardBrand
+                },
+                keycap:{...listingToEdit.keycap,
+                    keycapMaterial,
+                    keycapProfile,
+                    keycapManufacturer
+                }
             }
-        }
+            console.log(listingToEditConfirmed)
+
+            let listingToEditId =this.state.listingToEdit._id;
+            let indexToReplace = this.state.data.findIndex(function (each) {
+                if (each._id === listingToEditId) {
+                    return true;
+                } else {
+                    return false;
+                }
+            })
+            let revisedData =[...this.state.data.slice(0,indexToReplace),
+                                listingToEditConfirmed,
+                                ...this.state.data.slice(indexToReplace+1)]
+            this.setState({
+                active:'listings',
+                data:revisedData,
+                database:revisedData,
+                displayEditStatus: "block",
+                listingToEdit: {
+                    ...listingToEditCloned,
+                    keyboard: {
+                        ...listingToEditCloned.keyboard,
+                        keyboardBrand
+                    },
+                    keycap:{...listingToEdit.keycap,
+                        keycapMaterial,
+                        keycapProfile,
+                        keycapManufacturer
+                    }
+                },
+                keyyboardBrandInputNew: "",
+                keycapProfileInputNew: "",
+                keycapMaterialInputNew: "",
+                keycapManufacturerInputNew: "",
+                osCompatibilityInputError: "",
+                switchesInputError: "",
+                keyboardBrandInputError: "",
+                keyboardModelInputError: "",
+                keyboardSizeInputError: "",
+                keyboardProductLinkInputError: "",
+                keyboardImageInputError: "",
+                keycapModelInputError: "",
+                keycapMaterialInputError: "",
+                keycapProfileInputError: "",
+                keycapManufacturerInputError: "",
+                usernameInputError: "",
+                emailInputError: ""
+            })
+
+            await axios.put(this.url+"listings/edit/"+listingToEdit._id,listingToEditConfirmed)
+            
+            setTimeout(() => {
+                this.setState({
+                    displayEditStatus: "none",
+                    displayEdit: "none"
+                })
+            }, 1500);
+
+        } 
     }
     updateFormFieldEditKeyboard = (event) => {
         let listingToEdit = this.state.listingToEdit

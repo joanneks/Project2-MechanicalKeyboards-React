@@ -7,6 +7,11 @@
 .EachListing-break1 {
     height: 110px;
 }
+.navbar-links{
+    font-size: large;
+    font-weight: 600;
+    margin-right: 20px;
+}
 
 .EachListing-content {
     height: auto;

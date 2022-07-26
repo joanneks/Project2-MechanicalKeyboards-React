@@ -3,6 +3,14 @@
     height: auto;
     min-height:100vh;
 }
+.Create-navbar-color{
+    background-color: #f1f1f1 !important;
+}
+.navbar-links{
+    font-size: large;
+    font-weight: 600;
+    margin-right: 20px;
+}
 
 .Create-break1 {
     height:110px;
@@ -15,7 +23,6 @@
 .Create-container-div {
     margin-top:10px;
     margin-bottom:10px;
-    
 }
 
 .osCompatibility-label{
@@ -35,7 +42,6 @@
     margin-top:10px;
     margin-bottom:10px;
     color:red;
-    
 }
 .Create-container-div-osCompatibility-input{
     margin-right:10px;

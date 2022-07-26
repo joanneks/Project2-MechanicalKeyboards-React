@@ -12,7 +12,7 @@ export default function Create(props) {
     return (
         <React.Fragment>
             <div className="Create">
-                <Navbar bg="light" expand="lg" fixed="top">
+                <Navbar className="Create-navbar-color" bg="light" expand="lg" fixed="top">
                     <Container fluid>
                         <Navbar.Brand href="">
                             <img src={logo1} style={{ height: '7vh' }} alt="logo" onClick={props.activeStateHomePage} />
@@ -22,8 +22,8 @@ export default function Create(props) {
                                 className="me-auto my-2 my-lg-0"
                                 navbarScroll
                             >
-                                <Nav.Link onClick={props.activeStateCreate}>Create</Nav.Link>
-                                <Nav.Link onClick={props.activeStateListings}>All Listings</Nav.Link>
+                                <Nav.Link className="navbar-links" onClick={props.activeStateCreate}>Create</Nav.Link>
+                                <Nav.Link className="navbar-links" onClick={props.activeStateListings}>All Listings</Nav.Link>
                             </Nav>
                         </Navbar>
                     </Container>
@@ -42,7 +42,7 @@ export default function Create(props) {
                                         name="osCompatibilityInput"
                                         onChange={props.osCompatibilityInputSelected}
                                         className="form-check-input" />
-                                    <label className="osCompatibility-label">Windows</label>
+                                    <label className="osCompatibility-label form-check-label">Windows</label>
                                 </div>
                                 <div>
                                     <input type="checkbox"
@@ -50,7 +50,7 @@ export default function Create(props) {
                                         name="osCompatibilityInput"
                                         onChange={props.osCompatibilityInputSelected}
                                         className="form-check-input" />
-                                    <label className="osCompatibility-label">Mac</label>
+                                    <label className="osCompatibility-label form-check-label">Mac</label>
                                 </div>
                                 <div>
                                     <input type="checkbox"
@@ -58,7 +58,7 @@ export default function Create(props) {
                                         name="osCompatibilityInput"
                                         onChange={props.osCompatibilityInputSelected}
                                         className="form-check-input" />
-                                    <label className="osCompatibility-label">Linux</label>
+                                    <label className="osCompatibility-label form-check-label">Linux</label>
                                 </div>
                             </div>
                             <div className="Create-div-input-error">{props.osCompatibilityInputError}
@@ -94,7 +94,7 @@ export default function Create(props) {
                                 onChange={props.updateFormFieldGeneral}
                                 placeholder="e.g Cherry Speed Silver Switches"
                                 rows="1"
-                                className=" col-12"
+                                className="col-12 form-control"
                             >
                             </textarea>
                             <div className="Create-div-input-error">{props.switchesInputError}</div>
@@ -130,7 +130,7 @@ export default function Create(props) {
                                             <input type="text" name="keyboardBrandInputNew"
                                                 value={props.keyboardBrandInputNew}
                                                 onChange={props.updateFormFieldGeneral}
-                                                className="col-12"
+                                                className="col-12 form-control"
                                             />
                                         </div>
                                         <div className="col-1 col-sm-5 col-md-4 col-lg-3">
@@ -148,7 +148,7 @@ export default function Create(props) {
                         </div>
                         <div className="col-12 col-sm-7 col-md-7 col-lg-8">
                             <input type="text"
-                                className="col-12"
+                                className="col-12  form-control"
                                 placeholder="e.g GMMK 2"
                                 name="keyboardModelInput"
                                 value={props.keyboardModelInput}
@@ -217,7 +217,7 @@ export default function Create(props) {
                             <textarea
                                 name="keyboardProductLinkInput"
                                 rows="2"
-                                className="col-12"
+                                className="col-12 form-control"
                                 placeholder="e.g https://"
                                 value={props.keyboardProductLinkInput}
                                 onChange={props.updateFormFieldGeneral}>
@@ -231,7 +231,7 @@ export default function Create(props) {
                             <textarea
                                 name="keyboardImageInput"
                                 rows="1"
-                                className="col-12"
+                                className="col-12 form-control"
                                 placeholder="e.g https://"
                                 value={props.keyboardImageInput}
                                 onChange={props.updateFormFieldGeneral}>
@@ -244,7 +244,7 @@ export default function Create(props) {
                         <div className="col-12 col-sm-7 col-md-7 col-lg-8">
                             <input type="text"
                                 name="keycapModelInput"
-                                className="col-12"
+                                className="col-12 form-control"
                                 placeholder="e.g Black and Silver"
                                 value={props.keycapModelInput}
                                 onChange={props.updateFormFieldGeneral} />
@@ -286,7 +286,7 @@ export default function Create(props) {
                                         <label>New Keycap Material</label>
                                         <div className="col-12">
                                             <input type="text" name="keycapMaterialInputNew"
-                                                className="col-12"
+                                                className="col-12 form-control"
                                                 value={props.keycapMaterialInputNew}
                                                 onChange={props.updateFormFieldGeneral}
                                             />
@@ -328,7 +328,10 @@ export default function Create(props) {
                                     <div className="col-12 col-sm-7 col-md-7 col-lg-8">
                                         <label className="col-12">New Keycap Profile</label>
                                         <div className="col-12">
-                                            <input className="col-12" type="text" name="keycapProfileInputNew" value={props.keycapProfileInputNew}
+                                            <input className="col-12 form-control" 
+                                                type="text" 
+                                                name="keycapProfileInputNew" 
+                                                value={props.keycapProfileInputNew}
                                                 onChange={props.updateFormFieldGeneral}
                                             />
                                         </div>
@@ -367,7 +370,10 @@ export default function Create(props) {
                                     <div className="col-12 col-sm-7 col-md-7 col-lg-8">
                                         <label className="col-12">Create New Keycap Manufacturer</label>
                                         <div className="col-12">
-                                            <input className="col-12" type="text" name="keycapManufacturerInputNew" value={props.keycapManufacturerInputNew}
+                                            <input className="col-12 form-control" 
+                                                type="text" 
+                                                name="keycapManufacturerInputNew" 
+                                                value={props.keycapManufacturerInputNew}
                                                 onChange={props.updateFormFieldGeneral}
                                             />
                                         </div>
@@ -386,7 +392,7 @@ export default function Create(props) {
                         </div>
                         <div className="col-12 col-sm-7 col-md-7 col-lg-8">
                             <input type="text"
-                                className="col-12"
+                                className="col-12 form-control"
                                 name="usernameInput"
                                 value={props.usernameInput}
                                 onChange={props.updateFormFieldGeneral}
@@ -400,7 +406,7 @@ export default function Create(props) {
                         </div>
                         <div className="col-12 col-sm-7 col-md-7 col-lg-8">
                             <input type="email"
-                                className="col-12"
+                                className="col-12 form-control"
                                 name="emailInput"
                                 value={props.emailInput}
                                 onChange={props.updateFormFieldGeneral}
