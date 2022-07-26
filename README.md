@@ -61,13 +61,13 @@ Mobile Responsiveness
 
 ### **Structure**
 
-![Structure](src/pages/css/structure.png)
+![Structure](readme/structure.png)
 
 ### **Skeleton**
 
-![Skeleton for listings page](src/pages/css/readme/listings.png)
-![Skeleton for each-listing page](src/pages/css/readme/each-listing.png)
-![Skeleton for create / edit page](src/pages/css/readme/create-edit.png)
+![Skeleton for listings page](readme/listings.png)
+![Skeleton for each-listing page](readme/each-listing.png)
+![Skeleton for create / edit page](readme/create-edit.png)
 
 ### **Surface**
 1. Colours
