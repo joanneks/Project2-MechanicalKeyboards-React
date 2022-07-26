@@ -75,7 +75,7 @@ Mobile Responsiveness
     - ![3b3b6b](readme/color/3b3b6b.png) ![ccaf60](readme/color/ccaf60.png) ![e8cd84](readme/color/e8cd84.png) ![f1f1f1](readme/color/f1f1f1.png) ![efefef](readme/color/efefef.png)![d24847](readme/color/d24847.png)
 
 2. Fonts
-   
+   - Inder
 
 3. Icons
    - Used for edit, delete and save functions.

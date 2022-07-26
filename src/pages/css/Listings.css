@@ -11,6 +11,8 @@
     font-size: large;
     font-weight: 600;
     margin-right: 20px;
+    font-family: 'Inder', sans-serif;
+    color:#d24847;
 }
 
 .Listings-card-img {
@@ -21,8 +23,14 @@
 .Listings-card-title {
     height: 50px;
     font-family: 'Inder', sans-serif;
+    font-size:x-large;
+    font-weight:600;
 }
-
+.Listings-badge{
+    font-family: 'Inder';
+    font-weight: bold;
+    font-size: smaller;
+}
 .Listings-card-text {
     margin-top: 15px;
     margin-bottom: 15px;

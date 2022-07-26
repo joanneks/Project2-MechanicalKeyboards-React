@@ -194,7 +194,7 @@ export default function Listings(props) {
                                         <Card.Body>
                                             <Card.Title className="Listings-card-title">{each.keyboard.keyboardBrand} {each.keyboard.keyboardModel}</Card.Title>
                                             <Card.Text className="Listings-card-text">
-                                                <Badge pill bg="light" text="dark">{each.keyboard.keyboardSize + "%"}</Badge>{' '}
+                                                <Badge className="Listings-badge" pill bg="light" text="dark">{each.keyboard.keyboardSize + "%"}</Badge>{' '}
                                                 <Badge pill bg="warning" text="dark">{each.hotSwappable === "true" ? "hot-swappable" : "soldered"}</Badge>{' '}
                                                 <Badge pill bg="info">{each.keycap.keycapModel}</Badge>{' '}
                                             </Card.Text>
