@@ -9,15 +9,15 @@ import Edit from './pages/Edit';
 
 
 export default class Main extends React.Component {
-    // url = "https://8000-joanneks-project2mechan-wyo4981gl1z.ws-us54.gitpod.io/";
-    url = "https://mechanical-keyboards-express.herokuapp.com/";
+    url = "https://8000-joanneks-project2mechan-wyo4981gl1z.ws-us54.gitpod.io/";
+    // url = "https://mechanical-keyboards-express.herokuapp.com/";
 
     state = {
         active: 'home-page',
         data: [],
         dataCount: "",
         dataCountMessage: "",
-        database: [],
+        // database: [],
         tempList: {
             reviews: []
         },
@@ -127,19 +127,22 @@ export default class Main extends React.Component {
     async componentDidMount() {
         let response = await axios.get(this.url + "listings");
 
-        await Promise.all([
-            this.deriveKeyboardBrands(),
-            this.deriveKeycapProfile(),
-            this.deriveKeycapMaterial(),
-            this.deriveKeycapManufacturer()
-        ])
+        // await Promise.all([
+        //     this.deriveKeyboardBrands(),
+        //     this.deriveKeycapProfile(),
+        //     this.deriveKeycapMaterial(),
+        //     this.deriveKeycapManufacturer()
+        // ])
         this.setState({
             data: response.data.data,
             dataCount: response.data.count,
-            database: response.data.data1
+            // database: response.data.data1,
+            keyboardBrandOptions:response.data.data1,
+            keycapMaterialOptions:response.data.data2,
+            keycapProfileOptions:response.data.data3,
+            keycapManufacturerOptions:response.data.data4
+
         })
-        console.log(response.data.data)
-        // console.log(response.data.data1)
     }
 
     changePage = (page) => {
@@ -204,8 +207,7 @@ export default class Main extends React.Component {
                 activeStateEdit={(each) => {
                     this.setState({
                         active: "edit",
-                        listingToEdit: each,
-                        // listingToEditId: each._id
+                        listingToEdit: each
                     });
                 }}
                 activeStateEachListing={(each) => {
@@ -227,7 +229,6 @@ export default class Main extends React.Component {
                         this.setState({
                             displaySearch: "block",
                         })
-                        // this.deriveKeyboardBrands();
                     } else if (count % 2 === 1) {
                         this.setState({
                             displaySearch: "none",
@@ -463,7 +464,6 @@ export default class Main extends React.Component {
         })
     }
     editListingYes = async () => {
-        // let listingToDelete = this.state.listingToDelete
         this.setState({
             active:"edit",
             editEmailVerified: "none"
@@ -719,12 +719,11 @@ export default class Main extends React.Component {
         let response = await axios.post(this.url + "listings/create", listingToCreate,)
 
         let data = [...this.state.data, { ...listingToCreate, '_id': response.data.insertedId }]
-        // let data = [...this.state.data,listingToCreate]
         let dataCount = this.state.dataCount + 1;
         this.setState({
             active: "listings",
             data,
-            database:data,
+            // database:data,
             dataCount,
             osCompatibilityInput: [],
             hotSwappableInput: "true",
@@ -880,29 +879,29 @@ export default class Main extends React.Component {
             keyboardBrandError: "",
             dataCountMessage: "",
         })
-        if (keyboardSize.length === 0 || keyboardBrand.length === 0) {
-            this.setState({
-                searchError: "Form not submitted, all fields must be completed. "
-            })
-            if (keyboardSize.length === 0) {
-                this.setState({
-                    keyboardSizeError: "At least one option must be selected"
-                })
-            } else {
-                this.setState({
-                    keyboardSizeError: ""
-                })
-            }
-            if (keyboardBrand.length === 0) {
-                this.setState({
-                    keyboardBrandError: "At least one option must be selected"
-                })
-            } else {
-                this.setState({
-                    keyboardBrandError: ""
-                })
-            }
-        } else {
+        // if (keyboardSize.length === 0 || keyboardBrand.length === 0) {
+        //     this.setState({
+        //         searchError: "Form not submitted, all fields must be completed. "
+        //     })
+        //     if (keyboardSize.length === 0) {
+        //         this.setState({
+        //             keyboardSizeError: "At least one option must be selected"
+        //         })
+        //     } else {
+        //         this.setState({
+        //             keyboardSizeError: ""
+        //         })
+        //     }
+        //     if (keyboardBrand.length === 0) {
+        //         this.setState({
+        //             keyboardBrandError: "At least one option must be selected"
+        //         })
+        //     } else {
+        //         this.setState({
+        //             keyboardBrandError: ""
+        //         })
+        //     }
+        // } else {
             if (Array.isArray(keyboardSize)) {
                 for (let i = 0; i < keyboardSize.length; i++) {
                     keyboardSizeQuery += keyboardSize[i] + ",";
@@ -934,7 +933,7 @@ export default class Main extends React.Component {
                 dataCountMessage,
                 searchError: "Form submitted. ",
             })
-        }
+        // }
     }
     keyboardBrandSelected = (event) => {
         if (this.state.keyboardBrand.includes(event.target.value)) {
@@ -1314,7 +1313,7 @@ export default class Main extends React.Component {
             this.setState({
                 active:'listings',
                 data:revisedData,
-                database:revisedData,
+                // database:revisedData,
                 displayEditStatus: "block",
                 listingToEdit: {
                     ...listingToEditCloned,
