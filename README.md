@@ -91,6 +91,7 @@ Test Cases can be found [here](https://docs.google.com/spreadsheets/d/1pHJX0epwq
 3. Add a page where it can show all the listings posted by the user accessing the website
 4. Add a button for the user to save the listings they like and have a page where they can view all the listings that have saved.
 5. To change the state variable keyboardBrandOptions,keycapManufacturerOptions,keycapMaterialOptions,keycapProfileOptions to update for the change in options after creating/editing listing
+6. To style the navlink for create and search such that it does not turn black upon hover or after click.
 
 
 ## **Technologies and Other Sources Used**
