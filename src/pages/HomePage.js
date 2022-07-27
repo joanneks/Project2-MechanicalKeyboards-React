@@ -1,5 +1,5 @@
 import React from 'react';
-import logo1 from './logo.png';
+import logo1 from './css/logo.png';
 import './css/HomePage.css';
 
 export default function HomePage(props) {
@@ -12,11 +12,11 @@ export default function HomePage(props) {
                 <div className="row">
 
                     <div className="col col-1"></div>
-                    <div className="HomePage-inspire col col-10 HomePage-text">
+                    <div className="HomePage-inspire col col-10 HomePage-text-div">
                         <h1 className="HomePage-text">INSPIRE</h1>
-                        <h3 className="HomePage-text">Share mechanical keyboard creations</h3>
+                        <h4 className="HomePage-text-details">Proud of your latest mechanical keyboard addition? Share your ideas now!</h4>
                         <button
-                            className="btn btn-primary HomePage-text"
+                            className="btn btn-primary HomePage-text-button"
                             onClick={props.activeStateCreate}
                         >Create</button>
                     </div>
@@ -29,13 +29,13 @@ export default function HomePage(props) {
                     <div className="col col-5"></div>
 
                     <div className="col col-1"></div>
-                    <div className="HomePage-be-inspired col col-10 HomePage-text">
+                    <div className="HomePage-be-inspired col col-10 HomePage-text-div">
                         <h1 className="HomePage-text">BE INSPIRED</h1>
-                        <h3 className="HomePage-text">Search for mechanical keyboards</h3>
+                        <h4 className="HomePage-text-details">Want to customise your own mechanical keyboard but have no idea where to start? Check us out now!</h4>
                         <button
-                            className="btn btn-primary HomePage-text"
+                            className="btn btn-primary HomePage-text-button"
                             onClick={props.activeStateListings}
-                        >Search</button>
+                        >Browse</button>
                     </div>
                     <div className="col col-1"></div>
 

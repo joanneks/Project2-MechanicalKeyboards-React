@@ -4,14 +4,16 @@
     min-height: 100vh;
 }
 
-.Listings-navbar-color{
+.Listings-navbar-color {
     background-color: #3b3b6b !important;
 }
+
 .navbar-light .navbar-nav .nav-link {
-    color:#f1f1f1;
+    color: #f1f1f1;
     font-size: large;
 }
-.navbar-links{
+
+.navbar-links {
     font-weight: 600;
     margin-right: 20px;
     font-family: 'Inder', sans-serif;
@@ -25,14 +27,16 @@
 .Listings-card-title {
     height: 50px;
     font-family: 'Inder', sans-serif;
-    font-size:x-large;
-    font-weight:600;
+    font-size: x-large;
+    font-weight: 600;
 }
-.Listings-badge{
+
+.Listings-badge {
     font-family: 'Inder';
     font-weight: bold;
     font-size: smaller;
 }
+
 .Listings-card-text {
     margin-top: 15px;
     margin-bottom: 15px;
@@ -52,7 +56,7 @@
     justify-content: center;
     position: fixed;
     z-index: 100;
-    background-color: #e8cd84;
+    background-color: #c6c6df;
     margin-left: auto;
     margin-right: auto;
     width: 80vw;
@@ -65,10 +69,12 @@
 .Listings-search-header {
     margin-bottom: 10px;
 }
-.Listings-search-error{
-    color:red;
-    margin-top:5px;
+
+.Listings-search-error {
+    color: red;
+    margin-top: 5px;
 }
+
 .Listings-search-close {
     height: 25px;
     width: 25px;
@@ -91,13 +97,12 @@
 .Listings-filter-label-keyboard {
     display: inline-block;
     margin-right: 10px;
-    margin-bottom:10px;
+    margin-bottom: 10px;
     width: 130px;
 }
 
 .Listings-filter-options {
     display: inline-block;
-    /* margin-left: 0px; */
 }
 
 .Listings-multiselect-options {
@@ -111,7 +116,7 @@
     width: 45vw;
 }
 
-.Listings-multiselect-options-brands{
+.Listings-multiselect-options-brands {
     height: 100px;
     overflow-y: auto;
     background-color: white;
@@ -121,8 +126,16 @@
 }
 
 .Listings-break1 {
-    height: 25px;
+    min-height: 25px;
     position: sticky;
+    margin-left: 20px;
+    margin-bottom: 20px;
+    font-family: 'Inder', sans-serif;
+    color: #3b3b6b;
+}
+
+.Listings-search-count {
+    font-weight: 600;
 }
 
 .Listings-delete-close {
@@ -131,66 +144,74 @@
     vertical-align: middle;
     float: right;
 }
-.Listing-delete-display{
+
+.Listings-delete-display {
     position: fixed;
     z-index: 100;
-    padding:20px;
+    padding: 20px;
     margin-top: 200px;
     margin-left: auto;
     margin-right: auto;
-    top:0;
+    top: 0;
     left: 0;
     right: 0;
     width: 80vw;
-    background-color: #e8cd84;
+    background-color: #dfdfc6;
     border-radius: 20px;
 }
+
 .Listings-edit-close {
     height: 25px;
     width: 25px;
     vertical-align: middle;
     float: right;
 }
-.Listing-edit-display{
+
+.Listings-edit-display {
     position: fixed;
     z-index: 100;
-    padding:20px;
+    padding: 20px;
     margin-top: 200px;
     margin-left: auto;
     margin-right: auto;
-    top:0;
+    top: 0;
     left: 0;
     right: 0;
     width: 80vw;
-    background-color: #e8cd84;
+    background-color: #dfdfc6;
     border-radius: 20px;
 }
-.verification-title{
+
+.Listings-verification-title {
     color: #3b3b6b;
     font-weight: 600;
 }
-.verification-details{
+
+.Listings-verification-details {
     font-size: medium;
     margin-top: 30px;
     margin-bottom: 20px;
     color: #3b3b6b;
     font-weight: 600;
 }
-.verification-details-span{
+
+.Listings-verification-details-span {
     font-weight: bold;
-    color: #d96562;
+    color: #d24847;
     font-size: large;
 }
 
-.verification-status{
+.Listings-verification-status {
     margin-top: 10px;
     color: red;
     font-size: medium;
 }
-.verify-button{
-    margin-top:20px;
-    margin-bottom:10px;
+
+.Listings-verify-button {
+    margin-top: 20px;
+    margin-bottom: 10px;
 }
-.verify-buttons{
-    margin-right:20px;
+
+.Listings-verify-buttons {
+    margin-right: 20px;
 }

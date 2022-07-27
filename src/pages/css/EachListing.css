@@ -7,14 +7,17 @@
 .EachListing-break1 {
     height: 110px;
 }
-.EachListing-navbar-color{
+
+.EachListing-navbar-color {
     background-color: #3b3b6b !important;
 }
+
 .navbar-light .navbar-nav .nav-link {
-    color:#f1f1f1;
+    color: #f1f1f1;
     font-size: large;
 }
-.navbar-links{
+
+.EachListing-navbar-links {
     font-weight: 600;
     margin-right: 20px;
     font-family: 'Inder', sans-serif;
@@ -86,7 +89,7 @@
 .EachListing-comment-edit-div {
     padding: 10px;
     width: 75vw;
-    background-color: #e8cd84;
+    background-color: #dfdfc6;
     border-radius: 20px;
     margin-top: 10px;
 }
@@ -94,10 +97,10 @@
 .EachListing-comment-edit-label {
     margin-left: 5px;
     color: #D24847;
-    font-weight: 800;
+    font-weight: 700;
 }
 
-.EachListing-comment-edit-error{
+.EachListing-comment-edit-error {
     margin-left: 10px;
     margin-right: 10px;
     padding-left: 10px;
@@ -133,7 +136,7 @@
     margin-top: 20px;
     padding: 10px 10px 15px 10px;
     width: 80vw;
-    background-color: #CCAF60;
+    background-color: #dfc6c6;
     border-radius: 20px;
 }
 
@@ -173,21 +176,25 @@
     margin-top: 20px;
     margin-bottom: 20px;
 }
-.edit-comment-div{
-    margin-top:10px;
-    padding-left:20px;
+
+.EachListing-edit-comment-div {
+    margin-top: 10px;
+    padding-left: 20px;
 }
-.edit-comment-verify{
-    font-size:smaller;
-    color:#3b3b6b;
+
+.EachListing-edit-comment-verify {
+    font-size: smaller;
+    color: #3b3b6b;
 }
-.edit-comment-verify-status{
-    font-size:smaller;
-    color:red;
-    width:60vw;
+
+.EachListing-edit-comment-verify-status {
+    font-size: smaller;
+    color: red;
+    width: 60vw;
 }
-.edit-comment-email-input{
-    display:inline-block;
-    margin-right:20px;
-    width:45vw;
+
+.EachListing-edit-comment-email-input {
+    display: inline-block;
+    margin-right: 20px;
+    width: 45vw;
 }

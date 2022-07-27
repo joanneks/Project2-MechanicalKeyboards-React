@@ -9,15 +9,16 @@ import Edit from './pages/Edit';
 
 
 export default class Main extends React.Component {
-    url = "https://8000-joanneks-project2mechan-wyo4981gl1z.ws-us54.gitpod.io/";
-    // url = "https://mechanical-keyboards-express.herokuapp.com/";
+    // for testing with express backend before deployment
+    // url = "https://8000-joanneks-project2mechan-wyo4981gl1z.ws-us54.gitpod.io/";
+    // link to deployed backend server
+    url = "https://mechanical-keyboards-express.herokuapp.com/";
 
     state = {
         active: 'home-page',
         data: [],
         dataCount: "",
         dataCountMessage: "",
-        // database: [],
         tempList: {
             reviews: []
         },
@@ -31,7 +32,7 @@ export default class Main extends React.Component {
         displayEditComment: "none",
         displayEditCommentCheck: "none",
         displayEditCommentEmailStatus: "none",
-        displayEditCommentText:"none",
+        displayEditCommentText: "none",
         displayDelete: "none",
         displayDeleteVerification: "none",
         displayDeleteCheck: "none",
@@ -48,7 +49,7 @@ export default class Main extends React.Component {
         displayEdit: "none",
         displayEditVerification: "none",
         displayEditCheck: "none",
-        displayEditStatus:"none",
+        displayEditStatus: "none",
         listingToEdit: {
             hotSwappable: "",
             osCompatibility: [],
@@ -81,13 +82,12 @@ export default class Main extends React.Component {
         errorMessageAddComment: [],
         errorMessageAddCommentUser: [],
         keyboardBrandOptions: [],
+        osCompatibilitySearch: "",
+        hotSwappableSearch: "",
         osCompatibility: "Windows",
         hotSwappable: "true",
         keyboardSize: [],
-        keyboardSizeError: "",
         keyboardBrand: [],
-        keyboardBrandError: "",
-        searchError: "",
         textSearch: "",
         osCompatibilityInput: [],
         hotSwappableInput: "true",
@@ -127,32 +127,25 @@ export default class Main extends React.Component {
     async componentDidMount() {
         let response = await axios.get(this.url + "listings");
 
-        // await Promise.all([
-        //     this.deriveKeyboardBrands(),
-        //     this.deriveKeycapProfile(),
-        //     this.deriveKeycapMaterial(),
-        //     this.deriveKeycapManufacturer()
-        // ])
         this.setState({
             data: response.data.data,
             dataCount: response.data.count,
-            // database: response.data.data1,
-            keyboardBrandOptions:response.data.data1,
-            keycapMaterialOptions:response.data.data2,
-            keycapProfileOptions:response.data.data3,
-            keycapManufacturerOptions:response.data.data4
+            keyboardBrandOptions: response.data.data1,
+            keycapMaterialOptions: response.data.data2,
+            keycapProfileOptions: response.data.data3,
+            keycapManufacturerOptions: response.data.data4
 
-        })
-    }
+        });
+    };
 
     changePage = (page) => {
-        this.clearAddListingErrors(page)
+        this.clearAddListingErrors(page);
         this.setState({
             active: page,
-            displayDelete:"none",
-            displayEdit:"none"
-        })
-    }
+            displayDelete: "none",
+            displayEdit: "none"
+        });
+    };
     renderPage() {
         if (this.state.active === "create") {
             return <Create
@@ -215,8 +208,8 @@ export default class Main extends React.Component {
                         active: "each-listing",
                         tempList: each,
                         tempListId: each._id,
-                        displayDelete:"none",
-                        displayEdit:"none"
+                        displayDelete: "none",
+                        displayEdit: "none"
                     });
                 }}
                 keyboardBrandOptions={this.state.keyboardBrandOptions}
@@ -224,16 +217,16 @@ export default class Main extends React.Component {
                     let count = this.state.count
                     this.setState({
                         count: count + 1
-                    })
+                    });
                     if (count % 2 === 0) {
                         this.setState({
                             displaySearch: "block",
-                        })
+                        });
                     } else if (count % 2 === 1) {
                         this.setState({
                             displaySearch: "none",
-                        })
-                    }
+                        });
+                    };
                 }}
                 displaySearch={this.state.displaySearch}
                 osCompatibility={this.state.osCompatibility}
@@ -245,9 +238,8 @@ export default class Main extends React.Component {
                 updateFormFieldGeneral={this.updateFormFieldGeneral}
                 dataCount={this.state.dataCount}
                 dataCountMessage={this.state.dataCountMessage}
-                keyboardSizeError={this.state.keyboardSizeError}
-                keyboardBrandError={this.state.keyboardBrandError}
-                searchError={this.state.searchError}
+                osCompatibilitySearch={this.state.osCompatibilitySearch}
+                hotSwappableSearch={this.state.hotSwappableSearch}
                 textSearch={this.state.textSearch}
                 deriveSearch={this.deriveSearch}
                 closeSearch={this.closeSearch}
@@ -257,7 +249,7 @@ export default class Main extends React.Component {
                 closeDelete={this.closeDelete}
                 displayDeleteConfirmation={(each) => {
                     this.setState({
-                        displayEdit:"none",
+                        displayEdit: "none",
                         deleteEmailToVerify: "",
                         deleteEmailNotVerified: "none",
                         deleteEmailVerified: "none",
@@ -265,7 +257,7 @@ export default class Main extends React.Component {
                         displayDeleteVerification: "block",
                         displayDeleteStatus: "none",
                         listingToDelete: each
-                    })
+                    });
                 }}
                 deleteEmailToVerify={this.state.deleteEmailToVerify}
                 deleteEmailVerified={this.state.deleteEmailVerified}
@@ -282,7 +274,7 @@ export default class Main extends React.Component {
                 closeEdit={this.closeEdit}
                 displayEditConfirmation={(each) => {
                     this.setState({
-                        displayDelete:"none",
+                        displayDelete: "none",
                         editEmailToVerify: "",
                         editEmailNotVerified: "none",
                         editEmailVerified: "none",
@@ -290,7 +282,7 @@ export default class Main extends React.Component {
                         displayEditStatus: "none",
                         displayEditVerification: "block",
                         listingToEdit: each
-                    })
+                    });
                 }}
                 editEmailToVerify={this.state.editEmailToVerify}
                 editEmailVerified={this.state.editEmailVerified}
@@ -322,7 +314,7 @@ export default class Main extends React.Component {
                         this.state.newComment,
                         this.state.tempList,
                         this.state.data,
-                    )
+                    );
                 }}
                 deleteComment={this.deleteComment}
                 commentToEdit={this.state.commentToEdit}
@@ -338,8 +330,7 @@ export default class Main extends React.Component {
                         this.state.commentToEdit,
                         this.state.data,
                         this.state.editCommentEmail
-
-                    )
+                    );
                 }}
                 returnPage={this.returnPage}
 
@@ -363,7 +354,6 @@ export default class Main extends React.Component {
                 keycapProfileInputNew={this.state.keycapProfileInputNew}
                 keycapMaterialInputNew={this.state.keycapMaterialInputNew}
                 keycapManufacturerInputNew={this.state.keycapManufacturerInputNew}
-
                 osCompatibilityEdit={this.osCompatibilityEdit}
                 osCompatibilityInputError={this.state.osCompatibilityInputError}
                 switchesInputError={this.state.switchesInputError}
@@ -378,7 +368,6 @@ export default class Main extends React.Component {
                 keycapManufacturerInputError={this.state.keycapManufacturerInputError}
                 usernameInputError={this.state.usernameInputError}
                 emailInputError={this.state.emailInputError}
-
                 updateFormFieldGeneral={this.updateFormFieldGeneral}
                 updateFormFieldEdit={this.updateFormFieldEdit}
                 updateFormFieldEditKeyboard={this.updateFormFieldEditKeyboard}
@@ -386,309 +375,306 @@ export default class Main extends React.Component {
                 updateFormFieldEditUser={this.updateFormFieldEditUser}
                 confirmChanges={this.confirmChanges}
             />
-        }
+        };
     };
     deleteListingEmailCheck = () => {
-        let listingToDelete = this.state.listingToDelete
-        let creatorEmail = listingToDelete.user.email
-        let deleteEmailToVerify = this.state.deleteEmailToVerify
+        let listingToDelete = this.state.listingToDelete;
+        let creatorEmail = listingToDelete.user.email;
+        let deleteEmailToVerify = this.state.deleteEmailToVerify;
         if (deleteEmailToVerify === creatorEmail) {
             this.setState({
                 deleteEmailVerified: "block",
                 displayDeleteVerification: "none"
-            })
+            });
         } else {
             this.setState({
                 deleteEmailNotVerified: "block"
-            })
-        }
-        console.log(creatorEmail, deleteEmailToVerify)
-
-    }
+            });
+        };
+        console.log(creatorEmail, deleteEmailToVerify);
+    };
     closeDelete = () => {
         this.setState({
             displayDelete: "none"
-        })
-    }
+        });
+    };
     deleteListingYes = async () => {
-        let listingToDelete = this.state.listingToDelete
-        await axios.delete(this.url + "listings/delete/" + listingToDelete._id)
+        let listingToDelete = this.state.listingToDelete;
+        await axios.delete(this.url + "listings/delete/" + listingToDelete._id);
         let indexToRemove = this.state.data.findIndex(function (eachListing) {
             if (eachListing._id === listingToDelete._id) {
-                return true
+                return true;
             } else {
-                return false
-            }
-        })
-        let dataCount = this.state.dataCount - 1
-        let revisedData = [...this.state.data.slice(0, indexToRemove), ...this.state.data.slice(indexToRemove + 1)]
+                return false;
+            };
+        });
+        let dataCount = this.state.dataCount - 1;
+        let revisedData = [...this.state.data.slice(0, indexToRemove), ...this.state.data.slice(indexToRemove + 1)];
         this.setState({
             data: revisedData,
             dataCount,
             deleteEmailVerified: "none",
             displayDeleteStatus: "block"
-        })
+        });
         setTimeout(() => {
             this.setState({
                 displayDelete: "none",
                 displayDeleteStatus: "none"
-            })
+            });
         }, 1500);
-    }
+    };
     deleteListingNo = () => {
         this.setState({
             displayDelete: "none",
             deleteEmailVerified: "none"
-        })
-    }
+        });
+    };
     editListingEmailCheck = () => {
-        let listingToEdit = this.state.listingToEdit
-        let creatorEmail = listingToEdit.user.email
-        let editEmailToVerify = this.state.editEmailToVerify
+        let listingToEdit = this.state.listingToEdit;
+        let creatorEmail = listingToEdit.user.email;
+        let editEmailToVerify = this.state.editEmailToVerify;
         if (editEmailToVerify === creatorEmail) {
             this.setState({
                 editEmailVerified: "block",
                 displayEditVerification: "none"
-            })
+            });
         } else {
             this.setState({
                 editEmailNotVerified: "block"
-            })
-        }
-        console.log(creatorEmail, editEmailToVerify)
-
-    }
+            });
+        };
+        console.log(creatorEmail, editEmailToVerify);
+    };
     closeEdit = () => {
         this.setState({
             displayEdit: "none"
-        })
-    }
+        });
+    };
     editListingYes = async () => {
         this.setState({
-            active:"edit",
+            active: "edit",
             editEmailVerified: "none"
-        })
-    }
+        });
+    };
     editListingNo = () => {
         this.setState({
             displayEdit: "none",
             editEmailVerified: "none"
-        })
-    }
+        });
+    };
     addNewListing = async () => {
-        let osCompatibility = this.state.osCompatibilityInput
-        let hotSwappable = this.state.hotSwappableInput
-        let switches = this.state.switchesInput
-        let keyboardBrand = this.state.keyboardBrandInput
+        let osCompatibility = this.state.osCompatibilityInput;
+        let hotSwappable = this.state.hotSwappableInput;
+        let switches = this.state.switchesInput;
+        let keyboardBrand = this.state.keyboardBrandInput;
         if (keyboardBrand === "new-input") {
-            keyboardBrand = this.state.keyboardBrandInputNew
+            keyboardBrand = this.state.keyboardBrandInputNew;
         } else {
-            keyboardBrand = this.state.keyboardBrandInput
-        }
-        let keyboardModel = this.state.keyboardModelInput
-        let keyboardSize = this.state.keyboardSizeInput
-        let keyboardProductLink = this.state.keyboardProductLinkInput
-        let keyboardImage = this.state.keyboardImageInput
-        let keycapModel = this.state.keycapModelInput
-        let keycapMaterial = this.state.keycapMaterialInput
+            keyboardBrand = this.state.keyboardBrandInput;
+        };
+        let keyboardModel = this.state.keyboardModelInput;
+        let keyboardSize = this.state.keyboardSizeInput;
+        let keyboardProductLink = this.state.keyboardProductLinkInput;
+        let keyboardImage = this.state.keyboardImageInput;
+        let keycapModel = this.state.keycapModelInput;
+        let keycapMaterial = this.state.keycapMaterialInput;
         if (keycapMaterial === "new-input") {
-            keycapMaterial = this.state.keycapMaterialInputNew
+            keycapMaterial = this.state.keycapMaterialInputNew;
         } else {
-            keycapMaterial = this.state.keycapMaterialInput
-        }
-        console.log(keycapMaterial)
-        let keycapProfile = this.state.keycapProfileInput
+            keycapMaterial = this.state.keycapMaterialInput;
+        };
+        let keycapProfile = this.state.keycapProfileInput;
         if (keycapProfile === "new-input") {
-            keycapProfile = this.state.keycapProfileInputNew
+            keycapProfile = this.state.keycapProfileInputNew;
         } else {
-            keycapProfile = this.state.keycapProfileInput
-        }
-        let keycapManufacturer = this.state.keycapManufacturerInput
+            keycapProfile = this.state.keycapProfileInput;
+        };
+        let keycapManufacturer = this.state.keycapManufacturerInput;
         if (keycapManufacturer === "new-input") {
-            keycapManufacturer = this.state.keycapManufacturerInputNew
+            keycapManufacturer = this.state.keycapManufacturerInputNew;
         } else {
-            keycapManufacturer = this.state.keycapManufacturerInput
-        }
-        let username = this.state.usernameInput
-        let email = this.state.emailInput
+            keycapManufacturer = this.state.keycapManufacturerInput;
+        };
+        let username = this.state.usernameInput;
+        let email = this.state.emailInput;
         if (osCompatibility.length === 0) {
-            let osCompatibilityInputError = "At least one option must be selected"
+            let osCompatibilityInputError = "At least one option must be selected";
             this.setState({
                 osCompatibilityInputError
-            })
+            });
         } else {
             this.setState({
                 osCompatibilityInputError: ""
-            })
-        }
+            });
+        };
         if (switches.length < 5) {
-            let switchesInputError = "Field value must be at least 5 characters long"
+            let switchesInputError = "Field value must be at least 5 characters long";
             this.setState({
                 switchesInputError
-            })
+            });
         } else {
             this.setState({
                 switchesInputError: ""
-            })
-        }
+            });
+        };
         if (keyboardBrand.length < 5) {
-            let keyboardBrandInputError = "Field value must be at least 5 characters long"
+            let keyboardBrandInputError = "Field value must be at least 5 characters long";
             this.setState({
                 keyboardBrandInputError
-            })
+            });
         } else {
             this.setState({
                 keyboardBrandInputError: ""
-            })
-        }
+            });
+        };
         if (keyboardModel.length < 3) {
-            let keyboardModelInputError = "Field value must be at least 3 characters long"
+            let keyboardModelInputError = "Field value must be at least 3 characters long";
             this.setState({
                 keyboardModelInputError
-            })
+            });
         } else {
             this.setState({
                 keyboardModelInputError: ""
-            })
-        }
+            });
+        };
         if (keyboardSize.length === 0) {
-            let keyboardSizeInputError = "One option must be selected"
+            let keyboardSizeInputError = "One option must be selected";
             this.setState({
                 keyboardSizeInputError
-            })
+            });
         } else {
             this.setState({
                 keyboardSizeInputError: ""
-            })
-        }
+            });
+        };
         if (!keyboardProductLink.includes("https://")) {
-            let keyboardProductLinkInputError = "Link provided must start with https://"
+            let keyboardProductLinkInputError = "Link provided must start with https://";
             this.setState({
                 keyboardProductLinkInputError
-            })
+            });
         } else if (keyboardProductLink.includes("https://")) {
             this.setState({
                 keyboardProductLinkInputError: ""
-            })
-        }
+            });
+        };
         if (!keyboardImage.includes("https://")) {
-            let keyboardImageInputError = "Link provided must start with https://"
+            let keyboardImageInputError = "Link provided must start with https://";
             this.setState({
                 keyboardImageInputError
-            })
+            });
         } else if (keyboardImage.includes("https://")) {
             this.setState({
                 keyboardImageInputError: ""
-            })
-        }
+            });
+        };
         if (keycapModel.length < 3) {
-            let keycapModelInputError = "Field value must be at least 3 characters long"
+            let keycapModelInputError = "Field value must be at least 3 characters long";
             this.setState({
                 keycapModelInputError
-            })
+            });
         } else {
             this.setState({
                 keycapModelInputError: ""
-            })
-        }
-        let keycapMaterialInput = this.state.keycapMaterialInput
-        let keycapMaterialInputNew = this.state.keycapMaterialInputNew
-        if (keycapMaterialInput!=="new-input") {
-            let keycapMaterialInputError = "One option must be selected"
+            });
+        };
+        let keycapMaterialInput = this.state.keycapMaterialInput;
+        let keycapMaterialInputNew = this.state.keycapMaterialInputNew;
+        if (keycapMaterialInput !== "new-input") {
+            let keycapMaterialInputError = "One option must be selected";
             this.setState({
                 keycapMaterialInputError
-            })
-        } else if(keycapMaterialInput === "new-input" ){
-            let keycapMaterialInputError = "One option must be selected"
+            });
+        } else if (keycapMaterialInput === "new-input") {
+            let keycapMaterialInputError = "One option must be selected";
             this.setState({
                 keycapMaterialInputError
-            })
+            });
         } else if (keycapMaterialInput === "new-input" && keycapMaterialInputNew.length < 3) {
-            let keycapMaterialInputError = "Field value must be at least 3 characters long"
+            let keycapMaterialInputError = "Field value must be at least 3 characters long";
             this.setState({
                 keycapMaterialInputError
-            })
+            });
         } else {
             this.setState({
                 keycapMaterialInputError: ""
-            })
-        }
+            });
+        };
         if (keycapProfile.length < 2) {
-            let keycapProfileInputError = "Field value must be at least 2 characters long"
+            let keycapProfileInputError = "Field value must be at least 2 characters long";
             this.setState({
                 keycapProfileInputError
-            })
+            });
         } else {
             this.setState({
                 keycapProfileInputError: ""
-            })
-        }
+            });
+        };
         if (keycapManufacturer.length < 3) {
-            let keycapManufacturerInputError = "Field value must be at least 3 characters long"
+            let keycapManufacturerInputError = "Field value must be at least 3 characters long";
             this.setState({
                 keycapManufacturerInputError
-            })
+            });
         } else {
             this.setState({
                 keycapManufacturerInputError: ""
-            })
-        }
+            });
+        };
         if (username.length < 5) {
-            let usernameInputError = "Field value must be at least 5 characters long"
+            let usernameInputError = "Field value must be at least 5 characters long";
             this.setState({
                 usernameInputError
-            })
+            });
         } else {
             this.setState({
                 usernameInputError: ""
-            })
-        }
+            });
+        };
         if (email.length < 10) {
-            let emailInputError = `Must be a valid email address that includes @ and "." and be more than 10 characters long`
+            let emailInputError = `Must be a valid email address that includes @ and "." and be more than 10 characters long`;
             if (email.includes(".") && email.includes("@")) {
-                emailInputError = `Email must be more than 10 characters long`
+                emailInputError = `Email must be more than 10 characters long`;
                 this.setState({
                     emailInputError
-                })
+                });
             } else if (!email.includes(".") && !email.includes("@")) {
-                emailInputError = `Must be a valid email address that includes @ and "." and be more than 10 characters long`
+                emailInputError = `Must be a valid email address that includes @ and "." and be more than 10 characters long`;
                 this.setState({
                     emailInputError
-                })
+                });
             } else if (email.includes("@")) {
-                let emailInputError = `Must be a valid email address that includes "." and be more than 10 characters long`
+                let emailInputError = `Must be a valid email address that includes "." and be more than 10 characters long`;
                 this.setState({
                     emailInputError
-                })
+                });
             } else if (email.includes(".")) {
-                let emailInputError = `Must be a valid email address that includes "@" and be more than 10 characters long`
+                let emailInputError = `Must be a valid email address that includes "@" and be more than 10 characters long`;
                 this.setState({
                     emailInputError
-                })
-            }
+                });
+            };
         } else if (email.length >= 10) {
-            let emailInputError = `Must be a valid email address that includes @ and "."`
+            let emailInputError = `Must be a valid email address that includes @ and "."`;
             if (email.includes(".") && email.includes("@")) {
                 this.setState({
                     emailInputError: ""
-                })
+                });
             } else if (!email.includes(".") && !email.includes("@")) {
-                emailInputError = `Must be a valid email address that includes @ and "."`
+                emailInputError = `Must be a valid email address that includes @ and "."`;
                 this.setState({
                     emailInputError
-                })
+                });
             } else if (email.includes("@")) {
-                let emailInputError = `Must be a valid email address that includes "."`
+                let emailInputError = `Must be a valid email address that includes "."`;
                 this.setState({
                     emailInputError
-                })
+                });
             } else if (email.includes(".")) {
-                let emailInputError = `Must be a valid email address that includes "@"`
+                let emailInputError = `Must be a valid email address that includes "@"`;
                 this.setState({
                     emailInputError
-                })
-            }
-        }
+                });
+            };
+        };
 
         let listingToCreate = {
             '_id': "",
@@ -713,13 +699,13 @@ export default class Main extends React.Component {
                 email
             },
             'reviews': []
-        }
-        console.log(listingToCreate)
+        };
+        console.log(listingToCreate);
 
-        let response = await axios.post(this.url + "listings/create", listingToCreate,)
+        let response = await axios.post(this.url + "listings/create", listingToCreate,);
 
-        let data = [...this.state.data, { ...listingToCreate, '_id': response.data.insertedId }]
-        let dataCount = this.state.dataCount + 1;
+        let data = [...this.state.data, { ...listingToCreate, '_id': response.data.insertedId }];
+        let dataCount = this.state.dataCount + 1;;
         this.setState({
             active: "listings",
             data,
@@ -747,8 +733,8 @@ export default class Main extends React.Component {
             usernameInput: "",
             emailInput: ""
 
-        })
-    }
+        });
+    };
     clearAddListingErrors = (page) => {
         this.setState({
             active: page,
@@ -786,154 +772,77 @@ export default class Main extends React.Component {
             keycapManufacturerInputError: "",
             usernameInputError: "",
             emailInputError: ""
-        })
-    }
-    deriveKeyboardBrands = async () => {
-        let keyboardBrands = [];
-        await this.state.database.map(each =>
-            keyboardBrands.push(each.keyboard.keyboardBrand)
-        );
-        let keyboardBrandOptions = [...new Set(keyboardBrands)];
-        // console.log("key result===> ", keyboardBrandOptions)
+        });
+    };
 
-        this.setState({
-            keyboardBrandOptions
-        })
-        return
-    }
-    deriveKeycapProfile = async () => {
-        let keycapProfiles = [];
-        await this.state.database.map(each =>
-            keycapProfiles.push(each.keycap.keycapProfile)
-        );
-        let keycapProfileOptions = [...new Set(keycapProfiles)];
-
-        this.setState({
-            keycapProfileOptions
-        })
-        return
-    }
-    deriveKeycapMaterial = async () => {
-        let keycapMaterials = [];
-        await this.state.database.map(each =>
-            keycapMaterials.push(each.keycap.keycapMaterial)
-        );
-        let keycapMaterialOptions = [...new Set(keycapMaterials)];
-
-        this.setState({
-            keycapMaterialOptions
-        })
-        return
-    }
-    deriveKeycapManufacturer = async () => {
-        let keycapManufacturers = [];
-        await this.state.database.map(each =>
-            keycapManufacturers.push(each.keycap.keycapManufacturer)
-        );
-        let keycapManufacturerOptions = [...new Set(keycapManufacturers)];
-        console.log("key result===> ", this.state.database)
-
-        this.setState({
-            keycapManufacturerOptions
-        })
-        return
-    }
     osCompatibilityInputSelected = (event) => {
-
         if (this.state.osCompatibilityInput.includes(event.target.value)) {
             let indexToRemove = this.state.osCompatibilityInput.indexOf(event.target.value);
             let osCompatibilityInput = [...this.state.osCompatibilityInput.slice(0, indexToRemove),
             ...this.state.osCompatibilityInput.slice(indexToRemove + 1)];
             this.setState({
                 osCompatibilityInput
-            })
+            });
         } else {
             let osCompatibilityInput = this.state.osCompatibilityInput;
             osCompatibilityInput.push(event.target.value);
             this.setState({
                 osCompatibilityInput
-            })
-        }
-    }
+            });
+        };
+    };
 
     closeSearch = () => {
-        let count = this.state.count + 1
+        let count = this.state.count + 1;
         this.setState({
             count,
             displaySearch: "none"
-        })
-    }
+        });
+    };
     deriveSearch = async () => {
         let query = new URLSearchParams({
-            osCompatibility: this.state.osCompatibility,
-            hotSwappable: this.state.hotSwappable,
+            osCompatibility: this.state.osCompatibilitySearch,
+            hotSwappable: this.state.hotSwappableSearch,
             textSearch: this.state.textSearch
         });
         let keyboardSize = this.state.keyboardSize;
         let keyboardSizeQuery = "&keyboardSize=";
         let keyboardBrand = this.state.keyboardBrand;
         let keyboardBrandQuery = "&keyboardBrand=";
+        if (Array.isArray(keyboardSize)) {
+            for (let i = 0; i < keyboardSize.length; i++) {
+                keyboardSizeQuery += keyboardSize[i] + ",";
+            };
+            keyboardSizeQuery = keyboardSizeQuery.slice(0, -1);
+        } else {
+            keyboardSizeQuery += keyboardSize + ",";
+        };
+
+        if (Array.isArray(keyboardBrand)) {
+            for (let i = 0; i < keyboardBrand.length; i++) {
+                keyboardBrandQuery += keyboardBrand[i] + ",";
+            };
+            keyboardBrandQuery = keyboardBrandQuery.slice(0, -1);
+        } else {
+            keyboardBrandQuery += keyboardBrand + ",";
+        };
+
+        let searchLinkQuery = this.url + "listings?" + query.toString() + keyboardSizeQuery + keyboardBrandQuery;
+        console.log(this.url + "listings?" + query.toString() + keyboardSizeQuery + keyboardBrandQuery);
+
+        let searchResults = await axios.get(searchLinkQuery);
+        console.log(searchResults);
+        let dataCountMessage = searchResults.data.count + " result(s) found.";
+        let count = this.state.count + 1;
+
         this.setState({
-            searchError: "",
-            keyboardSizeError: "",
-            keyboardBrandError: "",
-            dataCountMessage: "",
-        })
-        // if (keyboardSize.length === 0 || keyboardBrand.length === 0) {
-        //     this.setState({
-        //         searchError: "Form not submitted, all fields must be completed. "
-        //     })
-        //     if (keyboardSize.length === 0) {
-        //         this.setState({
-        //             keyboardSizeError: "At least one option must be selected"
-        //         })
-        //     } else {
-        //         this.setState({
-        //             keyboardSizeError: ""
-        //         })
-        //     }
-        //     if (keyboardBrand.length === 0) {
-        //         this.setState({
-        //             keyboardBrandError: "At least one option must be selected"
-        //         })
-        //     } else {
-        //         this.setState({
-        //             keyboardBrandError: ""
-        //         })
-        //     }
-        // } else {
-            if (Array.isArray(keyboardSize)) {
-                for (let i = 0; i < keyboardSize.length; i++) {
-                    keyboardSizeQuery += keyboardSize[i] + ",";
-                }
-                keyboardSizeQuery = keyboardSizeQuery.slice(0, -1);
-            } else {
-                keyboardSizeQuery += keyboardSize + ",";
-            };
-
-            if (Array.isArray(keyboardBrand)) {
-                for (let i = 0; i < keyboardBrand.length; i++) {
-                    keyboardBrandQuery += keyboardBrand[i] + ",";
-                }
-                keyboardBrandQuery = keyboardBrandQuery.slice(0, -1);
-            } else {
-                keyboardBrandQuery += keyboardBrand + ",";
-            };
-
-            let searchLinkQuery = this.url + "listings?" + query.toString() + keyboardSizeQuery + keyboardBrandQuery
-            console.log(this.url + "listings?" + query.toString() + keyboardSizeQuery + keyboardBrandQuery);
-
-            let searchResults = await axios.get(searchLinkQuery)
-            console.log(searchResults)
-            let dataCountMessage = searchResults.data.count + " results found.";
-
-            this.setState({
-                data: searchResults.data.data,
-                dataCount: searchResults.data.count,
-                dataCountMessage,
-                searchError: "Form submitted. ",
-            })
-        // }
+            count,
+            data: searchResults.data.data,
+            dataCount: searchResults.data.count,
+            dataCountMessage,
+            displaySearch: "none",
+            searchError: "Form submitted. ",
+        });
     }
     keyboardBrandSelected = (event) => {
         if (this.state.keyboardBrand.includes(event.target.value)) {
@@ -942,15 +851,15 @@ export default class Main extends React.Component {
             ...this.state.keyboardBrand.slice(indexToRemove + 1)];
             this.setState({
                 keyboardBrand
-            })
+            });
         } else {
             let keyboardBrand = this.state.keyboardBrand;
             keyboardBrand.push(event.target.value);
             this.setState({
                 keyboardBrand
-            })
-        }
-    }
+            });
+        };
+    };
     keyboardSizeSelected = (event) => {
         if (this.state.keyboardSize.includes(event.target.value)) {
             let keyboardSize = this.state.keyboardSize.slice();
@@ -958,15 +867,15 @@ export default class Main extends React.Component {
             keyboardSize = [...keyboardSize.slice(0, indexToRemove), ...keyboardSize.slice(indexToRemove + 1)];
             this.setState({
                 keyboardSize
-            })
+            });
         } else {
             let keyboardSize = this.state.keyboardSize.slice();
             keyboardSize.push(event.target.value);
             this.setState({
                 keyboardSize
-            })
-        }
-    }
+            });
+        };
+    };
 
     osCompatibilityEdit = (event) => {
         let osCompatibility = this.state.listingToEdit.osCompatibility;
@@ -977,28 +886,28 @@ export default class Main extends React.Component {
             ...osCompatibility.slice(indexToRemove + 1)];
             this.setState({
                 listingToEdit: { ...this.state.listingToEdit, osCompatibility: osCompatibilityEdited }
-            })
+            });
         } else if (!Array.isArray(osCompatibility) && osCompatibility.includes(event.target.value)) {
             this.setState({
                 listingToEdit: { ...this.state.listingToEdit, osCompatibility: [] }
-            })
+            });
         } else if (!Array.isArray(osCompatibility) && !osCompatibility.includes(event.target.value)) {
             osCompatibilityEdited = [osCompatibility];
             osCompatibilityEdited.push(event.target.value);
             this.setState({
                 listingToEdit: { ...this.state.listingToEdit, osCompatibility: osCompatibilityEdited }
-            })
+            });
         } else if (Array.isArray(osCompatibility) && !osCompatibility.includes(event.target.value)) {
             osCompatibilityEdited = [...osCompatibility];
             osCompatibilityEdited.push(event.target.value);
             this.setState({
                 listingToEdit: { ...this.state.listingToEdit, osCompatibility: osCompatibilityEdited }
-            })
-        }
-    }
+            });
+        };
+    };
     confirmChanges = async () => {
-        let tracker=[];
-        let trackerAddNew =[];
+        let tracker = [];
+        let trackerAddNew = [];
         let listingToEdit = this.state.listingToEdit;
         let listingToEditCloned = { ...listingToEdit };
         let osCompatibility = listingToEdit.osCompatibility;
@@ -1008,7 +917,7 @@ export default class Main extends React.Component {
         if (keyboardBrand === "new-input") {
             keyboardBrand = keyboardBrandInputNew;
             trackerAddNew.push("keyboardBrand")
-        }
+        };
         let keyboardModel = listingToEdit.keyboard.keyboardModel;
         let keyboardProductLink = listingToEdit.keyboard.keyboardProductLink;
         let keyboardImage = listingToEdit.keyboard.keyboardImage;
@@ -1019,24 +928,24 @@ export default class Main extends React.Component {
         let keycapMaterialInputNew = this.state.keycapMaterialInputNew;
         if (keycapMaterial === "new-input") {
             keycapMaterial = keycapMaterialInputNew;
-            trackerAddNew.push("keycapMaterial")
+            trackerAddNew.push("keycapMaterial");
         };
         let keycapProfile = listingToEdit.keycap.keycapProfile;
         let keycapProfileInputNew = this.state.keycapProfileInputNew;
         if (keycapProfile === "new-input") {
             keycapProfile = keycapProfileInputNew;
-            trackerAddNew.push("keycapProfile")
+            trackerAddNew.push("keycapProfile");
         };
         let keycapManufacturer = listingToEdit.keycap.keycapManufacturer;
         let keycapManufacturerInputNew = this.state.keycapManufacturerInputNew;
         if (keycapManufacturer === "new-input") {
             keycapManufacturer = keycapManufacturerInputNew;
-            trackerAddNew.push("keycapManufacturer")
+            trackerAddNew.push("keycapManufacturer");
         };
         if (osCompatibility.length === 0) {
             this.setState({
                 osCompatibilityInputError: "At least one option must be selected"
-            })
+            });
         } else {
             tracker.push("true");
             this.setState({
@@ -1044,21 +953,20 @@ export default class Main extends React.Component {
             });
         };
         if (switches.length < 5) {
-            let switchesInputError = "Field value must be at least 5 characters long"
+            let switchesInputError = "Field value must be at least 5 characters long";
             this.setState({
                 switchesInputError
-            })
+            });
         } else {
             tracker.push("true");
             this.setState({
                 switchesInputError: ""
             });
         };
-        console.log(keyboardBrand)
         console.log(keyboardBrand.length < 5)
         let keyboardBrandInputError = "";
         if (keyboardBrand.length < 5) {
-            keyboardBrandInputError = "Field value must be at least 5 characters long"
+            keyboardBrandInputError = "Field value must be at least 5 characters long";
             this.setState({
                 keyboardBrandInputError
             });
@@ -1067,183 +975,184 @@ export default class Main extends React.Component {
             keyboardBrandInputError = ""
             this.setState({
                 keyboardBrandInputError
-            })
-        }
+            });
+        };
         if (keyboardModel.length < 3) {
-            let keyboardModelInputError = "Field value must be at least 3 characters long"
+            let keyboardModelInputError = "Field value must be at least 3 characters long";
             this.setState({
                 keyboardModelInputError
-            })
+            });
         } else {
-            tracker.push("true")
+            tracker.push("true");
             this.setState({
                 keyboardModelInputError: ""
-            })
-        }
+            });
+        };
         if (!keyboardProductLink.includes("https://")) {
-            let keyboardProductLinkInputError = "Link provided must start with https://"
+            let keyboardProductLinkInputError = "Link provided must start with https://";
             this.setState({
                 keyboardProductLinkInputError
-            })
+            });
         } else if (keyboardProductLink.includes("https://")) {
-            tracker.push("true")
+            tracker.push("true");
             this.setState({
                 keyboardProductLinkInputError: ""
-            })
-        }
+            });
+        };
         if (!keyboardImage.includes("https://")) {
-            let keyboardImageInputError = "Link provided must start with https://"
+            let keyboardImageInputError = "Link provided must start with https://";
             this.setState({
                 keyboardImageInputError
-            })
+            });
         } else if (keyboardImage.includes("https://")) {
-            tracker.push("true")
+            tracker.push("true");
             this.setState({
                 keyboardImageInputError: ""
-            })
-        }
+            });
+        };
         if (keycapModel.length < 3) {
-            let keycapModelInputError = "Field value must be at least 3 characters long"
+            let keycapModelInputError = "Field value must be at least 3 characters long";
             this.setState({
                 keycapModelInputError
-            })
+            });
         } else {
             tracker.push("true")
             this.setState({
                 keycapModelInputError: ""
-            })
-        }
-        let keycapMaterialInputError = ""
+            });
+        };
+        let keycapMaterialInputError = "";
         if (keycapMaterialInputNew.length < 3) {
-            keycapMaterialInputError = "Field value must be at least 3 characters long"
+            keycapMaterialInputError = "Field value must be at least 3 characters long";
             this.setState({
                 keycapMaterialInputError
-            })
+            });
         } else {
-            tracker.push("true")
-            keycapMaterialInputError = ""
+            tracker.push("true");
+            keycapMaterialInputError = "";
             this.setState({
                 keycapMaterialInputError
-            })
-        }
-        let keycapProfileInputError = ""
+            });
+        };
+        let keycapProfileInputError = "";
         if (keycapProfileInputNew.length < 2) {
-            keycapProfileInputError = "Field value must be at least 2 characters long"
+            keycapProfileInputError = "Field value must be at least 2 characters long";
             this.setState({
                 keycapProfileInputError,
-            })
+            });
         } else {
-            tracker.push("true")
-            keycapProfileInputError = ""
+            tracker.push("true");
+            keycapProfileInputError = "";
             this.setState({
                 keycapProfileInputError
-            })
-        }
-        let keycapManufacturerInputError = ""
+            });
+        };
+        let keycapManufacturerInputError = "";
         if (keycapManufacturerInputNew.length < 3) {
-            keycapManufacturerInputError = "Field value must be at least 3 characters long"
+            keycapManufacturerInputError = "Field value must be at least 3 characters long";
             this.setState({
                 keycapManufacturerInputError,
-            })
+            });
         } else {
-            tracker.push("true")
-            keycapManufacturerInputError = ""
+            tracker.push("true");
+            keycapManufacturerInputError = "";
             this.setState({
                 keycapManufacturerInputError
-            })
-        }
+            });
+        };
 
         if (username.length < 5) {
-            let usernameInputError = "Field value must be at least 5 characters long"
+            let usernameInputError = "Field value must be at least 5 characters long";
             this.setState({
                 usernameInputError
-            })
+            });
         } else {
-            tracker.push("true")
+            tracker.push("true");
             this.setState({
                 usernameInputError: ""
-            })
-        }
+            });
+        };
         if (email.length < 10) {
-            let emailInputError = `Must be a valid email address that includes @ and "." and be more than or equal to 10 characters long`
+            let emailInputError = `Must be a valid email address that includes @ and "." and be more than or equal to 10 characters long`;
             if (email.includes(".") && email.includes("@")) {
-                emailInputError = `Email must be more than or equal to 10 characters long`
+                emailInputError = `Email must be more than or equal to 10 characters long`;
                 this.setState({
                     emailInputError
-                })
+                });
             } else if (!email.includes(".") && !email.includes("@")) {
-                emailInputError = `Must be a valid email address that includes @ and "." and be more than or equal to 10 characters long`
+                emailInputError = `Must be a valid email address that includes @ and "." and be more than or equal to 10 characters long`;
                 this.setState({
                     emailInputError
-                })
+                });
             } else if (email.includes("@")) {
-                let emailInputError = `Must be a valid email address that includes "." and be more than or equal to 10 characters long`
+                let emailInputError = `Must be a valid email address that includes "." and be more than or equal to 10 characters long`;
                 this.setState({
                     emailInputError
-                })
+                });
             } else if (email.includes(".")) {
-                let emailInputError = `Must be a valid email address that includes "@" and be more than or equal to 10 characters long`
+                let emailInputError = `Must be a valid email address that includes "@" and be more than or equal to 10 characters long`;
                 this.setState({
                     emailInputError
-                })
-            }
+                });
+            };
         } else if (email.length >= 10) {
-            let emailInputError = `Must be a valid email address that includes @ and "."`
+            let emailInputError = `Must be a valid email address that includes @ and "."`;
             if (email.includes(".") && email.includes("@")) {
                 tracker.push("true");
                 this.setState({
                     emailInputError: ""
-                })
+                });
             } else if (!email.includes(".") && !email.includes("@")) {
-                emailInputError = `Must be a valid email address that includes @ and "."`
+                emailInputError = `Must be a valid email address that includes @ and "."`;
                 this.setState({
                     emailInputError
-                })
+                });
             } else if (email.includes("@")) {
-                let emailInputError = `Must be a valid email address that includes "."`
+                let emailInputError = `Must be a valid email address that includes "."`;
                 this.setState({
                     emailInputError
-                })
+                });
             } else if (email.includes(".")) {
-                let emailInputError = `Must be a valid email address that includes "@"`
+                let emailInputError = `Must be a valid email address that includes "@"`;
                 this.setState({
                     emailInputError
-                })
-            }
-        }
+                });
+            };
+        };
 
-        if(trackerAddNew.includes("keyboardBrand")){
-            keyboardBrand=this.state.keyboardBrandInputNew
-        }if(trackerAddNew.includes("keycapProfile")){
-            keycapProfile=this.state.keycapProfileInputNew
-        }
-        if(trackerAddNew.includes("keycapManufacturer")){
-            keycapManufacturerInputNew= this.state.keycapManufacturerInputNew
-        }
-        if(trackerAddNew.includes("keycapMaterial")){
-            keycapMaterial=this.state.keycapMaterialInputNew
-        }
+        if (trackerAddNew.includes("keyboardBrand")) {
+            keyboardBrand = this.state.keyboardBrandInputNew;
+        }; 
+        if (trackerAddNew.includes("keycapProfile")) {
+            keycapProfile = this.state.keycapProfileInputNew;
+        };
+        if (trackerAddNew.includes("keycapManufacturer")) {
+            keycapManufacturerInputNew = this.state.keycapManufacturerInputNew;
+        };
+        if (trackerAddNew.includes("keycapMaterial")) {
+            keycapMaterial = this.state.keycapMaterialInputNew;
+        };
         console.log(tracker)
         console.log(trackerAddNew)
         if (tracker.length === 9 && trackerAddNew.length === 0) {
             //when editor changes nothing and saves
-            let listingToEditConfirmed = {...listingToEditCloned}
-            console.log(listingToEditConfirmed)
+            let listingToEditConfirmed = { ...listingToEditCloned };
+            console.log(listingToEditConfirmed);
 
-            let listingToEditId =this.state.listingToEdit._id;
+            let listingToEditId = this.state.listingToEdit._id;;
             let indexToReplace = this.state.data.findIndex(function (each) {
                 if (each._id === listingToEditId) {
                     return true;
                 } else {
                     return false;
-                }
-            })
-            let revisedData =[...this.state.data.slice(0,indexToReplace),
-                                listingToEditConfirmed,
-                                ...this.state.data.slice(indexToReplace+1)]
+                };
+            });
+            let revisedData = [...this.state.data.slice(0, indexToReplace),
+                listingToEditConfirmed,
+                ...this.state.data.slice(indexToReplace + 1)];
             this.setState({
-                active:'listings',
-                data:revisedData,
+                active: 'listings',
+                data: revisedData,
                 displayEditStatus: "block",
                 listingToEdit: {
                     ...listingToEditCloned
@@ -1265,17 +1174,15 @@ export default class Main extends React.Component {
                 keycapManufacturerInputError: "",
                 usernameInputError: "",
                 emailInputError: ""
-            })
+            });
+            console.log(listingToEditConfirmed);
+            await axios.put(this.url + "listings/edit/" + listingToEdit._id, listingToEditConfirmed);
 
-            
-            console.log(listingToEditConfirmed)
-            await axios.put(this.url+"listings/edit/"+listingToEdit._id,listingToEditConfirmed)
-            
             setTimeout(() => {
                 this.setState({
                     displayEditStatus: "none",
                     displayEdit: "none"
-                })
+                });
             }, 1500);
 
         } else if ((tracker.length === 12 && trackerAddNew.length === 4) ||
@@ -1283,36 +1190,37 @@ export default class Main extends React.Component {
             (tracker.length >= 10 && trackerAddNew.length === 2) ||
             (tracker.length >= 11 && trackerAddNew.length === 3)) {
             // when editor changes keyboardBrand,keycapProfile,keycapManufacturer,keycapMaterial to add a new option
-            console.log(keyboardBrandInputNew,keycapManufacturerInputNew,keycapMaterialInputNew,keycapProfileInputNew)
-            
+            console.log(keyboardBrandInputNew, keycapManufacturerInputNew, keycapMaterialInputNew, keycapProfileInputNew);
+
             let listingToEditConfirmed = {
                 ...listingToEditCloned,
                 keyboard: {
                     ...listingToEditCloned.keyboard,
                     keyboardBrand
                 },
-                keycap:{...listingToEdit.keycap,
+                keycap: {
+                    ...listingToEdit.keycap,
                     keycapMaterial,
                     keycapProfile,
                     keycapManufacturer
                 }
-            }
-            console.log(listingToEditConfirmed)
+            };
+            console.log(listingToEditConfirmed);
 
-            let listingToEditId =this.state.listingToEdit._id;
+            let listingToEditId = this.state.listingToEdit._id;
             let indexToReplace = this.state.data.findIndex(function (each) {
                 if (each._id === listingToEditId) {
                     return true;
                 } else {
                     return false;
-                }
-            })
-            let revisedData =[...this.state.data.slice(0,indexToReplace),
-                                listingToEditConfirmed,
-                                ...this.state.data.slice(indexToReplace+1)]
+                };
+            });
+            let revisedData = [...this.state.data.slice(0, indexToReplace),
+                listingToEditConfirmed,
+                ...this.state.data.slice(indexToReplace + 1)];
             this.setState({
-                active:'listings',
-                data:revisedData,
+                active: 'listings',
+                data: revisedData,
                 // database:revisedData,
                 displayEditStatus: "block",
                 listingToEdit: {
@@ -1321,7 +1229,8 @@ export default class Main extends React.Component {
                         ...listingToEditCloned.keyboard,
                         keyboardBrand
                     },
-                    keycap:{...listingToEdit.keycap,
+                    keycap: {
+                        ...listingToEdit.keycap,
                         keycapMaterial,
                         keycapProfile,
                         keycapManufacturer
@@ -1344,87 +1253,87 @@ export default class Main extends React.Component {
                 keycapManufacturerInputError: "",
                 usernameInputError: "",
                 emailInputError: ""
-            })
+            });
 
-            await axios.put(this.url+"listings/edit/"+listingToEdit._id,listingToEditConfirmed)
-            
+            await axios.put(this.url + "listings/edit/" + listingToEdit._id, listingToEditConfirmed);
+
             setTimeout(() => {
                 this.setState({
                     displayEditStatus: "none",
                     displayEdit: "none"
-                })
+                });
             }, 1500);
 
-        } 
-    }
+        };
+    };
     updateFormFieldEditKeyboard = (event) => {
-        let listingToEdit = this.state.listingToEdit
-        let listingToEditCloned = { ...listingToEdit }
+        let listingToEdit = this.state.listingToEdit;
+        let listingToEditCloned = { ...listingToEdit };
         this.setState({
             listingToEdit: {
                 ...listingToEditCloned,
                 keyboard: { ...listingToEdit.keyboard, [event.target.name]: event.target.value }
             }
-        })
-    }
+        });
+    };
     updateFormFieldEditKeycap = (event) => {
-        let listingToEdit = this.state.listingToEdit
-        let listingToEditCloned = { ...listingToEdit }
+        let listingToEdit = this.state.listingToEdit;
+        let listingToEditCloned = { ...listingToEdit };
         this.setState({
             listingToEdit: {
                 ...listingToEditCloned,
                 keycap: { ...listingToEdit.keycap, [event.target.name]: event.target.value }
             }
-        })
-    }
+        });
+    };
     updateFormFieldEditUser = (event) => {
-        let listingToEdit = this.state.listingToEdit
-        let listingToEditCloned = { ...listingToEdit }
+        let listingToEdit = this.state.listingToEdit;
+        let listingToEditCloned = { ...listingToEdit };
         this.setState({
             listingToEdit: {
                 ...listingToEditCloned,
                 user: { ...listingToEdit.user, [event.target.name]: event.target.value }
             }
-        })
-    }
+        });
+    };
     updateFormFieldEdit = (event) => {
-        let listingToEdit = this.state.listingToEdit
-        let listingToEditCloned = { ...listingToEdit }
+        let listingToEdit = this.state.listingToEdit;
+        let listingToEditCloned = { ...listingToEdit };
 
         this.setState({
             listingToEdit: {
                 ...listingToEditCloned,
                 [event.target.name]: event.target.value
             }
-        })
-    }
+        });
+    };
     updateFormFieldGeneral = (event) => {
         this.setState({
             [event.target.name]: event.target.value
-        })
-    }
+        });
+    };
     updateFormFieldEditComment = (event) => {
         this.setState({
             [event.target.name]: { ...this.state.commentToEdit, comments: event.target.value }
-        })
-    }
+        });
+    };
     updateFormField = (event) => {
         this.setState({
             [event.target.name]: event.target.value
-        })
-        this.textValidation(event.target.value)
-    }
+        });
+        this.textValidation(event.target.value);
+    };
 
     textValidation(comment) {
         if (comment.length >= 3) {
             this.setState({
                 newComment: comment,
                 errorMessageAddComment: ""
-            })
+            });
         } else {
             this.setState({
                 errorMessageAddComment: "Comment must be at least 3 characters long"
-            })
+            });
         };
     };
     editCommentEmailCheck = async (tempList, commentToEdit, data, editCommentEmail) => {
@@ -1433,15 +1342,15 @@ export default class Main extends React.Component {
                 displayEditCommentCheck: "none",
                 displayEditCommentEmailStatus: "none",
                 editCommentEmail: "",
-                displayEditCommentText:"none"
+                displayEditCommentText: "none"
             })
             : this.setState({
                 displayEditCommentCheck: "block",
                 displayEditCommentEmailStatus: "block",
-                displayEditCommentText:"none"
+                displayEditCommentText: "none"
             })
 
-        let comments = commentToEdit.comments
+        let comments = commentToEdit.comments;
         commentToEdit.email === editCommentEmail ?
             await axios.post(this.url + "listings/review/edit/" + commentToEdit.reviewId, {
                 comments
@@ -1453,14 +1362,14 @@ export default class Main extends React.Component {
                 return true;
             } else {
                 return false;
-            }
-        })
+            };
+        });
         let tempListRevised = {
             ...tempList, reviews: [
                 ...tempList.reviews.slice(0, index),
                 commentToEdit, ...tempList.reviews.slice(index + 1)
             ]
-        }
+        };
         commentToEdit.email === editCommentEmail ?
             this.setState({
                 data: [...data.slice(0, index), tempListRevised, ...data.slice(index + 1)],
@@ -1475,36 +1384,36 @@ export default class Main extends React.Component {
         this.setState({
             displayEditCommentCheck: "block",
             displayEditComment: "none",
-            displayEditCommentText:"block"
-        })
-    }
+            displayEditCommentText: "block"
+        });
+    };
     editComment = (eachComment) => {
         this.setState({
             commentToEdit: eachComment,
             displayEditComment: "block",
             displayEditCommentCheck: "none"
         });
-    }
+    };
     deleteComment = async (eachComment) => {
         this.setState({
             commentToDelete: eachComment
-        })
-        await axios.post(this.url + "listings/review/delete/" + eachComment.reviewId)
+        });
+        await axios.post(this.url + "listings/review/delete/" + eachComment.reviewId);
         let indexToDelete = this.state.tempList.reviews.findIndex(function (each) {
             if (each.reviewId === eachComment.reviewId) {
                 return true;
             } else {
                 return false;
-            }
-        })
-        let tempListId = this.state.tempListId
+            };
+        });
+        let tempListId = this.state.tempListId;
         let index = this.state.data.findIndex(function (each) {
             if (each._id === tempListId) {
                 return true;
             } else {
                 return false;
-            }
-        })
+            };
+        });
         let tempListRevised = {
             ...this.state.tempList,
             reviews:
@@ -1513,18 +1422,16 @@ export default class Main extends React.Component {
                 ]
         };
         console.log("updated data==>", tempListRevised)
-        console.log(this.state.data)
         let newData = [
             ...this.state.data.slice(0, index),
             tempListRevised,
             ...this.state.data.slice(index + 1)
-        ]
-        console.log(newData)
+        ];
+        console.log(newData);
         this.setState({
-            // 'data': [...this.state.data.slice(0, index), tempListRevised, ...this.state.data.slice(index + 1)],
             'tempList': tempListRevised
-        })
-    }
+        });
+    };
     addNewComment = async (username, email, newComment, tempList, data) => {
         if (newComment.length >= 3 && username.length >= 3 && email.includes("@") && email.includes(".") && email.length >= 10) {
             try {
@@ -1532,8 +1439,8 @@ export default class Main extends React.Component {
                     username: username,
                     email: email,
                     comments: newComment
-                })
-                console.log(response.data)
+                });
+                console.log(response.data);
                 let tempListRevised = {
                     ...tempList, reviews: [...tempList.reviews, {
                         reviewId: response.data.insertedId,
@@ -1541,25 +1448,25 @@ export default class Main extends React.Component {
                         email: email,
                         comments: newComment
                     }]
-                }
+                };
 
                 let index = this.state.data.findIndex(function (each) {
                     if (each._id === tempListRevised._id) {
                         return true;
                     } else {
                         return false;
-                    }
-                })
+                    };
+                });
 
                 this.setState({
                     data: [...data.slice(0, index), tempListRevised, ...data.slice(index + 1)],
                     tempList: tempListRevised,
                     errorMessageAddCommentUser: "",
                     newComment: ""
-                })
+                });
             } catch (e) {
                 alert("Error adding comment. Please contact administrator");
-            }
+            };
         } else {
             let error1 = "";
             let error2 = "";
@@ -1568,32 +1475,31 @@ export default class Main extends React.Component {
             if (newComment < 3) {
                 this.setState({
                     errorMessageAddComment: "Comment must be at least 3 characters long"
-                })
-            }
+                });
+            };
             if (username.length < 3) {
                 error1 = "Username must be at least 3 characters long. ";
                 errorMessages.push(error1);
-            }
+            };
             if (!email.includes("@") || !email.includes(".")) {
                 error2 = "Email must include '@' and '.' . ";
                 errorMessages.push(error1);
-            }
+            };
             if (email.length < 10) {
                 error3 = "Email must be at least 10 characters long. ";
                 errorMessages.push(error1);
-            }
+            };
             this.setState({
                 errorMessageAddCommentUser: [error1, error2, error3]
-            })
+            });
         };
-    }
+    };
 
     returnPage = () => {
         this.setState({
             'active': 'listings'
-        })
-
-    }
+        });
+    };
 
     render() {
         return (

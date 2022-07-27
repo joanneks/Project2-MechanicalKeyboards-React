@@ -1,5 +1,5 @@
 import React from "react";
-import logo1 from './logo.png';
+import logo1 from './css/logo.png';
 import './css/Edit.css';
 
 
@@ -22,8 +22,8 @@ export default function Edit(props) {
                                 className="me-auto my-2 my-lg-0"
                                 navbarScroll
                             >
-                                <Nav.Link className="navbar-links" onClick={props.activeStateCreate}>Create</Nav.Link>
-                                <Nav.Link className="navbar-links" onClick={props.activeStateListings}>All Listings</Nav.Link>
+                                <Nav.Link className="Edit-navbar-links" onClick={props.activeStateCreate}>Create</Nav.Link>
+                                <Nav.Link className="Edit-navbar-links" onClick={props.activeStateListings}>All Listings</Nav.Link>
                             </Nav>
                         </Navbar>
                     </Container>
@@ -247,7 +247,7 @@ export default function Edit(props) {
                                 onChange={props.updateFormFieldEditKeycap} />
                             <div className="Edit-div-input-error">{props.keycapModelInputError}</div>
                         </div>
-                    </div> 
+                    </div>
                     <div className="Edit-container-div row">
                         <div className="col-12 col-sm-5 col-md-4 col-lg-3">
                             <label>Keycap Material:</label>
@@ -325,8 +325,8 @@ export default function Edit(props) {
                                     <div className="col-12 col-sm-7 col-md-7 col-lg-8">
                                         <label className="col-12">New Keycap Profile</label>
                                         <div className="col-12">
-                                            <input className="col-12 form-control" 
-                                                type="text" name="keycapProfileInputNew" 
+                                            <input className="col-12 form-control"
+                                                type="text" name="keycapProfileInputNew"
                                                 value={props.keycapProfileInputNew}
                                                 onChange={props.updateFormFieldGeneral}
                                             />
@@ -366,8 +366,8 @@ export default function Edit(props) {
                                     <div className="col-12 col-sm-7 col-md-7 col-lg-8">
                                         <label className="col-12">Create New Keycap Manufacturer</label>
                                         <div className="col-12">
-                                            <input className="col-12 form-control" 
-                                                type="text" name="keycapManufacturerInputNew" 
+                                            <input className="col-12 form-control"
+                                                type="text" name="keycapManufacturerInputNew"
                                                 value={props.keycapManufacturerInputNew}
                                                 onChange={props.updateFormFieldGeneral}
                                             />
@@ -410,7 +410,7 @@ export default function Edit(props) {
                         </div>
                     </div>
                     <button className="btn btn-primary"
-                    onClick={props.confirmChanges}
+                        onClick={props.confirmChanges}
                     >
                         Confirm Changes
                     </button>

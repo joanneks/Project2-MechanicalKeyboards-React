@@ -1,5 +1,5 @@
 import React from "react";
-import logo1 from './logo.png';
+import logo1 from './css/logo.png';
 import editListing from './css/editLogo.png'
 import deleteListing from './css/deleteLogo.png'
 import closeSearch from './css/closeLogo.png'
@@ -54,12 +54,13 @@ export default function Listings(props) {
                     <div style={{ marginTop: "10px" }}>
                         <label className="Listings-filter-label">OS Compatibility: </label>
                         <select style={{ width: "110px" }}
-                            value={props.osCompatibility}
+                            value={props.osCompatibilitySearch}
                             onChange={props.updateFormFieldGeneral}
-                            name="osCompatibility"
+                            name="osCompatibilitySearch"
                             className="Listings-filter-options form-select form-select-sm"
                             aria-label="multiple select example"
                         >
+                            <option value="">All</option>
                             <option value="Windows" >Windows</option>
                             <option value="Mac">Mac</option>
                             <option value="Linux">Linux</option>
@@ -71,23 +72,34 @@ export default function Listings(props) {
                             <div className="Listings-filter-options form-check">
                                 <input className="form-check-input" type="radio"
                                     value="true"
-                                    name="hotSwappable"
+                                    name="hotSwappableSearch"
                                     onChange={props.updateFormFieldGeneral}
-                                    checked={props.hotSwappable === "true"}
+                                    checked={props.hotSwappableSearch === "true"}
                                 />
-                                <label className="form-check-label" style={{marginRight:"10px"}}>
+                                <label className="form-check-label" style={{ marginRight: "10px" }}>
                                     Yes
                                 </label>
                             </div>
                             <div className="Listings-filter-options form-check">
                                 <input className="form-check-input" type="radio"
                                     value="false"
-                                    name="hotSwappable"
+                                    name="hotSwappableSearch"
                                     onChange={props.updateFormFieldGeneral}
-                                    checked={props.hotSwappable === "false"}
+                                    checked={props.hotSwappableSearch === "false"}
                                 />
-                                <label className="form-check-label">
+                                <label className="form-check-label" style={{ marginRight: "10px" }}>
                                     No
+                                </label>
+                            </div>
+                            <div className="Listings-filter-options form-check">
+                                <input className="form-check-input" type="radio"
+                                    value=""
+                                    name="hotSwappableSearch"
+                                    onChange={props.updateFormFieldGeneral}
+                                    checked={props.hotSwappableSearch === ""}
+                                />
+                                <label className="form-check-label" style={{ marginRight: "10px" }}>
+                                    All
                                 </label>
                             </div>
                         </div>
@@ -96,8 +108,7 @@ export default function Listings(props) {
                         <label className="Listings-filter-label">Keyboard Size:</label>
                         <div style={{ width: "40vw", display: "inline-block" }}>
                             <div className="Listings-multiselect">
-                                <div className="form-check Listings-multi
-                                -options">
+                                <div className="form-check Listings-multiselect-options">
                                     <input className="form-check-input Listings-filter-options"
                                         type="checkbox"
                                         value="60"
@@ -149,7 +160,6 @@ export default function Listings(props) {
                                 </div>
                             </div>
                         </div>
-                        <div className="Listings-search-error">{props.keyboardSizeError}</div>
                     </div>
                     <div style={{ marginTop: "10px" }}>
                         <label className="Listings-filter-label-keyboard">Keyboard Brands: </label>
@@ -169,21 +179,19 @@ export default function Listings(props) {
                                 </React.Fragment>
                             ))}
                         </div>
-                        <div className="Listings-search-error">{props.keyboardBrandError}</div>
                     </div>
                     <div style={{ marginTop: "20px" }}>
                         <label>Keyboard Model:</label>
-                        <input type="text" 
-                            className="form-control" 
-                            name="textSearch" 
+                        <input type="text"
+                            className="form-control"
+                            name="textSearch"
                             placeholder="Optional"
-                            onChange={props.updateFormFieldGeneral}/>
+                            onChange={props.updateFormFieldGeneral} />
                     </div>
-                    <div >{props.searchError}{props.dataCountMessage}</div>
 
                     <button className="btn btn-primary" style={{ marginTop: "20px" }} onClick={props.deriveSearch}>Submit</button>
                 </div>
-                <div className="Listings-break1"></div>
+                <div className="Listings-break1"><h2 className="Listings-search-count">{props.dataCountMessage}</h2></div>
                 <Row xs={1} md={2} lg={3} className="g-4">
                     {props.data.map(each => (
                         <Col key={each._id}>
@@ -217,9 +225,9 @@ export default function Listings(props) {
                         </Col>
                     ))}
                 </Row>
-                <div style={{ display: props.displayDelete }} className="Listing-delete-display">
+                <div style={{ display: props.displayDelete }} className="Listings-delete-display">
                     <div style={{ display: props.displayDeleteVerification }}>
-                        <h2 className="verification-title">Verification Required
+                        <h2 className="Listings-verification-title">Verification Required
                             <span>
                                 <img src={closeDelete} alt="closeDeleteBtn"
                                     className="Listings-delete-close"
@@ -227,18 +235,18 @@ export default function Listings(props) {
                                 />
                             </span>
                         </h2>
-                        <div className="verification-details">Only the creator of this post <span className="verification-details-span">{"<"+props.listingToDelete.keyboard.keyboardBrand+" "+props.listingToDelete.keyboard.keyboardModel+" >"}</span> can delete.</div>
+                        <div className="Listings-verification-details">Only the creator of this post <span className="Listings-verification-details-span">{"<" + props.listingToDelete.keyboard.keyboardBrand + " " + props.listingToDelete.keyboard.keyboardModel + " >"}</span> can delete.</div>
                         <div>
-                            <input type="email" className="form-control" 
+                            <input type="email" className="form-control"
                                 name="deleteEmailToVerify"
-                                value={props.deleteEmailToVerify} 
-                                onChange={props.updateFormFieldGeneral}/>
+                                value={props.deleteEmailToVerify}
+                                onChange={props.updateFormFieldGeneral} />
                         </div>
-                        <div className="verification-status" style={{display:props.deleteEmailNotVerified}}>Email Verification Failed. Please try again.</div>
+                        <div className="Listings-verification-status" style={{ display: props.deleteEmailNotVerified }}>Email Verification Failed. Please try again.</div>
                         <button className="btn btn-success verify-button" onClick={props.deleteListingEmailCheck}>Verify Email</button>
                     </div>
                     <div style={{ display: props.deleteEmailVerified }}>
-                        <h2 className="verification-title">Email Verified
+                        <h2 className="Listings-verification-title">Email Verified
                             <span>
                                 <img src={closeDelete} alt="closeDeleteBtn"
                                     className="Listings-delete-close"
@@ -246,21 +254,21 @@ export default function Listings(props) {
                                 />
                             </span>
                         </h2>
-                        <div className="verification-details">Are you sure you want to delete?</div>
+                        <div className="Listings-verification-details">Are you sure you want to delete?</div>
                         <div className="verify-button">
-                            <button className="btn btn-danger btn-sm verify-buttons" onClick={props.deleteListingYes}>Yes</button>
-                            <button className="btn btn-success btn-sm verify-buttons" onClick={props.deleteListingNo}>No</button>
+                            <button className="btn btn-danger btn-sm Listings-verify-buttons" onClick={props.deleteListingYes}>Yes</button>
+                            <button className="btn btn-success btn-sm Listings-verify-buttons" onClick={props.deleteListingNo}>No</button>
                         </div>
                     </div>
                     <div style={{ display: props.displayDeleteStatus }}>
                         <h4>Listing has been deleted successfully</h4>
                     </div>
                 </div>
-                
 
-                <div style={{ display: props.displayEdit }} className="Listing-edit-display">
+
+                <div style={{ display: props.displayEdit }} className="Listings-edit-display">
                     <div style={{ display: props.displayEditVerification }}>
-                        <h2 className="verification-title">Verification Required
+                        <h2 className="Listings-verification-title">Verification Required
                             <span>
                                 <img src={closeEdit} alt="closeEditBtn"
                                     className="Listings-edit-close"
@@ -268,18 +276,18 @@ export default function Listings(props) {
                                 />
                             </span>
                         </h2>
-                        <div className="verification-details">Only the creator of this post <span className="verification-details-span">{"<"+props.listingToEdit.keyboard.keyboardBrand+" "+props.listingToEdit.keyboard.keyboardModel+" >"}</span> can edit.</div>
+                        <div className="Listings-verification-details">Only the creator of this post <span className="Listings-verification-details-span">{"<" + props.listingToEdit.keyboard.keyboardBrand + " " + props.listingToEdit.keyboard.keyboardModel + " >"}</span> can edit.</div>
                         <div>
-                            <input type="email" className="form-control" 
+                            <input type="email" className="form-control"
                                 name="editEmailToVerify"
-                                value={props.editEmailToVerify} 
-                                onChange={props.updateFormFieldGeneral}/>
+                                value={props.editEmailToVerify}
+                                onChange={props.updateFormFieldGeneral} />
                         </div>
-                        <div className="verification-status" style={{display:props.editEmailNotVerified}}>Email Verification Failed. Please try again.</div>
-                        <button className="btn btn-success verify-button" onClick={props.editListingEmailCheck}>Verify Email</button>
+                        <div className="Listings-verification-status" style={{ display: props.editEmailNotVerified }}>Email Verification Failed. Please try again.</div>
+                        <button className="btn btn-success Listings-verify-button" onClick={props.editListingEmailCheck}>Verify Email</button>
                     </div>
                     <div style={{ display: props.editEmailVerified }}>
-                        <h2 className="verification-title">Email Verified
+                        <h2 className="Listings-verification-title">Email Verified
                             <span>
                                 <img src={closeEdit} alt="closeEditBtn"
                                     className="Listings-edit-close"
@@ -287,10 +295,10 @@ export default function Listings(props) {
                                 />
                             </span>
                         </h2>
-                        <div className="verification-details">Are you sure you want to edit?</div>
-                        <div className="verify-button">
-                            <button className="btn btn-danger btn-sm verify-buttons" onClick={props.editListingYes}>Yes</button>
-                            <button className="btn btn-success btn-sm verify-buttons" onClick={props.editListingNo}>No</button>
+                        <div className="Listings-verification-details">Are you sure you want to edit?</div>
+                        <div className="Listings-verify-button">
+                            <button className="btn btn-danger btn-sm Listings-verify-buttons" onClick={props.editListingYes}>Yes</button>
+                            <button className="btn btn-success btn-sm Listings-verify-buttons" onClick={props.editListingNo}>No</button>
                         </div>
                     </div>
                     <div style={{ display: props.displayEditStatus }}>

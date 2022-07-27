@@ -3,30 +3,65 @@
   height: 100vh;
 }
 
-.HomePage-content-box{
-padding-top: 20px;
-padding-bottom: 20px;
-padding-left: 20px;
-padding-right: 20px;
-background-image:url('background.jpeg');
-background-repeat:no-repeat;
-background-size:cover;
+.HomePage-content-box {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  background-image: url('background.jpeg');
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .HomePage-logo {
   height: 15vh;
 }
 
-.HomePage-text {
-  text-align:center;
-  margin-top:10px;
-  margin-bottom:10px
+.HomePage-text-div {
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
-.HomePage-inspire,.HomePage-or,.HomePage-be-inspired{
-  margin-top:15px;
-  margin-bottom:15px;
+.HomePage-text {
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-family: 'Inder', sans-serif;
+  font-weight: 700;
+  font-size: xx-large;
+}
+
+.HomePage-text-details {
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.HomePage-text-button {
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  background: #3b3b6c;
+  font-family: 'Inder';
+  font-size: larger;
+  font-weight: 800;
+}
+
+.HomePage-inspire,
+.HomePage-be-inspired {
+  margin-top: 15px;
+  margin-bottom: 15px;
   border-radius: 20px;
   background-color: white;
-  opacity:.85;
+  opacity: .85;
+  border: 5px solid #d24847;
+}
+
+.HomePage-or {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  border-radius: 20px;
+  background-color: white;
+  opacity: .85;
 }

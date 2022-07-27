@@ -1,5 +1,5 @@
 import React from "react";
-import logo1 from './logo.png';
+import logo1 from './css/logo.png';
 import editReview from './css/editLogo.png'
 import deleteReview from './css/deleteLogo.png'
 import saveReview from './css/saveLogo.png'
@@ -21,7 +21,7 @@ export default function EachListing(props) {
     return (
         <React.Fragment>
             <div className="EachListing">
-                <Navbar  className="EachListing-navbar-color" bg="light" expand="lg" fixed="top">
+                <Navbar className="EachListing-navbar-color" bg="light" expand="lg" fixed="top">
                     <Container fluid>
                         <Navbar.Brand href="">
                             <img src={logo1} style={{ height: '7vh' }} alt="logo" onClick={props.activeStateHomePage} />
@@ -31,8 +31,8 @@ export default function EachListing(props) {
                                 className="me-auto my-2 my-lg-0"
                                 navbarScroll
                             >
-                                <Nav.Link className="navbar-links" onClick={props.activeStateCreate}>Create</Nav.Link>
-                                <Nav.Link className="navbar-links" onClick={props.activeStateListings}>All Listings</Nav.Link>
+                                <Nav.Link className="EachListing-navbar-links" onClick={props.activeStateCreate}>Create</Nav.Link>
+                                <Nav.Link className="EachListing-navbar-links" onClick={props.activeStateListings}>All Listings</Nav.Link>
                             </Nav>
                         </Navbar>
                     </Container>
@@ -46,7 +46,7 @@ export default function EachListing(props) {
                                 <Button variant="outline-success" size="sm"
                                     className="EachListing-return"
                                     onClick={props.returnPage}
-                                    style={{ "marginBottom": "20px", marginTop:"10px"}}
+                                    style={{ "marginBottom": "20px", marginTop: "10px" }}
                                 >Return</Button>
                                 <div className="EachListing-header">
                                     <h2 className="EachListing-title">{props.tempList.keyboard.keyboardBrand} {props.tempList.keyboard.keyboardModel} </h2>
@@ -148,77 +148,77 @@ export default function EachListing(props) {
                                     <div className="EachListing-comments-existing">
                                         {
                                             props.tempList.reviews.length === 0 ?
-                                            <div></div>
-                                            :
-                                            props.tempList.reviews.map(eachComment => (
-                                                <div className="EachListing-comments-existing-div" key={eachComment.reviewId}>
-                                                    <span className="EachListing-comments-existing-username">{eachComment.username}</span>
-                                                    <span style={{ "float": "right" }}>
-                                                        <img src={editReview} alt="editReviewBtn"
-                                                            style={{ height: "21px", width: "21px" }}
-                                                            onClick={() => props.editComment(eachComment)}
-                                                        />
-                                                        <img src={deleteReview} alt="deleteReviewBtn"
-                                                            style={{ height: "19px", width: "19px" }}
-                                                            onClick={() => props.deleteComment(eachComment)}
-                                                        />
-                                                    </span>
-                                                    <div className="EachListing-comments-existing-comment">{eachComment.comments}</div>
+                                                <div></div>
+                                                :
+                                                props.tempList.reviews.map(eachComment => (
+                                                    <div className="EachListing-comments-existing-div" key={eachComment.reviewId}>
+                                                        <span className="EachListing-comments-existing-username">{eachComment.username}</span>
+                                                        <span style={{ "float": "right" }}>
+                                                            <img src={editReview} alt="editReviewBtn"
+                                                                style={{ height: "21px", width: "21px" }}
+                                                                onClick={() => props.editComment(eachComment)}
+                                                            />
+                                                            <img src={deleteReview} alt="deleteReviewBtn"
+                                                                style={{ height: "19px", width: "19px" }}
+                                                                onClick={() => props.deleteComment(eachComment)}
+                                                            />
+                                                        </span>
+                                                        <div className="EachListing-comments-existing-comment">{eachComment.comments}</div>
 
-                                                    <div style={{ display: props.displayEditCommentCheck }}>
-                                                        {eachComment.reviewId === props.commentToEdit.reviewId ?
-                                                            <div className="edit-comment-div">
-                                                                <div className="edit-comment-verify" style={{display:props.displayEditCommentText}}>Authentication is required to edit.</div>
-                                                                <input type="email"
-                                                                    name="editCommentEmail"
-                                                                    value={props.editCommentEmail}
-                                                                    onChange={props.updateFormFieldGeneral}
-                                                                    className="edit-comment-email-input form-control"
-                                                                />
-                                                                <Button variant="outline-success" size="sm"
-                                                                    onClick={props.editCommentEmailCheck}
-                                                                >Verify</Button>
-                                                                <div className="edit-comment-verify-status" style={{ display: props.displayEditCommentEmailStatus }}>
-                                                                    Email does not correspond with user. Please try again.
-                                                                </div>
-                                                            </div>
-                                                            : <div></div>
-                                                        }
-                                                    </div>
-
-                                                    <div style={{ display: props.displayEditComment }}>
-
-
-                                                        {eachComment.reviewId === props.commentToEdit.reviewId ?
-                                                            <div className="EachListing-comment-edit-div">
-                                                                <label className="EachListing-comment-edit-label" style={{ marginLeft: "5px" }}>Edit Comment:</label>
-                                                                <span style={{ "float": "right" }}>
-                                                                    <img src={saveReview} alt="saveReviewBtn"
-                                                                        style={{ height: "21px", width: "21px", marginRight: "10px" }}
-                                                                        onClick={props.editCommentVerification}
+                                                        <div style={{ display: props.displayEditCommentCheck }}>
+                                                            {eachComment.reviewId === props.commentToEdit.reviewId ?
+                                                                <div className="EachListing-edit-comment-div">
+                                                                    <div className="EachListing-edit-comment-verify" style={{ display: props.displayEditCommentText }}>Authentication is required to edit.</div>
+                                                                    <input type="email"
+                                                                        name="editCommentEmail"
+                                                                        value={props.editCommentEmail}
+                                                                        onChange={props.updateFormFieldGeneral}
+                                                                        className="EachListing-edit-comment-email-input form-control"
                                                                     />
-                                                                </span>
-                                                                <div>
-                                                                    <textarea
-                                                                        name="commentToEdit"
-                                                                        placeholder={props.commentToEdit.comments}
-                                                                        value={props.commentToEdit.comments}
-                                                                        onChange={props.updateFormFieldEditComment}
-                                                                        className="EachListing-comment-edit"
-                                                                    > </textarea>
-                                                                    <div>
-                                                                        {props.commentToEdit.comments.length < 3 ?
-                                                                            <div className="EachListing-comment-edit-error">Comments cannot be less than 3 characters</div>
-                                                                            : <div></div>
-                                                                        }
+                                                                    <Button variant="outline-success" size="sm"
+                                                                        onClick={props.editCommentEmailCheck}
+                                                                    >Verify</Button>
+                                                                    <div className="EachListing-edit-comment-verify-status" style={{ display: props.displayEditCommentEmailStatus }}>
+                                                                        Email does not correspond with user. Please try again.
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                            : <div></div>
-                                                        }
+                                                                : <div></div>
+                                                            }
+                                                        </div>
+
+                                                        <div style={{ display: props.displayEditComment }}>
+
+
+                                                            {eachComment.reviewId === props.commentToEdit.reviewId ?
+                                                                <div className="EachListing-comment-edit-div">
+                                                                    <label className="EachListing-comment-edit-label" style={{ marginLeft: "5px" }}>Edit Comment:</label>
+                                                                    <span style={{ "float": "right" }}>
+                                                                        <img src={saveReview} alt="saveReviewBtn"
+                                                                            style={{ height: "21px", width: "21px", marginRight: "10px" }}
+                                                                            onClick={props.editCommentVerification}
+                                                                        />
+                                                                    </span>
+                                                                    <div>
+                                                                        <textarea
+                                                                            name="commentToEdit"
+                                                                            placeholder={props.commentToEdit.comments}
+                                                                            value={props.commentToEdit.comments}
+                                                                            onChange={props.updateFormFieldEditComment}
+                                                                            className="EachListing-comment-edit"
+                                                                        > </textarea>
+                                                                        <div>
+                                                                            {props.commentToEdit.comments.length < 3 ?
+                                                                                <div className="EachListing-comment-edit-error">Comments cannot be less than 3 characters</div>
+                                                                                : <div></div>
+                                                                            }
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                : <div></div>
+                                                            }
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            ))
+                                                ))
                                         }
                                     </div>
                                     <div className="EachListing-comment-input">

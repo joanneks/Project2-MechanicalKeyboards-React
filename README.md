@@ -39,16 +39,16 @@ The organisation can also use the information from the database to see what are 
 
 | User Stories | Acceptance Criteria | 
 | ----------- | ----------- |
-|  I want to know what mechanical keyboards have the appearance of what I like | Based on the user search, they can scroll through the listings which have pictures to get ideas.|
-| I want to know what components (keyboard, keycap, switches) are used in the mechanical keyboard listing | Based on the compulsory information required to be keyed in to post a listing, users can click into each listing to see these information|
-| I want to know other information that are not compulsory to create the listing | The user can comment on the listing to interact with the creator and other people who have commented. |
+|  I want to know what mechanical keyboards have the appearance of what I like so that I can customise my own | Based on the user search, they can scroll through the listings which have pictures to get ideas.|
+| I want to know what components (keyboard, keycap, switches) are used in the mechanical keyboard listing so that I can customise my own | Based on the compulsory information required to be keyed in to post a listing, users can click into each listing to see these information|
+| I want to know other information that are not part of the listing to customise my own | The user can comment on the listing to interact with the creator and other people who have commented. |
 
 ### **Scope**
 
 
 #### **Functional Requirements**
 
-1. Search Function to filter database listings according to user input based on 4 compulsory and 1 optional field
+1. Search Function to filter database listings according to user input
 2. Create function for new listing
 3. Edit and Delete function on each listing 
 4. Create function for new comment in each listing
@@ -71,8 +71,8 @@ Mobile Responsiveness
 
 ### **Surface**
 1. Colours
-    - Used colours that are from the logo or similar to the logo
-    - ![3b3b6b](readme/color/3b3b6b.png) ![ccaf60](readme/color/ccaf60.png) ![e8cd84](readme/color/e8cd84.png) ![f1f1f1](readme/color/f1f1f1.png) ![efefef](readme/color/efefef.png)![d24847](readme/color/d24847.png)
+    - Used colours that are from the logo or compatible with the logo's colour
+    - ![3b3b6b](readme/color/3b3b6b.png) ![dfc6c6](readme/color/dfc6c6.png) ![f1f1f1](readme/color/f1f1f1.png) ![efefef](readme/color/efefef.png)![d24847](readme/color/d24847.png)![c6c6df](readme/color/c6c6df.png) ![dfdfc6](readme/color/dfdfc6.png)
 
 2. Fonts
    - Inder
@@ -87,10 +87,10 @@ Test Cases can be found [here](https://docs.google.com/spreadsheets/d/1pHJX0epwq
 
 ### **Possible Enhancements**
 1. Add user verification before comment can be deleted
-2. Styling of website can be done better
-3. Add a successfully added message after moving to the listings page
-4. Add a page where it can show all the listings posted by the user accessing the website
-5. Add a button for the user to save the listings they like and have a page where they can view all the listings that have saved.
+2. Add a successfully created listing message after moving to the listings page
+3. Add a page where it can show all the listings posted by the user accessing the website
+4. Add a button for the user to save the listings they like and have a page where they can view all the listings that have saved.
+5. To change the state variable keyboardBrandOptions,keycapManufacturerOptions,keycapMaterialOptions,keycapProfileOptions to update for the change in options after creating/editing listing
 
 
 ## **Technologies and Other Sources Used**
